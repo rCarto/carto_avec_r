@@ -30,10 +30,11 @@ Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter d
 
 ## Le package `sf`
 
-Trois packages "historiques" 
-* `rgdal` : interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4).
-* `sp` : classes et methodes pour les données spatiales dans R.
-* `rgeos` : accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) :  area, perimeter, distances, dissolve, buffer, overlap, union, contains...
+Trois packages "historiques":
+
+* `rgdal` : interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4).  
+* `sp` : classes et methodes pour les données spatiales dans R.  
+* `rgeos` : accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) :  area, perimeter, distances, dissolve, buffer, overlap, union, contains...  
 
 
 
@@ -61,6 +62,15 @@ Import de données
 library(sf)
 mtq <- st_read("data/martinique.shp")
 ```
+
+
+Jointure de données
+
+**Avec merge**
+
+
+
+
 
 Affichage de données
 

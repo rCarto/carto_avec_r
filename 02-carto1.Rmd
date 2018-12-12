@@ -30,6 +30,20 @@ knit_hooks$set(sm = function(before, options, envir){
 
 ## Le package `cartography`
 
+Le package `cartography` permet de créer et intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques tels que les cartes en symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
+
+Pour utiliser aisément ce package, plusieurs sources d'intérêts peuvent être consultées :
+
+* La documentation du package qui documente toutes les fonctions du package,
+accessible directement dans R Studio. Pour cela, vous pouvez taper simplement :
+```{r}
+?cartography
+```
+* La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique. 
+[![cartography cheat sheet](https://raw.githubusercontent.com/riatelab/cartography/master/img/cheat_sheet.png)](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf)
+* La vignette associée au package, qui présente des réalisations issues de ce package, elle aussi accessible directement dans R.
+* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"}, maintenu par l'auteur de *cartography* qui met à disposition ressources et exemples d'intérêt liés au package et à la représentation d'information spatiale sous R. 
+
 ### Symboles proportionnels
 ```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
 library(cartography)
@@ -138,7 +152,39 @@ labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
 
 
 ## Les données OSM
+
+[OpenStreetMap (OSM)](https://www.openstreetmap.org){target="_blank"} est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l'échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. En résumé, c'est comme Google Maps, mais en mieux...
+
+
 ### Données vectorielles
+
+
+
+```{r, eval=FALSE}
+library("osmdata")
+
+## Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+
+prj <- st_crs(Paris)
+
+bbox <- st_bbox(st_transform(Paris,4326))
+
+q <- opq(bbox = bbox , timeout = 2000) %>% add_osm_feature(key = 'man_made', value = 'surveillance')
+cameras <- osmdata_sf(q)$osm_points
+cameras <- st_transform(cameras, prj)
+
+cameras$ok <- st_intersects(st_geometry(cameras), st_geometry(Paris), sparse = FALSE)
+cameras <- cameras[cameras$ok == T,]
+
+Paname <- getTiles(x = Paris, type ="cartodark", crop = TRUE)
+tilesLayer(Paname)
+par(mar = c(0.5,0.5,1.5,0.5))
+plot(st_geometry(Paris), lwd=1, border="white", lty=2, add=T)
+plot(st_geometry(cameras), pch=20, col="red", add=T)
+```
+
+
+
 ### Données raster
 
 ```{r osm, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, nm=TRUE, cache=TRUE}

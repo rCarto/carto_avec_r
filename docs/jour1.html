@@ -177,10 +177,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-3"><i class="fa fa-check"></i><b>3.2.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="jour3.html"><a href="jour3.html#les-discontinuites"><i class="fa fa-check"></i><b>3.3</b> Les discontinuités</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.1</b> Précautions d’emploi</a></li>
+<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.3.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.3.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="jour3.html"><a href="jour3.html#les-lissages"><i class="fa fa-check"></i><b>3.4</b> Les lissages</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-2"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
 <li class="chapter" data-level="3.4.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-5"><i class="fa fa-check"></i><b>3.4.2</b> Précautions d’emploi</a></li>
 <li class="chapter" data-level="3.4.3" data-path="jour3.html"><a href="jour3.html#kde"><i class="fa fa-check"></i><b>3.4.3</b> KDE</a></li>
 <li class="chapter" data-level="3.4.4" data-path="jour3.html"><a href="jour3.html#stewart"><i class="fa fa-check"></i><b>3.4.4</b> Stewart</a></li>
@@ -215,11 +216,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Il est possible d’importer, de manipuler, de traiter, d’afficher et d’exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponible dans R grace au package <code>sf</code>. Il devient alors possible d’utiliser R comme un SIG.</p>
 <div id="le-package-sf" class="section level2">
 <h2><span class="header-section-number">1.1</span> Le package <code>sf</code></h2>
-<p>Trois packages “historiques”
-* <code>rgdal</code> : interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a>.
-* <code>sp</code> : classes et methodes pour les données spatiales dans R.
-* <code>rgeos</code> : accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/">Geometry Engine - Open Source</a>) : area, perimeter, distances, dissolve, buffer, overlap, union, contains…</p>
+<p>Trois packages “historiques”:</p>
 <ul>
+<li><code>rgdal</code> : interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a>.<br />
+</li>
+<li><code>sp</code> : classes et methodes pour les données spatiales dans R.<br />
+</li>
+<li><p><code>rgeos</code> : accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/">Geometry Engine - Open Source</a>) : area, perimeter, distances, dissolve, buffer, overlap, union, contains…</p></li>
 <li><p>Les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique.</p></li>
 <li><p>Manipulation plus aisée, objets plus simples</p></li>
 <li><p>Auteur principal et <em>maintainer</em> : Edzer Pebesma (auteur de <code>sp</code>)</p></li>
@@ -237,6 +240,8 @@ dimension:      XY
 bbox:           xmin: 690574.4 ymin: 1592426 xmax: 736126.5 ymax: 1645660
 epsg (SRID):    32620
 proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs</code></pre>
+<p>Jointure de données</p>
+<p><strong>Avec merge</strong></p>
 <p>Affichage de données</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="288" /></p>

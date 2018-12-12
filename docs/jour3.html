@@ -177,10 +177,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-3"><i class="fa fa-check"></i><b>3.2.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="jour3.html"><a href="jour3.html#les-discontinuites"><i class="fa fa-check"></i><b>3.3</b> Les discontinuités</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.1</b> Précautions d’emploi</a></li>
+<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.3.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.3.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="jour3.html"><a href="jour3.html#les-lissages"><i class="fa fa-check"></i><b>3.4</b> Les lissages</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-2"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
 <li class="chapter" data-level="3.4.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-5"><i class="fa fa-check"></i><b>3.4.2</b> Précautions d’emploi</a></li>
 <li class="chapter" data-level="3.4.3" data-path="jour3.html"><a href="jour3.html#kde"><i class="fa fa-check"></i><b>3.4.3</b> KDE</a></li>
 <li class="chapter" data-level="3.4.4" data-path="jour3.html"><a href="jour3.html#stewart"><i class="fa fa-check"></i><b>3.4.4</b> Stewart</a></li>
@@ -288,8 +289,9 @@ Les tailles de cercles sont vraiment comparables</p>
 </div>
 <div id="les-grilles-regulieres" class="section level2">
 <h2><span class="header-section-number">3.2</span> Les grilles régulières</h2>
-<p>Par une série d’opération SIG assez simple il est possible de transformer des données d’un maillage initial vers un maillage régulier plus neutre et plus simple.</p>
-<p><img src="img/maup.png" /></p>
+<p>La méthode du carroyage consiste à découper l’espace géographique en un maillage formé de carrés réguliers dans une projection donnée. La donnée est répartie sur ce quadrillage régulier au prorata de la surface représentée. Le quadrillage permet ainsi de s’affranchir des mailles administratives.</p>
+<p>La fonction getGridLayer du package cartography permet de construire ces grilles régulières.</p>
+<p><img src="img/caromet.png" /></p>
 <div id="exemples" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> Exemples</h3>
 <p><img src="img/pregrid.png" /></p>
@@ -307,12 +309,15 @@ La version simple (au prorata de la surface), implique une equirépartition du p
 <p>Ce type de représentation permet de souligner cartographiquement les discontinuités territoriales d’un phénomène.</p>
 <p>L’accent est porter sur ce qui distingue des territoires.</p>
 <p>Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d’autre. Puis nous représentons la frontière par un figuré d’autant plus épais que la différence est forte.</p>
-<p>Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
-### Exemples</p>
+<p>Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).</p>
+<p><img src="img/discmet.png" /></p>
+<div id="exemples-1" class="section level3">
+<h3><span class="header-section-number">3.3.1</span> Exemples</h3>
 <p><img src="img/disc1.png" /></p>
 <p><img src="img/disc2.png" /></p>
+</div>
 <div id="precautions-demploi-4" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> Précautions d’emploi</h3>
+<h3><span class="header-section-number">3.3.2</span> Précautions d’emploi</h3>
 <p>- Ces cartes ne sont pas évidentes à paramétrer.<br />
 Le choix des critères (seuil, type de différences…) va fortement influencer la représentation.<br />
 En fonction du maillage la lisibilité peut être faible.</p>
@@ -325,7 +330,7 @@ En fonction du maillage la lisibilité peut être faible.</p>
 <p>C’est un ensemble de méthodes qui consistent à affecter aux points que l’on observe une valeur prenant en compte les valeurs de leur voisinnage.</p>
 <p>Il existe plusieurs méthodes de lissage (kde, potentiels…) plus ou moins paramétrables.</p>
 <p>Cette méthode permet de passer représentations ponctuelles à une représentation continu</p>
-<div id="exemples-1" class="section level3">
+<div id="exemples-2" class="section level3">
 <h3><span class="header-section-number">3.4.1</span> Exemples</h3>
 <p><img src="img/liss1.png" />
 <img src="img/liss2.png" /></p>

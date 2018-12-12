@@ -177,10 +177,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-3"><i class="fa fa-check"></i><b>3.2.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.3" data-path="jour3.html"><a href="jour3.html#les-discontinuites"><i class="fa fa-check"></i><b>3.3</b> Les discontinuités</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.1</b> Précautions d’emploi</a></li>
+<li class="chapter" data-level="3.3.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.3.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.3.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-4"><i class="fa fa-check"></i><b>3.3.2</b> Précautions d’emploi</a></li>
 </ul></li>
 <li class="chapter" data-level="3.4" data-path="jour3.html"><a href="jour3.html#les-lissages"><i class="fa fa-check"></i><b>3.4</b> Les lissages</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-1"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
+<li class="chapter" data-level="3.4.1" data-path="jour3.html"><a href="jour3.html#exemples-2"><i class="fa fa-check"></i><b>3.4.1</b> Exemples</a></li>
 <li class="chapter" data-level="3.4.2" data-path="jour3.html"><a href="jour3.html#precautions-demploi-5"><i class="fa fa-check"></i><b>3.4.2</b> Précautions d’emploi</a></li>
 <li class="chapter" data-level="3.4.3" data-path="jour3.html"><a href="jour3.html#kde"><i class="fa fa-check"></i><b>3.4.3</b> KDE</a></li>
 <li class="chapter" data-level="3.4.4" data-path="jour3.html"><a href="jour3.html#stewart"><i class="fa fa-check"></i><b>3.4.4</b> Stewart</a></li>
@@ -214,6 +215,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Jour 2</span> Cartographie thématique</h1>
 <div id="le-package-cartography" class="section level2">
 <h2><span class="header-section-number">2.1</span> Le package <code>cartography</code></h2>
+<p>Le package <code>cartography</code> permet de créer et intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques tels que les cartes en symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.</p>
+<p>Pour utiliser aisément ce package, plusieurs sources d’intérêts peuvent être consultées :</p>
+<ul>
+<li>La documentation du package qui documente toutes les fonctions du package,
+accessible directement dans R Studio. Pour cela, vous pouvez taper simplement :</li>
+</ul>
+<pre class="sourceCode r"><code class="sourceCode r">?cartography</code></pre>
+<ul>
+<li>La <a href="http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf" target="_blank">cheat sheet</a> de cartography, qui résume les principales fonctions du package de façon synthétique.
+<a href="http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf"><img src="https://raw.githubusercontent.com/riatelab/cartography/master/img/cheat_sheet.png" alt="cartography cheat sheet" /></a></li>
+<li>La vignette associée au package, qui présente des réalisations issues de ce package, elle aussi accessible directement dans R.</li>
+<li>Le blog <a href="https://rgeomatic.hypotheses.org/" target="_blank">R Géomatique</a>, maintenu par l’auteur de <em>cartography</em> qui met à disposition ressources et exemples d’intérêt liés au package et à la représentation d’information spatiale sous R.</li>
+</ul>
 <div id="symboles-proportionnels" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Symboles proportionnels</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
@@ -301,8 +315,29 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 </div>
 <div id="les-donnees-osm" class="section level2">
 <h2><span class="header-section-number">2.6</span> Les données OSM</h2>
+<p><a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap (OSM)</a> est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l’échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. En résumé, c’est comme Google Maps, mais en mieux…</p>
 <div id="donnees-vectorielles" class="section level3">
 <h3><span class="header-section-number">2.6.1</span> Données vectorielles</h3>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;osmdata&quot;</span>)
+
+## Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+
+prj &lt;-<span class="st"> </span><span class="kw">st_crs</span>(Paris)
+
+bbox &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(Paris,<span class="dv">4326</span>))
+
+q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox =</span> bbox , <span class="dt">timeout =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">&#39;man_made&#39;</span>, <span class="dt">value =</span> <span class="st">&#39;surveillance&#39;</span>)
+cameras &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q)<span class="op">$</span>osm_points
+cameras &lt;-<span class="st"> </span><span class="kw">st_transform</span>(cameras, prj)
+
+cameras<span class="op">$</span>ok &lt;-<span class="st"> </span><span class="kw">st_intersects</span>(<span class="kw">st_geometry</span>(cameras), <span class="kw">st_geometry</span>(Paris), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)
+cameras &lt;-<span class="st"> </span>cameras[cameras<span class="op">$</span>ok <span class="op">==</span><span class="st"> </span>T,]
+
+Paname &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> Paris, <span class="dt">type =</span><span class="st">&quot;cartodark&quot;</span>, <span class="dt">crop =</span> <span class="ot">TRUE</span>)
+<span class="kw">tilesLayer</span>(Paname)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">1.5</span>,<span class="fl">0.5</span>))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(Paris), <span class="dt">lwd=</span><span class="dv">1</span>, <span class="dt">border=</span><span class="st">&quot;white&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">add=</span>T)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(cameras), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">add=</span>T)</code></pre>
 </div>
 <div id="donnees-raster" class="section level3">
 <h3><span class="header-section-number">2.6.2</span> Données raster</h3>

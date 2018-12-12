@@ -117,10 +117,11 @@ Demande un **effort de lecture**.
 
 ## Les grilles régulières
 
-Par une série d'opération SIG assez simple il est possible de transformer des données d'un maillage initial vers un maillage régulier plus neutre et plus simple. 
+La méthode du carroyage consiste à découper l’espace géographique en un maillage formé de carrés réguliers dans une projection donnée. La donnée est répartie sur ce quadrillage régulier au prorata de la surface représentée. Le quadrillage permet ainsi de s’affranchir des mailles administratives.
 
+La fonction getGridLayer du package cartography permet de construire ces grilles régulières.
 
-![](img/maup.png)
+![](img/caromet.png)
 
 
 ### Exemples
@@ -148,6 +149,10 @@ L'accent est porter sur ce qui distingue des territoires.
 Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d'autre. Puis nous représentons la frontière par un figuré d'autant plus épais que la différence est forte. 
 
 Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
+
+![](img/discmet.png)
+
+
 ### Exemples
 
 ![](img/disc1.png)
