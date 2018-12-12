@@ -1,0 +1,161 @@
+```{r knitr2_init, echo=FALSE, cache=FALSE}
+library(knitr)
+## Global options
+options(max.print="90")
+opts_chunk$set(echo=TRUE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=90)
+options(width = 90)
+knit_hooks$set(nm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,0,0))
+  } 
+})
+knit_hooks$set(sm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,1.2,0))
+  } 
+})
+```
+
+
+# Cartographie thématique  {#jour2}
+
+
+
+## Le package `cartography`
+
+### Symboles proportionnels
+```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+library(cartography)
+library(sf)
+# Import des données
+mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
+# Communes
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+# Symboles proportionnels
+propSymbolsLayer(x = mtq, var = "P13_POP", 
+                 legend.title.txt = "Total\npopulation (2013)")
+# Titre
+title(main = "Population en Martinique")
+```
+
+
+### Carte choroplèthe
+
+```{r choro, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
+choroLayer(x = mtq, var = "cagr", breaks = c(-6.14,-2,-1,0,1,2),
+           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+           legend.title.txt = "Compound annual\ngrowth rate")
+title(main = "Evolution de la population")
+```
+
+
+## Palettes de couleurs
+
+
+```{r pal, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
+display.carto.all(20)
+```
+
+```{r pal1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
+display.carto.pal("orange.pal")
+```
+
+
+```{r pal2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=3}
+mypal <- carto.pal(pal1 = "wine.pal", n1 = 7, pal2 = "green.pal", n2 = 12,
+                   middle = TRUE, transparency = TRUE)
+k <- length(mypal)
+image(1:k, 1, as.matrix(1:k), col=mypal, xlab = paste(k," classes",sep=""),
+      ylab = "", xaxt = "n", yaxt = "n",bty = "n")
+```
+
+## Discrétisations
+
+```{r disc2, fig.height=3}
+var <- mtq$cagr
+moy <- mean(var)
+med <- median(var)
+std <- sd(var)
+# Quantile intervals
+breaks <- getBreaks(v = var, nclass = 6, method = "quantile")
+hist(var, probability = TRUE, breaks = breaks, main="quantiles",
+     col = carto.pal(pal1 = "wine.pal",3, "green.pal", 3))
+rug(var)
+abline(v = med, col = "blue", lwd = 3)
+```
+
+
+
+```{r disc3, fig.height=3}
+# Mean and standard deviation (msd)
+breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
+hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
+     col = carto.pal(pal1 = "wine.pal",3 , "green.pal", 2, middle = TRUE))
+rug(var)
+abline(v = moy, col = "red", lwd = 3)
+abline(v = moy + 0.5 * std, col = "blue", lwd = 3)
+abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
+```
+
+
+
+## Combinaisons
+
+
+```{r choroprop, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+plot(st_geometry(mtq), col = "lightblue4",
+     border = "lightblue3", bg = "lightblue1")
+propSymbolsChoroLayer(x = mtq, var= "P13_POP",
+                 legend.var.title.txt = "Total\npopulation (2013)",
+           var2 = "cagr", legend.var.pos = "bottomleft",
+           breaks = c(-6.14,-2,-1,0,1,2),
+           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+           legend.var2.title.txt = "Compound annual\ngrowth rate")
+# Title
+title(main = "Evolution de la population")
+```
+
+## Labels
+
+```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, nm=TRUE}
+plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
+     bg = "#A6CAE0")
+labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
+           halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
+           show.lines = FALSE)
+```
+
+
+
+
+## Les données OSM
+### Données vectorielles
+### Données raster
+
+```{r osm, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, nm=TRUE, cache=TRUE}
+tiles <- getTiles(x = mtq, type = "osm", crop=T, zoom = 11)
+tilesLayer(tiles)
+plot(st_geometry(mtq), add=T)
+```
+
+## Cartographie interactive
+
+leaflet / mapview
+
+
+
+## Géocodage d'adresses
+
+
+## Création de cartons
+
+

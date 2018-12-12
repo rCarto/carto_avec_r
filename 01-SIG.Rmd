@@ -1,0 +1,167 @@
+```{r knitr_init, echo=FALSE, cache=FALSE}
+library(knitr)
+## Global options
+options(max.print="90")
+opts_chunk$set(echo=TRUE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=90)
+options(width = 90)
+knit_hooks$set(nm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,0,0))
+  } 
+})
+knit_hooks$set(sm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,1.2,0))
+  } 
+})
+```
+
+# Les données spatiales {#jour1}
+
+Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponible dans R grace au package `sf`. Il devient alors possible d'utiliser R comme un SIG. 
+
+
+## Le package `sf`
+
+Trois packages "historiques" 
+* `rgdal` : interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4).
+* `sp` : classes et methodes pour les données spatiales dans R.
+* `rgeos` : accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) :  area, perimeter, distances, dissolve, buffer, overlap, union, contains...
+
+
+
+
+
+* Les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique. 
+
+* Manipulation plus aisée, objets plus simples
+
+* Auteur principal et *maintainer* : Edzer Pebesma (auteur de `sp`)
+
+* Compatible avec les syntaxes *pipe* et les opérateurs du `tidyverse`.
+
+
+
+
+Format des objets spatiaux `sf`
+
+![](img/sf.png)
+
+
+Import de données
+
+```{r}
+library(sf)
+mtq <- st_read("data/martinique.shp")
+```
+
+Affichage de données
+
+```{r, fig.height=3, fig.width=3, nm=TRUE}
+plot(st_geometry(mtq))
+```
+
+
+
+
+## Import / Export
+
+Import de données
+
+```{r import}
+library(sf)
+mtq <- st_read("data/martinique.shp")
+```
+
+
+## Les projections
+
+
+## Les opérations de géotraitement
+Utiliser R comme un SIG
+
+```{r centroid,  fig.height=3, fig.width=3, nm=TRUE}
+mtq_c <- st_centroid(mtq)
+plot(st_geometry(mtq))
+plot(st_geometry(mtq_c), add=TRUE, cex=1.2, col="red", pch=20)
+```
+
+
+```{r distance,  fig.height=3, fig.width=3, nm=TRUE}
+mat <- st_distance(x=mtq_c,y=mtq_c)
+mat[1:5,1:5]
+```
+
+
+
+Agréger des polygones
+```{r aggreg,  fig.height=3, fig.width=3, nm=TRUE}
+mtq_u <- st_union(mtq)
+plot(st_geometry(mtq), col="lightblue")
+plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
+```
+
+
+
+Construire une zone tampon
+
+```{r buffers,  fig.height=3, fig.width=3, nm=TRUE}
+mtq_b <- st_buffer(x = mtq_u, dist = 5000)
+plot(st_geometry(mtq), col="lightblue")
+plot(st_geometry(mtq_u), add=T, lwd=2)
+plot(st_geometry(mtq_b), add=T, lwd=2, border = "red")
+```
+
+
+Réaliser une intersection 
+
+```{r intersect1,  fig.height=3, fig.width=3, nm=TRUE}
+m <- rbind(c(700015,1624212), c(700015,1641586), c(719127,1641586), c(719127,1624212), c(700015,1624212))
+p <- st_sf(st_sfc(st_polygon(list(m))), crs = st_crs(mtq))
+plot(st_geometry(mtq))
+plot(p, border="red", lwd=2, add=T)
+```
+
+
+
+
+Réaliser une intersection 
+
+```{r instersect2,  fig.height=3, fig.width=3, nm=TRUE, warning=F}
+mtq_z <- st_intersection(x = mtq, y = p)
+plot(st_geometry(mtq))
+plot(st_geometry(mtq_z), col="red", border="green", add=T)
+```
+
+
+
+
+Construire des polygones de Voronoi
+<small>google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
+</small>
+```{r voronoi, fig.height=3, fig.width=3, nm=TRUE}
+mtq_v <- st_voronoi(x = st_union(mtq_c))
+mtq_v <- st_intersection(st_cast(mtq_v), st_union(mtq))
+mtq_v <- st_join(x = st_sf(mtq_v), y = mtq_c, join=st_intersects)
+mtq_v <- st_cast(mtq_v, "MULTIPOLYGON")
+plot(st_geometry(mtq_v), col='lightblue')
+```
+
+
+
+
+## Le package `raster`
+
+
+
+
+
+
+

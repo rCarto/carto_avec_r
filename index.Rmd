@@ -1,0 +1,48 @@
+--- 
+title: "Cartographie avec R"
+author: "Timothée Giraud & Hugues Pécout"
+date: "`r Sys.Date()`"
+bibliography:
+- book.bib
+- packages.bib
+description: Matériel pour le cours de cartographie avec R
+documentclass: book
+link-citations: yes
+site: bookdown::bookdown_site
+biblio-style: apalike
+cover-image: img/cartomix.png
+---
+
+
+
+
+# Introduction {-}
+![](img/cartomix.png)
+
+Voici le document associé au cours de cartographie avec R.     
+
+Pour suivre ce cours vous aurez besoin des dernières versions de R et de RStudio.   
+Vous aurez aussi besoin d'un certain nombre de *packages* additionels :  
+
+- sf
+- cartography
+- osrm
+- mapview
+- SpatialPosition
+- mapinsetr
+- raster
+- linemap
+- spatstats
+- ...
+
+
+Ce cours ce déroule sur 3 jours :  
+
+- Jour 1 - [Les données spatiales](#jour1)  
+- Jour 2 - [Cartographie thématique](#jour2)  
+- Jour 3 - [Cartographie thématique avancée](#jour3)  
+
+
+
+
+
