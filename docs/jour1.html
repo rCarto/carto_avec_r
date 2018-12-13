@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Jour 1 Les données spatiales | Cartographie avec R</title>
+  <title>Chapitre 1 Les données spatiales | Cartographie avec R</title>
   <meta name="description" content="Matériel pour le cours de cartographie avec R">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Jour 1 Les données spatiales | Cartographie avec R />
+  <meta property="og:title" content="Chapitre 1 Les données spatiales | Cartographie avec R />
   <meta property="og:type" content="book" />
   
   <meta property="og:image" content="img/cartomix.png" />
@@ -17,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Jour 1 Les données spatiales | Cartographie avec R />
+  <meta name="twitter:title" content="Chapitre 1 Les données spatiales | Cartographie avec R />
   
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   <meta name="twitter:image" content="img/cartomix.png" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2018-12-12">
+<meta name="date" content="2018-12-13">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -51,69 +51,41 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -134,11 +106,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="chapter" data-level="1" data-path="jour1.html"><a href="jour1.html"><i class="fa fa-check"></i><b>1</b> Les données spatiales</a><ul>
-<li class="chapter" data-level="1.1" data-path="jour1.html"><a href="jour1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a></li>
-<li class="chapter" data-level="1.2" data-path="jour1.html"><a href="jour1.html#import-export"><i class="fa fa-check"></i><b>1.2</b> Import / Export</a></li>
-<li class="chapter" data-level="1.3" data-path="jour1.html"><a href="jour1.html#les-projections"><i class="fa fa-check"></i><b>1.3</b> Les projections</a></li>
-<li class="chapter" data-level="1.4" data-path="jour1.html"><a href="jour1.html#les-operations-de-geotraitement"><i class="fa fa-check"></i><b>1.4</b> Les opérations de géotraitement</a></li>
-<li class="chapter" data-level="1.5" data-path="jour1.html"><a href="jour1.html#le-package-raster"><i class="fa fa-check"></i><b>1.5</b> Le package <code>raster</code></a></li>
+<li class="chapter" data-level="1.1" data-path="jour1.html"><a href="jour1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a><ul>
+<li class="chapter" data-level="1.1.1" data-path="jour1.html"><a href="jour1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
+<li class="chapter" data-level="1.1.2" data-path="jour1.html"><a href="jour1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
+<li class="chapter" data-level="1.1.3" data-path="jour1.html"><a href="jour1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
+<li class="chapter" data-level="1.1.4" data-path="jour1.html"><a href="jour1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="jour1.html"><a href="jour1.html#les-projections"><i class="fa fa-check"></i><b>1.2</b> Les projections</a></li>
+<li class="chapter" data-level="1.3" data-path="jour1.html"><a href="jour1.html#operations-de-geotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="jour1.html"><a href="jour1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.1</b> Extraire des centroides</a></li>
+<li class="chapter" data-level="1.3.2" data-path="jour1.html"><a href="jour1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.2</b> Créer une matrice de distances</a></li>
+<li class="chapter" data-level="1.3.3" data-path="jour1.html"><a href="jour1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.3</b> Agréger des polygones</a></li>
+<li class="chapter" data-level="1.3.4" data-path="jour1.html"><a href="jour1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.4</b> Construire une zone tampon</a></li>
+<li class="chapter" data-level="1.3.5" data-path="jour1.html"><a href="jour1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.5</b> Réaliser une intersection</a></li>
+<li class="chapter" data-level="1.3.6" data-path="jour1.html"><a href="jour1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.6</b> Construire des polygones de Voronoi</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="jour1.html"><a href="jour1.html#le-package-raster"><i class="fa fa-check"></i><b>1.4</b> Le package <code>raster</code></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="jour2.html"><a href="jour2.html"><i class="fa fa-check"></i><b>2</b> Cartographie thématique</a><ul>
 <li class="chapter" data-level="2.1" data-path="jour2.html"><a href="jour2.html#le-package-cartography"><i class="fa fa-check"></i><b>2.1</b> Le package <code>cartography</code></a><ul>
@@ -212,27 +195,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="jour1" class="section level1">
-<h1><span class="header-section-number">Jour 1</span> Les données spatiales</h1>
+<h1><span class="header-section-number">Chapitre 1</span> Les données spatiales</h1>
 <p>Il est possible d’importer, de manipuler, de traiter, d’afficher et d’exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponible dans R grace au package <code>sf</code>. Il devient alors possible d’utiliser R comme un SIG.</p>
 <div id="le-package-sf" class="section level2">
 <h2><span class="header-section-number">1.1</span> Le package <code>sf</code></h2>
-<p>Trois packages “historiques”:</p>
-<ul>
-<li><code>rgdal</code> : interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a>.<br />
-</li>
-<li><code>sp</code> : classes et methodes pour les données spatiales dans R.<br />
-</li>
-<li><p><code>rgeos</code> : accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/">Geometry Engine - Open Source</a>) : area, perimeter, distances, dissolve, buffer, overlap, union, contains…</p></li>
-<li><p>Les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique.</p></li>
-<li><p>Manipulation plus aisée, objets plus simples</p></li>
-<li><p>Auteur principal et <em>maintainer</em> : Edzer Pebesma (auteur de <code>sp</code>)</p></li>
-<li><p>Compatible avec les syntaxes <em>pipe</em> et les opérateurs du <code>tidyverse</code>.</p></li>
-</ul>
-<p>Format des objets spatiaux <code>sf</code></p>
-<p><img src="img/sf.png" /></p>
-<p>Import de données</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
-mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>)</code></pre>
+<p><strong>Historique</strong><br />
+Historiquement trois packages permettait d’importer, de manipuler et de transformer les données spatiales.<br />
+Le package <code>rgdal</code> qui est une interface entre R et les librairies GDAL (<a href="http://www.gdal.org/">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4">PROJ4</a> permet d’importer et d’exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques<br />
+Le package <code>sp</code> fournit des classes et methodes pour les données spatiales dans R. C’est grace à ce package que l’on peut afficher des fond de cartes, inspecter une table attributaire etc.<br />
+Le package <code>rgeos</code> donne accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/">Geometry Engine - Open Source</a>) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.</p>
+<p><strong>La suite</strong><br />
+Le package <code>sf</code> a été publié fin 2016 par Edzer Pebesma (auteur de <code>sp</code>). Son objectif est de combiner dans les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique plus ergonomique. Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe <em>pipe</em> et les opérateurs du <code>tidyverse</code>.</p>
+<p>Aujourd’hui, les principaux développements dans l’écosystème spatial de R se détachent progressivement des 3 anciens (<code>sp</code>, <code>rgdal</code>, <code>rgeos</code>) pour se reposer sur <code>sf</code>. Dans ce document nous utiliserons <code>sf</code> tant que cela est possible, c’està dire la plupart du temps.</p>
+<div id="format-des-objets-spatiaux-sf" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Format des objets spatiaux <code>sf</code></h3>
+<div class="figure">
+<img src="img/sf.png" />
+
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">include_graphics</span>(<span class="st">&quot;img/sf.png&quot;</span>)</code></pre></div>
+<p><img src="img/sf.png" width="562" style="display: block; margin: auto;" /></p>
+<p>Les objets sf sont des data.frame dont l’une des colonne contient des géométrie. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry). Ce format trs pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet.</p>
+</div>
+<div id="import-export" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Import / Export</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
+mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>)</code></pre></div>
 <pre><code>Reading layer `martinique&#39; from data source `/home/tim/Documents/prz/Cartographie_avec_R/data/martinique.shp&#39; using driver `ESRI Shapefile&#39;
 Simple feature collection with 34 features and 23 fields
 geometry type:  POLYGON
@@ -240,37 +228,32 @@ dimension:      XY
 bbox:           xmin: 690574.4 ymin: 1592426 xmax: 736126.5 ymax: 1645660
 epsg (SRID):    32620
 proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs</code></pre>
-<p>Jointure de données</p>
-<p><strong>Avec merge</strong></p>
-<p>Affichage de données</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</code></pre>
+</div>
+<div id="affichage-de-donnees" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Affichage de données</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="288" /></p>
 </div>
-<div id="import-export" class="section level2">
-<h2><span class="header-section-number">1.2</span> Import / Export</h2>
-<p>Import de données</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
-mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>)</code></pre>
-<pre><code>Reading layer `martinique&#39; from data source `/home/tim/Documents/prz/Cartographie_avec_R/data/martinique.shp&#39; using driver `ESRI Shapefile&#39;
-Simple feature collection with 34 features and 23 fields
-geometry type:  POLYGON
-dimension:      XY
-bbox:           xmin: 690574.4 ymin: 1592426 xmax: 736126.5 ymax: 1645660
-epsg (SRID):    32620
-proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs</code></pre>
+<div id="joindre-des-donnees" class="section level3">
+<h3><span class="header-section-number">1.1.4</span> Joindre des données</h3>
+</div>
 </div>
 <div id="les-projections" class="section level2">
-<h2><span class="header-section-number">1.3</span> Les projections</h2>
+<h2><span class="header-section-number">1.2</span> Les projections</h2>
 </div>
-<div id="les-operations-de-geotraitement" class="section level2">
-<h2><span class="header-section-number">1.4</span> Les opérations de géotraitement</h2>
-<p>Utiliser R comme un SIG</p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq_c &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(mtq)
+<div id="operations-de-geotraitement" class="section level2">
+<h2><span class="header-section-number">1.3</span> Opérations de géotraitement</h2>
+<div id="extraire-des-centroides" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Extraire des centroides</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_c &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(mtq)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_c), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">pch=</span><span class="dv">20</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_c), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">cex=</span><span class="fl">1.2</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">pch=</span><span class="dv">20</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/centroid-1.png" width="288" /></p>
-<pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">st_distance</span>(<span class="dt">x=</span>mtq_c,<span class="dt">y=</span>mtq_c)
-mat[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre>
+</div>
+<div id="creer-une-matrice-de-distances" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Créer une matrice de distances</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mat &lt;-<span class="st"> </span><span class="kw">st_distance</span>(<span class="dt">x=</span>mtq_c,<span class="dt">y=</span>mtq_c)
+mat[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</code></pre></div>
 <pre><code>Units: [m]
           [,1]     [,2]      [,3]      [,4]      [,5]
 [1,]     0.000 35297.56  3091.501 12131.617 17136.310
@@ -278,40 +261,47 @@ mat[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,
 [3,]  3091.501 38332.60     0.000 15094.702 20226.198
 [4,] 12131.617 25518.91 15094.702     0.000  7177.011
 [5,] 17136.310 18605.25 20226.198  7177.011     0.000</code></pre>
-<p>Agréger des polygones</p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq_u &lt;-<span class="st"> </span><span class="kw">st_union</span>(mtq)
+</div>
+<div id="agreger-des-polygones" class="section level3">
+<h3><span class="header-section-number">1.3.3</span> Agréger des polygones</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_u &lt;-<span class="st"> </span><span class="kw">st_union</span>(mtq)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_u), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_u), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/aggreg-1.png" width="288" /></p>
-<p>Construire une zone tampon</p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq_b &lt;-<span class="st"> </span><span class="kw">st_buffer</span>(<span class="dt">x =</span> mtq_u, <span class="dt">dist =</span> <span class="dv">5000</span>)
+</div>
+<div id="construire-une-zone-tampon" class="section level3">
+<h3><span class="header-section-number">1.3.4</span> Construire une zone tampon</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_b &lt;-<span class="st"> </span><span class="kw">st_buffer</span>(<span class="dt">x =</span> mtq_u, <span class="dt">dist =</span> <span class="dv">2000</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_u), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_b), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_b), <span class="dt">add=</span>T, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/buffers-1.png" width="288" /></p>
-<p>Réaliser une intersection</p>
-<pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>))
+</div>
+<div id="realiser-une-intersection" class="section level3">
+<h3><span class="header-section-number">1.3.5</span> Réaliser une intersection</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>))
 p &lt;-<span class="st"> </span><span class="kw">st_sf</span>(<span class="kw">st_sfc</span>(<span class="kw">st_polygon</span>(<span class="kw">list</span>(m))), <span class="dt">crs =</span> <span class="kw">st_crs</span>(mtq))
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
-<span class="kw">plot</span>(p, <span class="dt">border=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">add=</span>T)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/intersect1-1.png" width="288" /></p>
-<p>Réaliser une intersection</p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq_z &lt;-<span class="st"> </span><span class="kw">st_intersection</span>(<span class="dt">x =</span> mtq, <span class="dt">y =</span> p)
+<span class="kw">plot</span>(p, <span class="dt">border=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">add=</span>T)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/intersect-1.png" width="288" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_z &lt;-<span class="st"> </span><span class="kw">st_intersection</span>(<span class="dt">x =</span> mtq, <span class="dt">y =</span> p)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_z), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">border=</span><span class="st">&quot;green&quot;</span>, <span class="dt">add=</span>T)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/instersect2-1.png" width="288" /></p>
-<p>Construire des polygones de Voronoi
-<small>google: “st_voronoi R sf” (<a href="https://github.com/r-spatial/sf/issues/474" class="uri">https://github.com/r-spatial/sf/issues/474</a> &amp; <a href="https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r" class="uri">https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r</a>)
-</small></p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq_v &lt;-<span class="st"> </span><span class="kw">st_voronoi</span>(<span class="dt">x =</span> <span class="kw">st_union</span>(mtq_c))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_z), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">border=</span><span class="st">&quot;green&quot;</span>, <span class="dt">add=</span>T)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/intersect-2.png" width="288" /></p>
+</div>
+<div id="construire-des-polygones-de-voronoi" class="section level3">
+<h3><span class="header-section-number">1.3.6</span> Construire des polygones de Voronoi</h3>
+<p>google: “st_voronoi R sf” (<a href="https://github.com/r-spatial/sf/issues/474" class="uri">https://github.com/r-spatial/sf/issues/474</a> &amp; <a href="https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r" class="uri">https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r</a>)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq_v &lt;-<span class="st"> </span><span class="kw">st_voronoi</span>(<span class="dt">x =</span> <span class="kw">st_union</span>(mtq_c))
 mtq_v &lt;-<span class="st"> </span><span class="kw">st_intersection</span>(<span class="kw">st_cast</span>(mtq_v), <span class="kw">st_union</span>(mtq))
 mtq_v &lt;-<span class="st"> </span><span class="kw">st_join</span>(<span class="dt">x =</span> <span class="kw">st_sf</span>(mtq_v), <span class="dt">y =</span> mtq_c, <span class="dt">join=</span>st_intersects)
 mtq_v &lt;-<span class="st"> </span><span class="kw">st_cast</span>(mtq_v, <span class="st">&quot;MULTIPOLYGON&quot;</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_v), <span class="dt">col=</span><span class="st">&#39;lightblue&#39;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_v), <span class="dt">col=</span><span class="st">&#39;lightblue&#39;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/voronoi-1.png" width="288" /></p>
 </div>
+</div>
 <div id="le-package-raster" class="section level2">
-<h2><span class="header-section-number">1.5</span> Le package <code>raster</code></h2>
+<h2><span class="header-section-number">1.4</span> Le package <code>raster</code></h2>
 
 </div>
 </div>

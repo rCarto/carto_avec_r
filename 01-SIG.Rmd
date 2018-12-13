@@ -30,60 +30,36 @@ Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter d
 
 ## Le package `sf`
 
-Trois packages "historiques":
+**Historique**  
+Historiquement trois packages permettait d'importer, de manipuler et de transformer les données spatiales.   
+Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4) permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
+Le package `sp` fournit des classes et methodes pour les données spatiales dans R. C'est grace à ce package que l'on peut afficher des fond de cartes, inspecter une table attributaire etc.  
+Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
 
-* `rgdal` : interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4).  
-* `sp` : classes et methodes pour les données spatiales dans R.  
-* `rgeos` : accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) :  area, perimeter, distances, dissolve, buffer, overlap, union, contains...  
+**La suite**  
+Le package `sf` a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
+Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe *pipe* et les opérateurs du `tidyverse`.
 
 
-
-
-
-* Les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique. 
-
-* Manipulation plus aisée, objets plus simples
-
-* Auteur principal et *maintainer* : Edzer Pebesma (auteur de `sp`)
-
-* Compatible avec les syntaxes *pipe* et les opérateurs du `tidyverse`.
+Aujourd'hui, les principaux développements dans l'écosystème spatial de R se détachent progressivement des 3 anciens (`sp`, `rgdal`, `rgeos`) pour se reposer sur `sf`. 
+Dans ce document nous utiliserons `sf` tant que cela est possible, c'està dire la plupart du temps.
 
 
 
-
-Format des objets spatiaux `sf`
+### Format des objets spatiaux `sf`
 
 ![](img/sf.png)
-
-
-Import de données
-
-```{r}
-library(sf)
-mtq <- st_read("data/martinique.shp")
-```
-
-
-Jointure de données
-
-**Avec merge**
-
-
-
-
-
-Affichage de données
-
-```{r, fig.height=3, fig.width=3, nm=TRUE}
-plot(st_geometry(mtq))
+```{r, fig.align='center'}
+knitr::include_graphics("img/sf.png")
 ```
 
 
 
+Les objets sf sont des data.frame dont l'une des colonne contient des géométrie. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry). 
+Ce format trs pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet. 
 
-## Import / Export
 
-Import de données
+### Import / Export
 
 ```{r import}
 library(sf)
@@ -91,12 +67,21 @@ mtq <- st_read("data/martinique.shp")
 ```
 
 
+### Affichage de données
+
+```{r, fig.height=3, fig.width=3, nm=TRUE}
+plot(st_geometry(mtq))
+```
+
+### Joindre des données
+
+
 ## Les projections
 
 
-## Les opérations de géotraitement
-Utiliser R comme un SIG
+## Opérations de géotraitement
 
+### Extraire des centroides
 ```{r centroid,  fig.height=3, fig.width=3, nm=TRUE}
 mtq_c <- st_centroid(mtq)
 plot(st_geometry(mtq))
@@ -104,14 +89,15 @@ plot(st_geometry(mtq_c), add=TRUE, cex=1.2, col="red", pch=20)
 ```
 
 
+### Créer une matrice de distances
+
 ```{r distance,  fig.height=3, fig.width=3, nm=TRUE}
 mat <- st_distance(x=mtq_c,y=mtq_c)
 mat[1:5,1:5]
 ```
 
+### Agréger des polygones
 
-
-Agréger des polygones
 ```{r aggreg,  fig.height=3, fig.width=3, nm=TRUE}
 mtq_u <- st_union(mtq)
 plot(st_geometry(mtq), col="lightblue")
@@ -120,42 +106,32 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 
 
 
-Construire une zone tampon
+### Construire une zone tampon
 
 ```{r buffers,  fig.height=3, fig.width=3, nm=TRUE}
-mtq_b <- st_buffer(x = mtq_u, dist = 5000)
+mtq_b <- st_buffer(x = mtq_u, dist = 2000)
 plot(st_geometry(mtq), col="lightblue")
 plot(st_geometry(mtq_u), add=T, lwd=2)
 plot(st_geometry(mtq_b), add=T, lwd=2, border = "red")
 ```
 
 
-Réaliser une intersection 
+### Réaliser une intersection 
 
-```{r intersect1,  fig.height=3, fig.width=3, nm=TRUE}
+```{r intersect,  fig.height=3, fig.width=3, nm=TRUE}
 m <- rbind(c(700015,1624212), c(700015,1641586), c(719127,1641586), c(719127,1624212), c(700015,1624212))
 p <- st_sf(st_sfc(st_polygon(list(m))), crs = st_crs(mtq))
 plot(st_geometry(mtq))
 plot(p, border="red", lwd=2, add=T)
-```
-
-
-
-
-Réaliser une intersection 
-
-```{r instersect2,  fig.height=3, fig.width=3, nm=TRUE, warning=F}
 mtq_z <- st_intersection(x = mtq, y = p)
 plot(st_geometry(mtq))
 plot(st_geometry(mtq_z), col="red", border="green", add=T)
 ```
 
 
+### Construire des polygones de Voronoi
+google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
 
-
-Construire des polygones de Voronoi
-<small>google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
-</small>
 ```{r voronoi, fig.height=3, fig.width=3, nm=TRUE}
 mtq_v <- st_voronoi(x = st_union(mtq_c))
 mtq_v <- st_intersection(st_cast(mtq_v), st_union(mtq))

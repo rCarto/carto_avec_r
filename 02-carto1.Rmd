@@ -40,8 +40,10 @@ accessible directement dans R Studio. Pour cela, vous pouvez taper simplement :
 ?cartography
 ```
 * La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique. 
-[![cartography cheat sheet](https://raw.githubusercontent.com/riatelab/cartography/master/img/cheat_sheet.png)](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf)
+[![cartography cheat sheet](img/cheat_sheet.png)](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf)
+
 * La vignette associée au package, qui présente des réalisations issues de ce package, elle aussi accessible directement dans R.
+
 * Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"}, maintenu par l'auteur de *cartography* qui met à disposition ressources et exemples d'intérêt liés au package et à la représentation d'information spatiale sous R. 
 
 ### Symboles proportionnels

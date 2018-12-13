@@ -126,9 +126,12 @@ La fonction getGridLayer du package cartography permet de construire ces grilles
 
 ### Exemples
 
-![](img/pregrid.png)
 
-![](img/grid.png)
+```{r}
+knitr::include_graphics(c("img/pregrid.png", "img/grid.png"))
+
+```
+
 
 ### Précautions d'emploi
 
@@ -199,6 +202,10 @@ Cette méthode permet de passer d'une représentation ponctuelle ou discontuinue
 
 
 ### KDE
+
+
+
+
 ### Stewart
 [Vignette du package SpatialPosition](https://cran.r-project.org/web/packages/SpatialPosition/vignettes/StewartExample.html)
 

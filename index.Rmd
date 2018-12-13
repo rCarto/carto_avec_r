@@ -19,34 +19,24 @@ cover-image: img/cartomix.png
 # Introduction {-}
 ![](img/cartomix.png)
 
-Voici le document associé au cours de cartographie avec R.     
 
-Pour suivre ce cours vous aurez besoin des dernières versions de R et de RStudio.   
-Vous aurez aussi besoin d'un certain nombre de *packages* additionels :  
+Toute carte est issue d’un processus complexe, de choix, de selections, d’opérations statistiques ou géomatiques. Certains auteurs énoncent que les cartes sont subjectives (Brunet) et d’autres auteurs disent carrément qu'elles mentent (Monmonnier). Toute carte résulte des choix de son auteur. Dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique et cela est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”.
 
-- sf
-- cartography
-- osrm
-- mapview
-- SpatialPosition
-- mapinsetr
-- raster
-- linemap
-- spatstats
-- ...
+La réalisation des cartes dans le langage R permet de tracer toutes les opérations nécessaires à une réalisation cartographique de qualité. Réaliser des cartes dans ce langage unique permet, en diffusant le code source en même temps que les cartes, de jouer “cartes sur table”. Cela permet de détailler les choix qui ont été faits et s’exposer à la controverse scientifique. Cela permet aussi de travailler à plusieurs sur une carte, en associant des compétences complémentaires (sémiologie graphique, statistique, géomatique, etc.) et de faciliter la mise à jour de documents déjà réalisés.
 
 
-Ce cours ce déroule sur 3 jours :  
+Ce document se compose de trois parties permettant d'appréhender la création de cartes thématiques avec R. 
 
-- Jour 1 - [Les données spatiales](#jour1)  
-- Jour 2 - [Cartographie thématique](#jour2)  
-- Jour 3 - [Cartographie thématique avancée](#jour3)  
+- [Les données spatiales](#jour1) 
+- [Cartographie thématique](#jour2)   
+- [Cartographie thématique avancée](#jour3)  
+
+Ce document mobilise un certain nombre de packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales. Les principaux packages sont `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats` mais d'autres pourront être nécessaires ponctuellement. 
 
 
-*“La science est infaillible, mais les savants se trompent toujours.”* (Anatole France, 1889). Ce principe peut également être appliqué à la cartographie. En effet, toute carte est issue d’un processus complexe de choix, de selections, d’opérations statistiques ou géomatiques. Certains auteurs énoncent que les cartes sont subjectives (Brunet). D’autres auteurs disent carrément que les cartes mentent (Monmonnier). Quoi qu’il en soit, toute carte résulte de l’acte créateur des choix de son auteur. Lorsque l’on se situe dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique (ce qui est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”).
 
-La réalisation des cartes dans le langage R permet de tracer toutes les opérations nécessaires à une réalisation cartographique de qualité. Réaliser des cartes dans ce langage unique permet, en diffusant le code source en même temps que les cartes, de jouer “cartes sur table”. Cela permet de détailler les choix qui ont été faits et s’exposer à la controverse scientifique. Cela permet aussi de travailler à plusieurs sur une carte, en associant des compétences complémentaires (sémiologie graphique, statistique, géomatique, etc.) et de faciliter la mise à jour de documents déjà rélisés (en rééxecutant un code préalablement réalisé, par exemple).
 
-Au final, l’utilisation de R nécessite un effort non négligeable pour ceux qui ne sont pas habitués à l’univers de la programmation informatique. Mais définitivement, l’investissement n’a que des avantages.
+
+
 
 
