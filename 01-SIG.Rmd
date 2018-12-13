@@ -23,7 +23,7 @@ knit_hooks$set(sm = function(before, options, envir){
 })
 ```
 
-# Les données spatiales {#jour1}
+# Les données spatiales {#chapitre1}
 
 Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponible dans R grace au package `sf`. Il devient alors possible d'utiliser R comme un SIG. 
 
@@ -31,10 +31,11 @@ Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter d
 ## Le package `sf`
 
 **Historique**  
-Historiquement trois packages permettait d'importer, de manipuler et de transformer les données spatiales.   
-Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4) permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
-Le package `sp` fournit des classes et methodes pour les données spatiales dans R. C'est grace à ce package que l'on peut afficher des fond de cartes, inspecter une table attributaire etc.  
-Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
+Historiquement trois packages permettent d'importer, de manipuler et de transformer les données spatiales :
+
+- Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4) permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
+- Le package `sp` fournit des classes et methodes pour les données spatiales dans R. C'est grace à ce package que l'on peut afficher des fond de cartes, inspecter une table attributaire etc.  
+- Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
 
 **La suite**  
 Le package `sf` a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
@@ -48,15 +49,14 @@ Dans ce document nous utiliserons `sf` tant que cela est possible, c'està dire 
 
 ### Format des objets spatiaux `sf`
 
-![](img/sf.png)
-```{r, fig.align='center'}
+```{r, fig.align='center', exho = FALSE}
 knitr::include_graphics("img/sf.png")
 ```
 
 
 
-Les objets sf sont des data.frame dont l'une des colonne contient des géométrie. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry). 
-Ce format trs pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet. 
+Les objets `sf` sont des data.frame dont l'une des colonne contient des géométrie. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry).   
+Ce format très pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet. 
 
 
 ### Import / Export
@@ -138,6 +138,12 @@ mtq_v <- st_intersection(st_cast(mtq_v), st_union(mtq))
 mtq_v <- st_join(x = st_sf(mtq_v), y = mtq_c, join=st_intersects)
 mtq_v <- st_cast(mtq_v, "MULTIPOLYGON")
 plot(st_geometry(mtq_v), col='lightblue')
+```
+
+### Export
+```{r export}
+st_write(obj = mtq_v, dsn = "data/mtq.gpkg", layer = "voronoi", delete_layer = TRUE)
+st_write(obj = mtq_c, "data/mtq_centroid.shp", delete_layer = T)
 ```
 
 

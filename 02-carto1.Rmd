@@ -24,30 +24,37 @@ knit_hooks$set(sm = function(before, options, envir){
 ```
 
 
-# Cartographie thématique  {#jour2}
+# Cartographie thématique  {#chapitre2}
 
 
 
 ## Le package `cartography`
 
-Le package `cartography` permet de créer et intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques tels que les cartes en symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
+Le package `cartography` [@R-cartography] permet de créer et intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques tels que les cartes en symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
 
 Pour utiliser aisément ce package, plusieurs sources d'intérêts peuvent être consultées :
 
-* La documentation du package qui documente toutes les fonctions du package,
-accessible directement dans R Studio. Pour cela, vous pouvez taper simplement :
-```{r}
+* La documentation du package accessible directement dans R :
+```{r, eval = FALSE}
 ?cartography
 ```
-* La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique. 
-[![cartography cheat sheet](img/cheat_sheet.png)](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf)
+* La [vignette](https://CRAN.R-project.org/package=cartography/vignettes/cartography.html) associée au package présente des exemples de scripts 
+```{r, eval = FALSE}
+vignette("cartography")
+```
+* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/), maintenu par l'auteur de *cartography* qui met à disposition ressources et exemples liés au package et plus généralement à l'écosystème spatiale de R.  
 
-* La vignette associée au package, qui présente des réalisations issues de ce package, elle aussi accessible directement dans R.
+* La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf) de cartography, qui résume les principales fonctions du package de façon synthétique.   
 
-* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"}, maintenu par l'auteur de *cartography* qui met à disposition ressources et exemples d'intérêt liés au package et à la représentation d'information spatiale sous R. 
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("img/cheat_sheet.png")
+```
+
+
+## Représentations usuelles 
 
 ### Symboles proportionnels
-```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
 library(cartography)
 library(sf)
 # Import des données
@@ -65,7 +72,7 @@ title(main = "Population en Martinique")
 
 ### Carte choroplèthe
 
-```{r choro, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+```{r choro, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
 mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
 choroLayer(x = mtq, var = "cagr", breaks = c(-6.14,-2,-1,0,1,2),
            col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
@@ -73,20 +80,35 @@ choroLayer(x = mtq, var = "cagr", breaks = c(-6.14,-2,-1,0,1,2),
 title(main = "Evolution de la population")
 ```
 
+## Éléments d'habillage
+Titre, sources, auteur, Flèche nord, échelle
+
+```{r layout1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+layoutLayer(title = "Martinique", sources = "IGN", 
+            author = "Giraud & Pécout, 2018", 
+            col ="grey20", coltitle = "red",
+            tabtitle = TRUE, frame = FALSE, scale = NULL)
+north(pos = "topright", col = "red")
+barscale(size = 5, lwd = 1.2, cex = 0.8)
+```
+
+
 
 ## Palettes de couleurs
 
 
-```{r pal, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
+```{r pal, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=4}
 display.carto.all(20)
 ```
 
-```{r pal1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=4}
+```{r pal1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=4}
 display.carto.pal("orange.pal")
 ```
 
 
-```{r pal2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.height=3}
+```{r pal2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=3}
 mypal <- carto.pal(pal1 = "wine.pal", n1 = 7, pal2 = "green.pal", n2 = 12,
                    middle = TRUE, transparency = TRUE)
 k <- length(mypal)
@@ -112,6 +134,8 @@ abline(v = med, col = "blue", lwd = 3)
 
 
 ```{r disc3, fig.height=3}
+4/(5/6)
+
 # Mean and standard deviation (msd)
 breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
 hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
@@ -127,7 +151,7 @@ abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 ## Combinaisons
 
 
-```{r choroprop, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, sm=TRUE}
+```{r choroprop, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE}
 plot(st_geometry(mtq), col = "lightblue4",
      border = "lightblue3", bg = "lightblue1")
 propSymbolsChoroLayer(x = mtq, var= "P13_POP",
@@ -142,15 +166,13 @@ title(main = "Evolution de la population")
 
 ## Labels
 
-```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, nm=TRUE}
+```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
 plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
      bg = "#A6CAE0")
 labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
            halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
            show.lines = FALSE)
 ```
-
-
 
 
 ## Les données OSM
@@ -189,7 +211,7 @@ plot(st_geometry(cameras), pch=20, col="red", add=T)
 
 ### Données raster
 
-```{r osm, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=5, fig.height=6, nm=TRUE, cache=TRUE}
+```{r osm, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE}
 tiles <- getTiles(x = mtq, type = "osm", crop=T, zoom = 11)
 tilesLayer(tiles)
 plot(st_geometry(mtq), add=T)

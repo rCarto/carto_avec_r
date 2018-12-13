@@ -5,7 +5,7 @@ bookdown::gitbook:
       before: |
         <li><a href="./">Cartographie avec R</a></li>
       after: |
-        <li><a href="https://github.com/rstudio/bookdown" target="blank">Voir le cours</a></li>
+        <li><a href="https://github.com/rCarto/carto_avec_r" target="blank">Contribuer</a></li>
     download: ["pdf"]
     sharing:
       facebook: no
@@ -15,6 +15,7 @@ bookdown::gitbook:
       weibo: no
       instapaper: no
       vk: no
+      github: yes
       all: []
 bookdown::pdf_book:
   includes:

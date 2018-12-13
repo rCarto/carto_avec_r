@@ -1,117 +1,85 @@
-# Cartographie thématique avancée  {#jour3}
+# Cartographie thématique avancée  {#chapitre3}
 
-## Les anamorphoses
+## Les cartogrammes
 
-Voir : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366)   
-*Nicolas Lambert, 2015*
+>L’anamorphose classique est une représentation des États (ou de mailles quelconques) par **des rectangles ou des polygones quelconques** en fonction d’une **quantité** qui leur est rattaché. (...)
+On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."   
+@Brunet93
 
+Nous aborderons ici 3 types d'anamorphoses ou cartogrammes :
 
+- Les cartogrammes de Dorling [@Dorling96]
+- Les cartogrammes non contigus [@Olson76]
+- Les cartogrammes contigus [@Dougenik85]
 
-
-"L’anamorphose classique est une représentation des États (ou de mailles quelconques) par **des rectangles ou des polygones quelconques** en fonction d’une **quantité** qui leur est rattaché."  
-
-"On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."
-
-
-*Brunet, R., Ferras, R., & Théry, H. (1993). Les mots de la géographie: dictionnaire critique (No. 03) 911 BRU).*
-
+Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366) [@Lambert15]
 
 ### Les cartogrammes de Dorling
 
-La taille des cercles est proportionnelle à une variable. 
-
-La position des cercles est définie selon les positions de départ. 
-
-*Dorling, Daniel (1996): Area Cartograms: Their Use and Creation, Concepts and Techniques in Modern Geography (CATMOG), 59*
-
-### Le principe
-
-![](img/dorling1.png)
-
-### Exemple
-
-![](img/dorling2.png)
-![](img/dorling3.png)
+Les territoires sont représentés par des figurés (cercles, des carrés ou des rectangles) ne se recouvrant pas dont les surfaces sont proportionnelle à une variable. Les positions des figurés sont définie selon les positions de départ. 
 
 
-### Précautions d'emploi
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/dorling.png")
+```
+[@McCormick07]
 
-\- On identifie assez mal l'espace  
-On peut nommer les cercles pour se repérer  
-On peut s'aider de la couleur pour faire des clusters et mieux identifier les blocks géographiques  
+```{block2, type='rmdmoins'}
+On identifie assez mal l'espace.  
+On peut nommer les cercles pour se repérer et/ou s'aider de la couleur pour faire apparaitre des clusters et mieux identifier les blocks géographiques.    
+```
 
-
-\+ La perception de la quantité est très bonne.   
-Les tailles de cercles sont vraiment comparables  
+```{block2, type='rmdplus'}
+La perception des quantités est très bonne.   
+Les tailles de cercles sont vraiment comparables.    
+```
 
 
 
 ### Les cartogrammes non continus
 
-La taille des polygones est proportionnelle à une variable.     
+La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. La forme des polygones est ressemblante. 
 
-L'agencement des polygones les uns par rapport aux autres est conservée.   
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/nccartogram.png")
+```
+[@Cauvin13]
 
-La forme des polygones est ressemblante.   
+```{block2, type='rmdmoins'}
+La topologie des régions est perdue.
+```
 
-### Exemple
-
-![](img/nc.png)
-
-
-### Précautions d'emploi
-
-\- Non contigu, la topologie est perdue.
-
-\+ La conservation de la forme des polygones est optimisée.
-
+```{block2, type='rmdplus'}
+La conservation de la forme des polygones est optimale.
+```
 
 
 ### Les cartogrammes continus
 
 
-La taille des polygones est proportionnelle à une variable.  
+La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. Pour conserver la contiguité, la forme des polygones est fortement transformée.  
 
-L'agencement des polygones les uns par rapport aux autres est conservée.  
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/cartogram.jpg")
+```
+[@Paull16]
 
-Pour conserver la contiguité, la forme des polygones est fortement transformée.  
+```{block2, type='rmdmoins'}
+La forme des polygones est fortement distordue.
+```
 
-### Exemple
-
-![](img/c.png)
-
-### Précautions d'emploi
-
-\- Par rapport aux anamorphoses non contigues, la forme des polygones est fortement distordue.
-
-\+ C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
-
+```{block2, type='rmdplus'}
+C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
+```
 
 
 
 
-### Interêts des anamorphoses
+### Forces et faiblesses des cartogrammes
 
-Représentation cartographique perçue comme **innovante** (même si la methode date de 40 ans)
+Les cartogrammes sont des représentations cartographiques perçues comme **innovante** (bien que la methode date de 40 ans). Ces images très généralisées rendent bien compte des **quantités** et des **gradiants**. Ce sont de vraies images de **communication** qui **provoquent**, suscitent **l’intérêt**, véhiculent un **message** fort, **interpellent**.  
 
-Image très généralisée qui rend bien compte des **quantités** et des **gradiants**. 
-
-Une vraie image de **communication** : **provoque**, suscite **l’intérêt**, véhicule un **message** fort, **interpelle**.
-
-
-### Faiblesses des anamorphoses
-
-Perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte).
-
-Ne permet pas de connaître les **situations locales**.
-
-Demande un **effort de lecture**.
-
-**Gestion des données manquantes**
-
-
-
-
+Mais les cartogrammes induisent une perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte), demandent un **effort de lecture** qui peut être important et ne permettent pas de **gérer des données manquantes**.   
 
 
 
@@ -119,87 +87,69 @@ Demande un **effort de lecture**.
 
 La méthode du carroyage consiste à découper l’espace géographique en un maillage formé de carrés réguliers dans une projection donnée. La donnée est répartie sur ce quadrillage régulier au prorata de la surface représentée. Le quadrillage permet ainsi de s’affranchir des mailles administratives.
 
-La fonction getGridLayer du package cartography permet de construire ces grilles régulières.
 
-![](img/caromet.png)
-
-
-### Exemples
-
-
-```{r}
-knitr::include_graphics(c("img/pregrid.png", "img/grid.png"))
-
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/caromet.png")
 ```
 
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics(c("img/pregrid.png", "img/grid.png"))
+```
 
-### Précautions d'emploi
+```{block2, type='rmdmoins'}
+Ces représentation induisent une perte de précision. Les maillages produit n'ont pas de signification. La version simple (les valeurs sont redistribuées au prorata de la surface), implique une equirépartition du phénomène dans chaque unités. 
+```
 
-\- Perte de précision, maillage sans signification.   
-La version simple (au prorata de la surface), implique une equirépartition du phénomène dans chaque unités. 
+```{block2, type='rmdplus'}
+La comparaison de maillages différents, à plusieurs dates ou de différentes sources est rendue possible. 
+```
 
-
-\+ Permet la comparaison de maillages différents, à plusieurs dates ou de différentes sources. 
-
-
-
-## Les discontinuités
-
-Ce type de représentation permet de souligner cartographiquement les discontinuités territoriales d'un phénomène. 
-
-L'accent est porter sur ce qui distingue des territoires. 
-
-Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d'autre. Puis nous représentons la frontière par un figuré d'autant plus épais que la différence est forte. 
-
-Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
-
-![](img/discmet.png)
+La fonction getGridLayer du package cartography permet de construire ces grilles régulières.
 
 
-### Exemples
+## Les cartes de discontinuités
 
-![](img/disc1.png)
+Ce type de représentation permet de souligner cartographiquement les discontinuités territoriales d'un phénomène.  L'accent est porter sur ce qui distingue des territoires. Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d'autre. Puis nous représentons la frontière par un figuré d'autant plus épais que la différence est forte. Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/discmet.png")
+```
 
-![](img/disc2.png)
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/disc2.png")
+```
 
+```{block2, type='rmdmoins'}
+Ces cartes ne sont pas évidentes à paramétrer. Le choix des critères (seuil, type de différences...) influence fortement la représentation. En fonction du maillage utilisé la lisibilité de la carte peut être faible. 
+```
 
-### Précautions d'emploi
+```{block2, type='rmdplus'}
+Ces représentations sont très puissantes pour montrer les inégalités. 
+```
 
-\- Ces cartes ne sont pas évidentes à paramétrer.   
-Le choix des critères (seuil, type de différences...) va fortement influencer la représentation.   
-En fonction du maillage la lisibilité peut être faible. 
+## Le lissage spatial
 
-
-\+ Représentation très puissante pour montrer les inégalités. 
-
-
-## Les lissages
-
-
-L'idée principale du lissage est de filtrer l’information pour révéler des structures spatiales sous-jacentes.
-
-C'est un ensemble de méthodes qui consistent à affecter aux points que l'on observe une valeur prenant en compte les valeurs de leur voisinnage. 
-
+L'idée principale du lissage est de filtrer l’information pour révéler des structures spatiales sous-jacentes. C'est un ensemble de méthodes qui consistent à affecter aux points que l'on observe une valeur prenant en compte les valeurs de leur voisinnage. 
 Il existe plusieurs méthodes de lissage (kde, potentiels...) plus ou moins paramétrables. 
-
 Cette méthode permet de passer représentations ponctuelles à une représentation continu
 
-### Exemples
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/liss1.png")
+```
 
-![](img/liss1.png)
-![](img/liss2.png)
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/liss2.png")
+```
 
-
-### Précautions d'emploi
-
-\- Il est difficile de paramétrer correctement les fonctions de lissages.   
+```{block2, type='rmdmoins'}
+Il est difficile de paramétrer correctement les fonctions de lissages.   
 Elles doivent s'appuyer sur des hypothèses de comportement dans l'espace.   
 La compréhension par un public large n'est pas évidente, il faut alors simplifier les légendes, la présentation de la méthode. 
-
-\+ Permet de faire ressortir des phénomènes spatiaux sous-jacents invisibles directement.   
+```
+```{block2, type='rmdplus'}
+Permet de faire ressortir des phénomènes spatiaux sous-jacents invisibles directement.   
 Les cartes produites attirent l'oeil par leur originalité.   
 Cette méthode permet de passer d'une représentation ponctuelle ou discontuinue (dans un maillage) à une représentation continue s'affranchissant des maillages existants. 
-
+```
 
 ### KDE
 
@@ -218,7 +168,7 @@ Cette méthode permet de passer d'une représentation ponctuelle ou discontuinue
 
 ## 3D
 ### linemap
-```{r lines, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=8, fig.height=5.75, nm=TRUE,cache=TRUE}
+```{r lines, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=8, fig.height=5.75, nm=TRUE, cache=TRUE}
 library(linemap)
 library(sf)
 data("popOcc")

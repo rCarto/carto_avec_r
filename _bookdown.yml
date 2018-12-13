@@ -1,4 +1,5 @@
 book_filename: "Cartographie_avec_R"
+repo: https://github.com/rCarto/carto_avec_r
 delete_merged_file: true
 language:
   ui:

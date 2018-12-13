@@ -10,6 +10,8 @@ documentclass: book
 link-citations: yes
 site: bookdown::bookdown_site
 biblio-style: apalike
+link-citation: true
+github-repo: rCarto/carto_avec_r
 cover-image: img/cartomix.png
 ---
 
@@ -27,9 +29,9 @@ La réalisation des cartes dans le langage R permet de tracer toutes les opérat
 
 Ce document se compose de trois parties permettant d'appréhender la création de cartes thématiques avec R. 
 
-- [Les données spatiales](#jour1) 
-- [Cartographie thématique](#jour2)   
-- [Cartographie thématique avancée](#jour3)  
+- [Les données spatiales](#chapitre1) 
+- [Cartographie thématique](#chapitre2)   
+- [Cartographie thématique avancée](#chapitre3)  
 
 Ce document mobilise un certain nombre de packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales. Les principaux packages sont `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats` mais d'autres pourront être nécessaires ponctuellement. 
 
