@@ -1,4 +1,55 @@
+```{r knitr3_init, echo=FALSE, cache=FALSE}
+library(knitr)
+## Global options
+options(max.print="90")
+opts_chunk$set(echo=TRUE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=90)
+options(width = 90)
+knit_hooks$set(nm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,0,0))
+  } 
+})
+knit_hooks$set(sm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,1.2,0))
+  } 
+})
+```
+
+
+
 # Cartographie thématique avancée  {#chapitre3}
+
+
+## Cartographie interactiv
+
+
+`mapview`
+
+
+```{r}
+mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
+resto <- st_read(dsn = "data/resto.gpkg")
+library(mapview)
+?mapview
+mapview(resto, map.types = "OpenStreetMap", col.regions = "#940000", 
+        label = resto$name,alpha.regions=90,
+        color = "white", legend = TRUE, layer.name = "Resto", 
+        homebutton = FALSE, lwd = 0.5) +
+  mapview(mtq, col.regions = "#000094", color = "white", legend = TRUE, 
+          label = mtq$LIBGEO, alpha.regions= 0.2, map.types = "OpenStreetMap",
+          lwd = 0.5, layer.name = "Communes",  homebutton = FALSE)
+```
+
+
+
 
 ## Les cartogrammes
 
@@ -12,7 +63,7 @@ Nous aborderons ici 3 types d'anamorphoses ou cartogrammes :
 - Les cartogrammes non contigus [@Olson76]
 - Les cartogrammes contigus [@Dougenik85]
 
-Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366) [@Lambert15]
+Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15]
 
 ### Les cartogrammes de Dorling
 
@@ -148,16 +199,58 @@ La compréhension par un public large n'est pas évidente, il faut alors simplif
 ```{block2, type='rmdplus'}
 Permet de faire ressortir des phénomènes spatiaux sous-jacents invisibles directement.   
 Les cartes produites attirent l'oeil par leur originalité.   
-Cette méthode permet de passer d'une représentation ponctuelle ou discontuinue (dans un maillage) à une représentation continue s'affranchissant des maillages existants. 
+Cette méthode permet de passer d'une représentation ponctuelle ou discontinue (dans un maillage) à une représentation continue s'affranchissant des maillages existants. 
 ```
 
 ### KDE
+
+```{r kde, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE, results='hide'}
+library(sf)
+library(spatstat)
+library(maptools)
+library(raster)
+# Import des données
+mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
+# Communes
+
+resto <- st_read(dsn = "data/resto.gpkg")
+sigma = 1000
+res = 200
+# Define an observation window
+w <- as.owin(as(mtq, "Spatial"))
+# sf to coords
+pts <- st_coordinates(resto)
+# Coords to ppp
+p <- ppp(pts[,1], pts[,2], window=w)
+# Compute KDE
+dens <- density.ppp(p, sigma = sigma, eps = res)
+# Image to raster (+ proj & km2)
+result <- raster(dens, crs = st_crs(resto)[[2]]) * 1000000
+# compute breaks
+bks <- unique(getBreaks(values(result), nclass = 8, method = "arith"))
+# Color ramp
+cols <- mapview::mapviewGetOption("raster.palette")(10)[2:9]
+# Plot the map
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+plot(result, breaks = bks, col=cols, add = T,legend=F)
+plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "white")
+
+legendChoro(pos = "topright", cex = 0.8,
+            title.txt = "Resto Density",values.cex = 0.6,
+            breaks = bks, nodata = FALSE,values.rnd = 1,
+            col = cols)
+layoutLayer(title = "DKE RESTO", scale = 5,
+            tabtitle = TRUE, frame = FALSE,
+            author = "TG & HP", 
+            sources = "IGN & OSM") 
+```
 
 
 
 
 ### Stewart
-[Vignette du package SpatialPosition](https://cran.r-project.org/web/packages/SpatialPosition/vignettes/StewartExample.html)
+[Vignette du package SpatialPosition](https://cran.r-project.org/web/packages/SpatialPosition/vignettes/StewartExample.html){target="_blank"}
 
 
 

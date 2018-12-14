@@ -48,6 +48,17 @@
 
 
 
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -136,21 +147,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="chapitre1.html"><a href="chapitre1.html"><i class="fa fa-check"></i><b>1</b> Les données spatiales</a><ul>
 <li class="chapter" data-level="1.1" data-path="chapitre1.html"><a href="chapitre1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a><ul>
 <li class="chapter" data-level="1.1.1" data-path="chapitre1.html"><a href="chapitre1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
-<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
+<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#construction-dun-objet-sf"><i class="fa fa-check"></i><b>1.1.2</b> Construction d’un objet sf</a></li>
+<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.3</b> Import / Export</a></li>
+<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Affichage de données</a></li>
+<li class="chapter" data-level="1.1.5" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.5</b> Joindre des données</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-projections"><i class="fa fa-check"></i><b>1.2</b> Les projections</a></li>
 <li class="chapter" data-level="1.3" data-path="chapitre1.html"><a href="chapitre1.html#operations-de-geotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.1</b> Extraire des centroides</a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.2</b> Créer une matrice de distances</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.3</b> Agréger des polygones</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.4</b> Construire une zone tampon</a></li>
-<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.5</b> Réaliser une intersection</a></li>
-<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.6</b> Construire des polygones de Voronoi</a></li>
-<li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#export"><i class="fa fa-check"></i><b>1.3.7</b> Export</a></li>
+<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#selection-par-attributs"><i class="fa fa-check"></i><b>1.3.1</b> Selection par attributs</a></li>
+<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#selection-spatiale"><i class="fa fa-check"></i><b>1.3.2</b> Selection spatiale</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.3</b> Extraire des centroides</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.4</b> Créer une matrice de distances</a></li>
+<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.5</b> Agréger des polygones</a></li>
+<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones-en-fonction-dune-variable"><i class="fa fa-check"></i><b>1.3.6</b> Agréger des polygones en fonction d’une variable</a></li>
+<li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.7</b> Construire une zone tampon</a></li>
+<li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.8</b> Réaliser une intersection</a></li>
+<li class="chapter" data-level="1.3.9" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.9</b> Construire des polygones de Voronoi</a></li>
+<li class="chapter" data-level="1.3.10" data-path="chapitre1.html"><a href="chapitre1.html#exemple"><i class="fa fa-check"></i><b>1.3.10</b> Exemple</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#le-package-raster"><i class="fa fa-check"></i><b>1.4</b> Le package <code>raster</code></a></li>
+<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#geocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a></li>
+<li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#le-package-raster"><i class="fa fa-check"></i><b>1.5</b> Le package <code>raster</code></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chapitre2.html"><a href="chapitre2.html"><i class="fa fa-check"></i><b>2</b> Cartographie thématique</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapitre2.html"><a href="chapitre2.html#le-package-cartography"><i class="fa fa-check"></i><b>2.1</b> Le package <code>cartography</code></a></li>
@@ -162,33 +178,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="chapitre2.html"><a href="chapitre2.html#palettes-de-couleurs"><i class="fa fa-check"></i><b>2.4</b> Palettes de couleurs</a></li>
 <li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#discretisations"><i class="fa fa-check"></i><b>2.5</b> Discrétisations</a></li>
 <li class="chapter" data-level="2.6" data-path="chapitre2.html"><a href="chapitre2.html#combinaisons"><i class="fa fa-check"></i><b>2.6</b> Combinaisons</a></li>
-<li class="chapter" data-level="2.7" data-path="chapitre2.html"><a href="chapitre2.html#labels"><i class="fa fa-check"></i><b>2.7</b> Labels</a></li>
-<li class="chapter" data-level="2.8" data-path="chapitre2.html"><a href="chapitre2.html#les-donnees-osm"><i class="fa fa-check"></i><b>2.8</b> Les données OSM</a><ul>
-<li class="chapter" data-level="2.8.1" data-path="chapitre2.html"><a href="chapitre2.html#donnees-vectorielles"><i class="fa fa-check"></i><b>2.8.1</b> Données vectorielles</a></li>
-<li class="chapter" data-level="2.8.2" data-path="chapitre2.html"><a href="chapitre2.html#donnees-raster"><i class="fa fa-check"></i><b>2.8.2</b> Données raster</a></li>
+<li class="chapter" data-level="2.7" data-path="chapitre2.html"><a href="chapitre2.html#les-donnees-osm"><i class="fa fa-check"></i><b>2.7</b> Les données OSM</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="chapitre2.html"><a href="chapitre2.html#donnees-vectorielles"><i class="fa fa-check"></i><b>2.7.1</b> Données vectorielles</a></li>
+<li class="chapter" data-level="2.7.2" data-path="chapitre2.html"><a href="chapitre2.html#donnees-raster"><i class="fa fa-check"></i><b>2.7.2</b> Données raster</a></li>
 </ul></li>
-<li class="chapter" data-level="2.9" data-path="chapitre2.html"><a href="chapitre2.html#cartographie-interactive"><i class="fa fa-check"></i><b>2.9</b> Cartographie interactive</a></li>
-<li class="chapter" data-level="2.10" data-path="chapitre2.html"><a href="chapitre2.html#geocodage-dadresses"><i class="fa fa-check"></i><b>2.10</b> Géocodage d’adresses</a></li>
-<li class="chapter" data-level="2.11" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.11</b> Création de cartons</a></li>
+<li class="chapter" data-level="2.8" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.8</b> Création de cartons</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapitre3.html"><a href="chapitre3.html"><i class="fa fa-check"></i><b>3</b> Cartographie thématique avancée</a><ul>
-<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes"><i class="fa fa-check"></i><b>3.1</b> Les cartogrammes</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-de-dorling"><i class="fa fa-check"></i><b>3.1.1</b> Les cartogrammes de Dorling</a></li>
-<li class="chapter" data-level="3.1.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-non-continus"><i class="fa fa-check"></i><b>3.1.2</b> Les cartogrammes non continus</a></li>
-<li class="chapter" data-level="3.1.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-continus"><i class="fa fa-check"></i><b>3.1.3</b> Les cartogrammes continus</a></li>
-<li class="chapter" data-level="3.1.4" data-path="chapitre3.html"><a href="chapitre3.html#forces-et-faiblesses-des-cartogrammes"><i class="fa fa-check"></i><b>3.1.4</b> Forces et faiblesses des cartogrammes</a></li>
+<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#cartographie-interactiv"><i class="fa fa-check"></i><b>3.1</b> Cartographie interactiv</a></li>
+<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes"><i class="fa fa-check"></i><b>3.2</b> Les cartogrammes</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-de-dorling"><i class="fa fa-check"></i><b>3.2.1</b> Les cartogrammes de Dorling</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-non-continus"><i class="fa fa-check"></i><b>3.2.2</b> Les cartogrammes non continus</a></li>
+<li class="chapter" data-level="3.2.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-continus"><i class="fa fa-check"></i><b>3.2.3</b> Les cartogrammes continus</a></li>
+<li class="chapter" data-level="3.2.4" data-path="chapitre3.html"><a href="chapitre3.html#forces-et-faiblesses-des-cartogrammes"><i class="fa fa-check"></i><b>3.2.4</b> Forces et faiblesses des cartogrammes</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-regulieres"><i class="fa fa-check"></i><b>3.2</b> Les grilles régulières</a></li>
-<li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuites"><i class="fa fa-check"></i><b>3.3</b> Les cartes de discontinuités</a></li>
-<li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.4</b> Le lissage spatial</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="chapitre3.html"><a href="chapitre3.html#kde"><i class="fa fa-check"></i><b>3.4.1</b> KDE</a></li>
-<li class="chapter" data-level="3.4.2" data-path="chapitre3.html"><a href="chapitre3.html#stewart"><i class="fa fa-check"></i><b>3.4.2</b> Stewart</a></li>
+<li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-regulieres"><i class="fa fa-check"></i><b>3.3</b> Les grilles régulières</a></li>
+<li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuites"><i class="fa fa-check"></i><b>3.4</b> Les cartes de discontinuités</a></li>
+<li class="chapter" data-level="3.5" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.5</b> Le lissage spatial</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="chapitre3.html"><a href="chapitre3.html#kde"><i class="fa fa-check"></i><b>3.5.1</b> KDE</a></li>
+<li class="chapter" data-level="3.5.2" data-path="chapitre3.html"><a href="chapitre3.html#stewart"><i class="fa fa-check"></i><b>3.5.2</b> Stewart</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="chapitre3.html"><a href="chapitre3.html#d"><i class="fa fa-check"></i><b>3.5</b> 3D</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.5.1</b> linemap</a></li>
-<li class="chapter" data-level="3.5.2" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.5.2</b> rayshader</a></li>
+<li class="chapter" data-level="3.6" data-path="chapitre3.html"><a href="chapitre3.html#d"><i class="fa fa-check"></i><b>3.6</b> 3D</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.6.1</b> linemap</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.6.2</b> rayshader</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="sessioninfo.html"><a href="sessioninfo.html"><i class="fa fa-check"></i><b>4</b> <code>sessionInfo()</code></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rCarto/carto_avec_r" target="blank">Contribuer</a></li>
@@ -218,7 +233,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="introduction" class="section level1 unnumbered">
 <h1>Introduction</h1>
 <p><img src="img/cartomix.png" /></p>
-<p>Toute carte est issue d’un processus complexe, de choix, de selections, d’opérations statistiques ou géomatiques. Certains auteurs énoncent que les cartes sont subjectives (Brunet) et d’autres auteurs disent carrément qu’elles mentent (Monmonnier). Toute carte résulte des choix de son auteur. Dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique et cela est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”.</p>
+<p>Toute carte est issue d’un processus complexe, de choix, de selections, d’opérations statistiques ou de géotraitements. Certains auteurs énoncent que les cartes sont subjectives (Brunet) et d’autres auteurs disent carrément qu’elles mentent (Monmonnier). Toute carte résulte des choix de son auteur. Dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique et cela est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”.</p>
 <p>La réalisation des cartes dans le langage R permet de tracer toutes les opérations nécessaires à une réalisation cartographique de qualité. Réaliser des cartes dans ce langage unique permet, en diffusant le code source en même temps que les cartes, de jouer “cartes sur table”. Cela permet de détailler les choix qui ont été faits et s’exposer à la controverse scientifique. Cela permet aussi de travailler à plusieurs sur une carte, en associant des compétences complémentaires (sémiologie graphique, statistique, géomatique, etc.) et de faciliter la mise à jour de documents déjà réalisés.</p>
 <p>Ce document se compose de trois parties permettant d’appréhender la création de cartes thématiques avec R.</p>
 <ul>

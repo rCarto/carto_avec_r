@@ -38,13 +38,13 @@ Pour utiliser aisément ce package, plusieurs sources d'intérêts peuvent être
 ```{r, eval = FALSE}
 ?cartography
 ```
-* La [vignette](https://CRAN.R-project.org/package=cartography/vignettes/cartography.html) associée au package présente des exemples de scripts 
+* La [vignette](https://CRAN.R-project.org/package=cartography/vignettes/cartography.html){target="_blank"} associée au package présente des exemples de scripts 
 ```{r, eval = FALSE}
 vignette("cartography")
 ```
-* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/), maintenu par l'auteur de *cartography* qui met à disposition ressources et exemples liés au package et plus généralement à l'écosystème spatiale de R.  
+* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"} met à disposition ressources et exemples liés au package et plus généralement à l'écosystème spatiale de R.  
 
-* La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf) de cartography, qui résume les principales fonctions du package de façon synthétique.   
+* La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique.   
 
 ```{r, echo=FALSE, fig.align='center'}
 knitr::include_graphics("img/cheat_sheet.png")
@@ -95,6 +95,14 @@ barscale(size = 5, lwd = 1.2, cex = 0.8)
 ```
 
 
+```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
+plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
+     bg = "#A6CAE0")
+labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
+           halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
+           show.lines = FALSE)
+```
+
 
 ## Palettes de couleurs
 
@@ -134,7 +142,6 @@ abline(v = med, col = "blue", lwd = 3)
 
 
 ```{r disc3, fig.height=3}
-4/(5/6)
 
 # Mean and standard deviation (msd)
 breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
@@ -164,15 +171,6 @@ propSymbolsChoroLayer(x = mtq, var= "P13_POP",
 title(main = "Evolution de la population")
 ```
 
-## Labels
-
-```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
-plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
-     bg = "#A6CAE0")
-labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
-           halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
-           show.lines = FALSE)
-```
 
 
 ## Les données OSM
@@ -183,28 +181,44 @@ labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
 ### Données vectorielles
 
 
-
 ```{r, eval=FALSE}
 library("osmdata")
+q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
+q1 <- add_osm_feature(opq = q, key = 'amenity', 
+                      value = "restaurant" )
+res <- osmdata_sf(q1)
+restau1  <- res$osm_points[!is.na(res$osm_points$amenity),]
+restau2 <- res$osm_polygons
+st_geometry(restau2) <- st_centroid(st_geometry(restau2))
 
-## Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+q1 <- add_osm_feature(opq = q, key = 'amenity', 
+                      value = "fast_food" )
+res <- osmdata_sf(q1)
+fast1  <- res$osm_points[!is.na(res$osm_points$amenity),]
+fast2 <- res$osm_polygons
+st_geometry(fast2) <- st_centroid(st_geometry(fast2))
 
-prj <- st_crs(Paris)
+q1 <- add_osm_feature(opq = q, key = 'amenity', 
+                      value = "cafe" )
+res <- osmdata_sf(q1)
+cafe1  <- res$osm_points[!is.na(res$osm_points$amenity),]
+cafe2 <- res$osm_polygons
+st_geometry(cafe2) <- st_centroid(st_geometry(cafe2))
 
-bbox <- st_bbox(st_transform(Paris,4326))
+osm_restau <- rbind(restau1[, c("osm_id", "name")], restau2[, c("osm_id", "name")], 
+                 fast1[, c("osm_id", "name")], fast2[, c("osm_id", "name")], 
+                 cafe1[, c("osm_id", "name")], cafe2[, c("osm_id", "name")])
+osm_restau <- st_transform(osm_restau, st_crs(mtq))
 
-q <- opq(bbox = bbox , timeout = 2000) %>% add_osm_feature(key = 'man_made', value = 'surveillance')
-cameras <- osmdata_sf(q)$osm_points
-cameras <- st_transform(cameras, prj)
+plot(osm_restau)
 
-cameras$ok <- st_intersects(st_geometry(cameras), st_geometry(Paris), sparse = FALSE)
-cameras <- cameras[cameras$ok == T,]
+plot(mtq$geometry)
+plot(osm_restau$geometry,add=T, pch=20, col = "#330A5FFF", cex = 0.5)
+labelLayer(osm_restau, txt = "name", overlap = F,show.lines = F, )
 
-Paname <- getTiles(x = Paris, type ="cartodark", crop = TRUE)
-tilesLayer(Paname)
-par(mar = c(0.5,0.5,1.5,0.5))
-plot(st_geometry(Paris), lwd=1, border="white", lty=2, add=T)
-plot(st_geometry(cameras), pch=20, col="red", add=T)
+# st_write(osm_restau, dsn = "data/resto.gpkg")
+
+
 ```
 
 
@@ -216,14 +230,6 @@ tiles <- getTiles(x = mtq, type = "osm", crop=T, zoom = 11)
 tilesLayer(tiles)
 plot(st_geometry(mtq), add=T)
 ```
-
-## Cartographie interactive
-
-leaflet / mapview
-
-
-
-## Géocodage d'adresses
 
 
 ## Création de cartons

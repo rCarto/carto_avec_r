@@ -33,9 +33,9 @@ Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter d
 **Historique**  
 Historiquement trois packages permettent d'importer, de manipuler et de transformer les données spatiales :
 
-- Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/)) et [PROJ4](https://github.com/OSGeo/proj.4) permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
+- Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"}) et [PROJ4](https://github.com/OSGeo/proj.4){target="_blank"} permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
 - Le package `sp` fournit des classes et methodes pour les données spatiales dans R. C'est grace à ce package que l'on peut afficher des fond de cartes, inspecter une table attributaire etc.  
-- Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/)) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
+- Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/){target="_blank"}) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
 
 **La suite**  
 Le package `sf` a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
@@ -49,7 +49,7 @@ Dans ce document nous utiliserons `sf` tant que cela est possible, c'està dire 
 
 ### Format des objets spatiaux `sf`
 
-```{r, fig.align='center', exho = FALSE}
+```{r, fig.align='center', echo = FALSE}
 knitr::include_graphics("img/sf.png")
 ```
 
@@ -59,6 +59,58 @@ Les objets `sf` sont des data.frame dont l'une des colonne contient des géomét
 Ce format très pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet. 
 
 
+### Construction d'un objet sf
+
+#### Couche de points
+
+```{r}
+pt1_sfg <- st_point(c(1,2))
+pt2_sfg <- st_point(c(3,4))
+pt3_sfg <- st_point(c(2,1))
+(pt_sfc <- st_sfc(pt1_sfg,pt2_sfg,pt3_sfg, crs = (4326)))
+
+pt_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(pt_sf <- st_sf(pt_df,geometry = pt_sfc))
+plot(pt_sf)
+
+```
+
+#### Couche de polygones
+
+```{r}
+p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))
+p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1), c(3,0))
+p3 <- rbind(c(3,3), c(4,2), c(4,3), c(3,3))
+pol1_sfg <-st_polygon(list(p1))
+pol2_sfg <-st_polygon(list(p2))
+pol3_sfg <-st_polygon(list(p3))
+(pol_sfc <- st_sfc(pol1_sfg, pol2_sfg, pol3_sfg, crs = 4326))
+pol_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(pol_sf <- st_sf(pol_df,geometry = pol_sfc))
+plot(pol_sf)
+
+```
+
+
+#### Couche de linestring
+```{r}
+p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4))
+p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1))
+p3 <- rbind(c(3,3), c(4,2), c(4,3))
+ls1_sfg <-st_linestring(p1)
+ls2_sfg <-st_linestring(p2)
+ls3_sfg <-st_linestring(p3)
+(ls_sfc <- st_sfc(ls1_sfg, ls2_sfg, ls3_sfg, crs = 4326))
+ls_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(ls_sf <- st_sf(ls_df,geometry = ls_sfc))
+plot(ls_sf)
+
+```
+
+
 ### Import / Export
 
 ```{r import}
@@ -66,8 +118,21 @@ library(sf)
 mtq <- st_read("data/martinique.shp")
 ```
 
+```{r export}
+st_write(obj = mtq, dsn = "data/mtq.gpkg", layer = "mtq", delete_layer = TRUE)
+st_write(obj = mtq, "data/mtq.shp", delete_layer = T)
+```
 
 ### Affichage de données
+
+Aperçu des variables
+
+```{r, fig.height=5, fig.width=3, nm=TRUE}
+plot(mtq)
+```
+
+
+Affichage de la géométrie
 
 ```{r, fig.height=3, fig.width=3, nm=TRUE}
 plot(st_geometry(mtq))
@@ -76,10 +141,20 @@ plot(st_geometry(mtq))
 ### Joindre des données
 
 
+
+
+
+
 ## Les projections
 
 
 ## Opérations de géotraitement
+
+### Selection par attributs
+
+
+### Selection spatiale
+
 
 ### Extraire des centroides
 ```{r centroid,  fig.height=3, fig.width=3, nm=TRUE}
@@ -104,6 +179,7 @@ plot(st_geometry(mtq), col="lightblue")
 plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 ```
 
+### Agréger des polygones en fonction d'une variable
 
 
 ### Construire une zone tampon
@@ -126,8 +202,8 @@ plot(p, border="red", lwd=2, add=T)
 mtq_z <- st_intersection(x = mtq, y = p)
 plot(st_geometry(mtq))
 plot(st_geometry(mtq_z), col="red", border="green", add=T)
+plot(st_geometry(mtq_z))
 ```
-
 
 ### Construire des polygones de Voronoi
 google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
@@ -140,14 +216,16 @@ mtq_v <- st_cast(mtq_v, "MULTIPOLYGON")
 plot(st_geometry(mtq_v), col='lightblue')
 ```
 
-### Export
-```{r export}
-st_write(obj = mtq_v, dsn = "data/mtq.gpkg", layer = "voronoi", delete_layer = TRUE)
-st_write(obj = mtq_c, "data/mtq_centroid.shp", delete_layer = T)
-```
+
+### Exemple 
+
+Découpe d'une zone par un polygone
 
 
 
+
+
+## Géocodage d'adresses
 
 ## Le package `raster`
 

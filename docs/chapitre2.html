@@ -48,6 +48,17 @@
 
 
 
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -136,21 +147,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="chapitre1.html"><a href="chapitre1.html"><i class="fa fa-check"></i><b>1</b> Les données spatiales</a><ul>
 <li class="chapter" data-level="1.1" data-path="chapitre1.html"><a href="chapitre1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a><ul>
 <li class="chapter" data-level="1.1.1" data-path="chapitre1.html"><a href="chapitre1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
-<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
+<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#construction-dun-objet-sf"><i class="fa fa-check"></i><b>1.1.2</b> Construction d’un objet sf</a></li>
+<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.3</b> Import / Export</a></li>
+<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Affichage de données</a></li>
+<li class="chapter" data-level="1.1.5" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.5</b> Joindre des données</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-projections"><i class="fa fa-check"></i><b>1.2</b> Les projections</a></li>
 <li class="chapter" data-level="1.3" data-path="chapitre1.html"><a href="chapitre1.html#operations-de-geotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.1</b> Extraire des centroides</a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.2</b> Créer une matrice de distances</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.3</b> Agréger des polygones</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.4</b> Construire une zone tampon</a></li>
-<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.5</b> Réaliser une intersection</a></li>
-<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.6</b> Construire des polygones de Voronoi</a></li>
-<li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#export"><i class="fa fa-check"></i><b>1.3.7</b> Export</a></li>
+<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#selection-par-attributs"><i class="fa fa-check"></i><b>1.3.1</b> Selection par attributs</a></li>
+<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#selection-spatiale"><i class="fa fa-check"></i><b>1.3.2</b> Selection spatiale</a></li>
+<li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.3</b> Extraire des centroides</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.4</b> Créer une matrice de distances</a></li>
+<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.5</b> Agréger des polygones</a></li>
+<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones-en-fonction-dune-variable"><i class="fa fa-check"></i><b>1.3.6</b> Agréger des polygones en fonction d’une variable</a></li>
+<li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.7</b> Construire une zone tampon</a></li>
+<li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.8</b> Réaliser une intersection</a></li>
+<li class="chapter" data-level="1.3.9" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.9</b> Construire des polygones de Voronoi</a></li>
+<li class="chapter" data-level="1.3.10" data-path="chapitre1.html"><a href="chapitre1.html#exemple"><i class="fa fa-check"></i><b>1.3.10</b> Exemple</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#le-package-raster"><i class="fa fa-check"></i><b>1.4</b> Le package <code>raster</code></a></li>
+<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#geocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a></li>
+<li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#le-package-raster"><i class="fa fa-check"></i><b>1.5</b> Le package <code>raster</code></a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chapitre2.html"><a href="chapitre2.html"><i class="fa fa-check"></i><b>2</b> Cartographie thématique</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapitre2.html"><a href="chapitre2.html#le-package-cartography"><i class="fa fa-check"></i><b>2.1</b> Le package <code>cartography</code></a></li>
@@ -162,33 +178,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="chapitre2.html"><a href="chapitre2.html#palettes-de-couleurs"><i class="fa fa-check"></i><b>2.4</b> Palettes de couleurs</a></li>
 <li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#discretisations"><i class="fa fa-check"></i><b>2.5</b> Discrétisations</a></li>
 <li class="chapter" data-level="2.6" data-path="chapitre2.html"><a href="chapitre2.html#combinaisons"><i class="fa fa-check"></i><b>2.6</b> Combinaisons</a></li>
-<li class="chapter" data-level="2.7" data-path="chapitre2.html"><a href="chapitre2.html#labels"><i class="fa fa-check"></i><b>2.7</b> Labels</a></li>
-<li class="chapter" data-level="2.8" data-path="chapitre2.html"><a href="chapitre2.html#les-donnees-osm"><i class="fa fa-check"></i><b>2.8</b> Les données OSM</a><ul>
-<li class="chapter" data-level="2.8.1" data-path="chapitre2.html"><a href="chapitre2.html#donnees-vectorielles"><i class="fa fa-check"></i><b>2.8.1</b> Données vectorielles</a></li>
-<li class="chapter" data-level="2.8.2" data-path="chapitre2.html"><a href="chapitre2.html#donnees-raster"><i class="fa fa-check"></i><b>2.8.2</b> Données raster</a></li>
+<li class="chapter" data-level="2.7" data-path="chapitre2.html"><a href="chapitre2.html#les-donnees-osm"><i class="fa fa-check"></i><b>2.7</b> Les données OSM</a><ul>
+<li class="chapter" data-level="2.7.1" data-path="chapitre2.html"><a href="chapitre2.html#donnees-vectorielles"><i class="fa fa-check"></i><b>2.7.1</b> Données vectorielles</a></li>
+<li class="chapter" data-level="2.7.2" data-path="chapitre2.html"><a href="chapitre2.html#donnees-raster"><i class="fa fa-check"></i><b>2.7.2</b> Données raster</a></li>
 </ul></li>
-<li class="chapter" data-level="2.9" data-path="chapitre2.html"><a href="chapitre2.html#cartographie-interactive"><i class="fa fa-check"></i><b>2.9</b> Cartographie interactive</a></li>
-<li class="chapter" data-level="2.10" data-path="chapitre2.html"><a href="chapitre2.html#geocodage-dadresses"><i class="fa fa-check"></i><b>2.10</b> Géocodage d’adresses</a></li>
-<li class="chapter" data-level="2.11" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.11</b> Création de cartons</a></li>
+<li class="chapter" data-level="2.8" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.8</b> Création de cartons</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapitre3.html"><a href="chapitre3.html"><i class="fa fa-check"></i><b>3</b> Cartographie thématique avancée</a><ul>
-<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes"><i class="fa fa-check"></i><b>3.1</b> Les cartogrammes</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-de-dorling"><i class="fa fa-check"></i><b>3.1.1</b> Les cartogrammes de Dorling</a></li>
-<li class="chapter" data-level="3.1.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-non-continus"><i class="fa fa-check"></i><b>3.1.2</b> Les cartogrammes non continus</a></li>
-<li class="chapter" data-level="3.1.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-continus"><i class="fa fa-check"></i><b>3.1.3</b> Les cartogrammes continus</a></li>
-<li class="chapter" data-level="3.1.4" data-path="chapitre3.html"><a href="chapitre3.html#forces-et-faiblesses-des-cartogrammes"><i class="fa fa-check"></i><b>3.1.4</b> Forces et faiblesses des cartogrammes</a></li>
+<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#cartographie-interactiv"><i class="fa fa-check"></i><b>3.1</b> Cartographie interactiv</a></li>
+<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes"><i class="fa fa-check"></i><b>3.2</b> Les cartogrammes</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-de-dorling"><i class="fa fa-check"></i><b>3.2.1</b> Les cartogrammes de Dorling</a></li>
+<li class="chapter" data-level="3.2.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-non-continus"><i class="fa fa-check"></i><b>3.2.2</b> Les cartogrammes non continus</a></li>
+<li class="chapter" data-level="3.2.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-continus"><i class="fa fa-check"></i><b>3.2.3</b> Les cartogrammes continus</a></li>
+<li class="chapter" data-level="3.2.4" data-path="chapitre3.html"><a href="chapitre3.html#forces-et-faiblesses-des-cartogrammes"><i class="fa fa-check"></i><b>3.2.4</b> Forces et faiblesses des cartogrammes</a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-regulieres"><i class="fa fa-check"></i><b>3.2</b> Les grilles régulières</a></li>
-<li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuites"><i class="fa fa-check"></i><b>3.3</b> Les cartes de discontinuités</a></li>
-<li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.4</b> Le lissage spatial</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="chapitre3.html"><a href="chapitre3.html#kde"><i class="fa fa-check"></i><b>3.4.1</b> KDE</a></li>
-<li class="chapter" data-level="3.4.2" data-path="chapitre3.html"><a href="chapitre3.html#stewart"><i class="fa fa-check"></i><b>3.4.2</b> Stewart</a></li>
+<li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-regulieres"><i class="fa fa-check"></i><b>3.3</b> Les grilles régulières</a></li>
+<li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuites"><i class="fa fa-check"></i><b>3.4</b> Les cartes de discontinuités</a></li>
+<li class="chapter" data-level="3.5" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.5</b> Le lissage spatial</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="chapitre3.html"><a href="chapitre3.html#kde"><i class="fa fa-check"></i><b>3.5.1</b> KDE</a></li>
+<li class="chapter" data-level="3.5.2" data-path="chapitre3.html"><a href="chapitre3.html#stewart"><i class="fa fa-check"></i><b>3.5.2</b> Stewart</a></li>
 </ul></li>
-<li class="chapter" data-level="3.5" data-path="chapitre3.html"><a href="chapitre3.html#d"><i class="fa fa-check"></i><b>3.5</b> 3D</a><ul>
-<li class="chapter" data-level="3.5.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.5.1</b> linemap</a></li>
-<li class="chapter" data-level="3.5.2" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.5.2</b> rayshader</a></li>
+<li class="chapter" data-level="3.6" data-path="chapitre3.html"><a href="chapitre3.html#d"><i class="fa fa-check"></i><b>3.6</b> 3D</a><ul>
+<li class="chapter" data-level="3.6.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.6.1</b> linemap</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.6.2</b> rayshader</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="4" data-path="sessioninfo.html"><a href="sessioninfo.html"><i class="fa fa-check"></i><b>4</b> <code>sessionInfo()</code></a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rCarto/carto_avec_r" target="blank">Contribuer</a></li>
@@ -221,12 +236,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r">?cartography</code></pre>
 <ul>
-<li>La <a href="https://CRAN.R-project.org/package=cartography/vignettes/cartography.html">vignette</a> associée au package présente des exemples de scripts</li>
+<li>La <a href="https://CRAN.R-project.org/package=cartography/vignettes/cartography.html" target="_blank">vignette</a> associée au package présente des exemples de scripts</li>
 </ul>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">&quot;cartography&quot;</span>)</code></pre>
 <ul>
-<li><p>Le blog <a href="https://rgeomatic.hypotheses.org/">R Géomatique</a>, maintenu par l’auteur de <em>cartography</em> qui met à disposition ressources et exemples liés au package et plus généralement à l’écosystème spatiale de R.</p></li>
-<li><p>La <a href="http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf">cheat sheet</a> de cartography, qui résume les principales fonctions du package de façon synthétique.</p></li>
+<li><p>Le blog <a href="https://rgeomatic.hypotheses.org/" target="_blank">R Géomatique</a> met à disposition ressources et exemples liés au package et plus généralement à l’écosystème spatiale de R.</p></li>
+<li><p>La <a href="http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf" target="_blank">cheat sheet</a> de cartography, qui résume les principales fonctions du package de façon synthétique.</p></li>
 </ul>
 <p><img src="img/cheat_sheet.png" width="1000" style="display: block; margin: auto;" /></p>
 </div>
@@ -277,6 +292,12 @@ proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs</code></pre>
 <span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
 <span class="kw">barscale</span>(<span class="dt">size =</span> <span class="dv">5</span>, <span class="dt">lwd =</span> <span class="fl">1.2</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/layout1-1.png" width="384" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>,
+     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
+<span class="kw">labelLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">font =</span> <span class="dv">4</span>,
+           <span class="dt">halo =</span> <span class="ot">TRUE</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">r =</span> <span class="fl">0.1</span>, <span class="dt">overlap =</span> <span class="ot">FALSE</span>, 
+           <span class="dt">show.lines =</span> <span class="ot">FALSE</span>)</code></pre>
+<p><img src="Cartographie_avec_R_files/figure-html/labs-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="palettes-de-couleurs" class="section level2">
 <h2><span class="header-section-number">2.4</span> Palettes de couleurs</h2>
@@ -304,8 +325,6 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 <span class="kw">rug</span>(var)
 <span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/disc2-1.png" width="672" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="dv">4</span><span class="op">/</span>(<span class="dv">5</span><span class="op">/</span><span class="dv">6</span>)</code></pre>
-<pre><code>[1] 4.8</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean and standard deviation (msd)</span>
 breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">method =</span> <span class="st">&quot;msd&quot;</span>, <span class="dt">k =</span> <span class="dv">1</span>, <span class="dt">middle =</span> <span class="ot">TRUE</span>)
 <span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;moyenne / écart-type&quot;</span>,
@@ -330,58 +349,57 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 <span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Evolution de la population&quot;</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/choroprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
-<div id="labels" class="section level2">
-<h2><span class="header-section-number">2.7</span> Labels</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>,
-     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
-<span class="kw">labelLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">font =</span> <span class="dv">4</span>,
-           <span class="dt">halo =</span> <span class="ot">TRUE</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">r =</span> <span class="fl">0.1</span>, <span class="dt">overlap =</span> <span class="ot">FALSE</span>, 
-           <span class="dt">show.lines =</span> <span class="ot">FALSE</span>)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/labs-1.png" width="384" style="display: block; margin: auto;" /></p>
-</div>
 <div id="les-donnees-osm" class="section level2">
-<h2><span class="header-section-number">2.8</span> Les données OSM</h2>
+<h2><span class="header-section-number">2.7</span> Les données OSM</h2>
 <p><a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap (OSM)</a> est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l’échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. En résumé, c’est comme Google Maps, mais en mieux…</p>
 <div id="donnees-vectorielles" class="section level3">
-<h3><span class="header-section-number">2.8.1</span> Données vectorielles</h3>
+<h3><span class="header-section-number">2.7.1</span> Données vectorielles</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;osmdata&quot;</span>)
+q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox=</span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(mtq,<span class="dv">4326</span>)))
+q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
+                      <span class="dt">value =</span> <span class="st">&quot;restaurant&quot;</span> )
+res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
+restau1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+restau2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(restau2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(restau2))
 
-## Data (c) OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright
+q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
+                      <span class="dt">value =</span> <span class="st">&quot;fast_food&quot;</span> )
+res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
+fast1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+fast2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(fast2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(fast2))
 
-prj &lt;-<span class="st"> </span><span class="kw">st_crs</span>(Paris)
+q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
+                      <span class="dt">value =</span> <span class="st">&quot;cafe&quot;</span> )
+res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
+cafe1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+cafe2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(cafe2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(cafe2))
 
-bbox &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(Paris,<span class="dv">4326</span>))
+osm_restau &lt;-<span class="st"> </span><span class="kw">rbind</span>(restau1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], restau2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+                 fast1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], fast2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+                 cafe1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], cafe2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)])
+osm_restau &lt;-<span class="st"> </span><span class="kw">st_transform</span>(osm_restau, <span class="kw">st_crs</span>(mtq))
 
-q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox =</span> bbox , <span class="dt">timeout =</span> <span class="dv">2000</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">key =</span> <span class="st">&#39;man_made&#39;</span>, <span class="dt">value =</span> <span class="st">&#39;surveillance&#39;</span>)
-cameras &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q)<span class="op">$</span>osm_points
-cameras &lt;-<span class="st"> </span><span class="kw">st_transform</span>(cameras, prj)
+<span class="kw">plot</span>(osm_restau)
 
-cameras<span class="op">$</span>ok &lt;-<span class="st"> </span><span class="kw">st_intersects</span>(<span class="kw">st_geometry</span>(cameras), <span class="kw">st_geometry</span>(Paris), <span class="dt">sparse =</span> <span class="ot">FALSE</span>)
-cameras &lt;-<span class="st"> </span>cameras[cameras<span class="op">$</span>ok <span class="op">==</span><span class="st"> </span>T,]
+<span class="kw">plot</span>(mtq<span class="op">$</span>geometry)
+<span class="kw">plot</span>(osm_restau<span class="op">$</span>geometry,<span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)
+<span class="kw">labelLayer</span>(osm_restau, <span class="dt">txt =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">overlap =</span> F,<span class="dt">show.lines =</span> F, )
 
-Paname &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> Paris, <span class="dt">type =</span><span class="st">&quot;cartodark&quot;</span>, <span class="dt">crop =</span> <span class="ot">TRUE</span>)
-<span class="kw">tilesLayer</span>(Paname)
-<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">1.5</span>,<span class="fl">0.5</span>))
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(Paris), <span class="dt">lwd=</span><span class="dv">1</span>, <span class="dt">border=</span><span class="st">&quot;white&quot;</span>, <span class="dt">lty=</span><span class="dv">2</span>, <span class="dt">add=</span>T)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(cameras), <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">add=</span>T)</code></pre>
+<span class="co"># st_write(osm_restau, dsn = &quot;data/resto.gpkg&quot;)</span></code></pre>
 </div>
 <div id="donnees-raster" class="section level3">
-<h3><span class="header-section-number">2.8.2</span> Données raster</h3>
+<h3><span class="header-section-number">2.7.2</span> Données raster</h3>
 <pre class="sourceCode r"><code class="sourceCode r">tiles &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">type =</span> <span class="st">&quot;osm&quot;</span>, <span class="dt">crop=</span>T, <span class="dt">zoom =</span> <span class="dv">11</span>)
 <span class="kw">tilesLayer</span>(tiles)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add=</span>T)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/osm-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<div id="cartographie-interactive" class="section level2">
-<h2><span class="header-section-number">2.9</span> Cartographie interactive</h2>
-<p>leaflet / mapview</p>
-</div>
-<div id="geocodage-dadresses" class="section level2">
-<h2><span class="header-section-number">2.10</span> Géocodage d’adresses</h2>
-</div>
 <div id="creation-de-cartons" class="section level2">
-<h2><span class="header-section-number">2.11</span> Création de cartons</h2>
+<h2><span class="header-section-number">2.8</span> Création de cartons</h2>
 
 </div>
 </div>

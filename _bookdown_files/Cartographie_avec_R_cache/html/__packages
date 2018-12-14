@@ -3,3 +3,11 @@ knitr
 sf
 cartography
 linemap
+spatstat.data
+nlme
+rpart
+spatstat
+sp
+maptools
+raster
+mapview
