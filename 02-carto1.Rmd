@@ -3,7 +3,7 @@ library(knitr)
 ## Global options
 options(max.print="90")
 opts_chunk$set(echo=TRUE,
-	             cache=TRUE,
+               cache=TRUE,
                prompt=FALSE,
                tidy=FALSE,
                comment=NA,
@@ -58,7 +58,8 @@ knitr::include_graphics("img/cheat_sheet.png")
 library(cartography)
 library(sf)
 # Import des données
-mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
+mtq <- st_read(system.file("shape/martinique.shp", package="cartography"), quiet = 
+                 TRUE)
 # Communes
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")
@@ -81,7 +82,12 @@ title(main = "Evolution de la population")
 ```
 
 ## Éléments d'habillage
-Titre, sources, auteur, Flèche nord, échelle
+Titre, sources, auteur
+
+### Flèche nord
+
+
+### Échelle
 
 ```{r layout1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
@@ -102,6 +108,22 @@ labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
            halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
            show.lines = FALSE)
 ```
+
+
+
+### Ajouter un ombrage à une couche
+
+
+```{r shadow, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
+plot(st_geometry(mtq) + c(500, -500), 
+     col = "grey50", border = NA)
+plot(st_geometry(mtq), 
+     col = "darkseagreen3", border = "darkseagreen4", 
+     add = TRUE)
+```
+
+
+
 
 
 ## Palettes de couleurs
@@ -162,11 +184,11 @@ abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 plot(st_geometry(mtq), col = "lightblue4",
      border = "lightblue3", bg = "lightblue1")
 propSymbolsChoroLayer(x = mtq, var= "P13_POP",
-                 legend.var.title.txt = "Total\npopulation (2013)",
-           var2 = "cagr", legend.var.pos = "bottomleft",
-           breaks = c(-6.14,-2,-1,0,1,2),
-           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-           legend.var2.title.txt = "Compound annual\ngrowth rate")
+                      legend.var.title.txt = "Total\npopulation (2013)",
+                      var2 = "cagr", legend.var.pos = "bottomleft",
+                      breaks = c(-6.14,-2,-1,0,1,2),
+                      col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+                      legend.var2.title.txt = "Compound annual\ngrowth rate")
 # Title
 title(main = "Evolution de la population")
 ```
@@ -206,8 +228,8 @@ cafe2 <- res$osm_polygons
 st_geometry(cafe2) <- st_centroid(st_geometry(cafe2))
 
 osm_restau <- rbind(restau1[, c("osm_id", "name")], restau2[, c("osm_id", "name")], 
-                 fast1[, c("osm_id", "name")], fast2[, c("osm_id", "name")], 
-                 cafe1[, c("osm_id", "name")], cafe2[, c("osm_id", "name")])
+                    fast1[, c("osm_id", "name")], fast2[, c("osm_id", "name")], 
+                    cafe1[, c("osm_id", "name")], cafe2[, c("osm_id", "name")])
 osm_restau <- st_transform(osm_restau, st_crs(mtq))
 
 plot(osm_restau)
@@ -234,4 +256,60 @@ plot(st_geometry(mtq), add=T)
 
 ## Création de cartons
 
+### Install `rmapinsetr`
+
+`mapinsetr`[@R-mapinsetr] n'est pas sur le CRAN pour l'instant, son code source est sur GitHub et on peut l'installer via le package `remotes`. 
+
+```{r, eval=FALSE}
+remotes::install_github("riatelab/mapinsetr")
+```
+
+mapinsetr permet de découper, redimensionner et déplacer une zone d'un fond de carte.
+
+
+```{r, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+library(mapinsetr)
+library(cartography)
+library(sf)
+# Import des données
+mtq <- st_read(system.file("shape/martinique.shp", package="cartography"), 
+               quiet = TRUE)
+resto <- st_read("data/resto.gpkg", quiet = TRUE)
+
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
+
+box_FDF <- create_mask(bb = c(706880, 1615030,
+                              708650, 1616870), 
+                       prj = st_crs(mtq))
+
+plot(st_geometry(box_FDF), border = "red", add = T, lwd = 2)
+
+zbox_FDF <- move_and_resize(x = box_FDF, mask = box_FDF, xy = c(689000, 1603000), 
+                            k = 7)
+zmtq_FDF <- move_and_resize(x = mtq, mask = box_FDF, xy = c(689000, 1603000), 
+                            k = 7)
+zresto_FDF <- move_and_resize(x = resto, mask = box_FDF, xy = c(689000, 1603000), 
+                              k = 7)
+
+plot(st_geometry(zmtq_FDF), col = "lightblue4", border = "lightblue3", add=TRUE)
+plot(st_geometry(zresto_FDF), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
+plot(st_geometry(zbox_FDF), border = "red", add = T, lwd = 2)
+
+
+
+resto <- inset_rbinder(l = list(resto, zresto_FDF))
+mtq <- inset_rbinder(l = list(mtq, zmtq_FDF))
+box <- inset_rbinder(l = list(box_FDF, zbox_FDF))
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
+plot(st_geometry(box), border = "red", add = T, lwd = 2)
+
+
+
+
+
+```
 

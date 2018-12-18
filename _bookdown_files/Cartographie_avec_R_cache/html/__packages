@@ -11,3 +11,5 @@ sp
 maptools
 raster
 mapview
+mapinsetr
+dplyr

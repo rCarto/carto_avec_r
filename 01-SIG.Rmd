@@ -127,7 +127,7 @@ st_write(obj = mtq, "data/mtq.shp", delete_layer = T)
 
 Aperçu des variables
 
-```{r, fig.height=5, fig.width=3, nm=TRUE}
+```{r, fig.height=5, fig.width=5, nm=TRUE}
 plot(mtq)
 ```
 
@@ -181,6 +181,16 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 
 ### Agréger des polygones en fonction d'une variable
 
+```{r aggreg2,  fig.height=3, fig.width=5, nm=TRUE}
+library(dplyr)
+mtq_u2 <- mtq %>% 
+  group_by(STATUT) %>% 
+  summarize(P13_POP=sum(P13_POP))
+plot(mtq_u2["STATUT"])
+
+```
+
+
 
 ### Construire une zone tampon
 
@@ -205,6 +215,23 @@ plot(st_geometry(mtq_z), col="red", border="green", add=T)
 plot(st_geometry(mtq_z))
 ```
 
+
+
+### Compter des points dans un polygone
+
+```{r intersect2,  fig.height=3, fig.width=3, nm=TRUE}
+pts <- st_sample(x = mtq, size = 50)
+plot(st_geometry(mtq))
+plot(pts, pch = 20, col = "red", add=TRUE, cex = 1)
+inter <- st_intersects(mtq, pts)
+mtq$nbpts <- sapply(X = inter, FUN = length)
+plot(st_geometry(mtq))
+plot(st_geometry(mtq[mtq$nbpts>2,]), col = "grey", add=TRUE)
+plot(pts, pch = 20, col = "red", add=TRUE, cex = 1)
+```
+
+
+
 ### Construire des polygones de Voronoi
 google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
 
@@ -215,13 +242,6 @@ mtq_v <- st_join(x = st_sf(mtq_v), y = mtq_c, join=st_intersects)
 mtq_v <- st_cast(mtq_v, "MULTIPOLYGON")
 plot(st_geometry(mtq_v), col='lightblue')
 ```
-
-
-### Exemple 
-
-Découpe d'une zone par un polygone
-
-
 
 
 
