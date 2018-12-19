@@ -1,8 +1,11 @@
 base
 knitr
 sf
+dplyr
 cartography
-linemap
+mapinsetr
+mapview
+cartogram
 spatstat.data
 nlme
 rpart
@@ -10,6 +13,4 @@ spatstat
 sp
 maptools
 raster
-mapview
-mapinsetr
-dplyr
+linemap

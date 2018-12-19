@@ -8,7 +8,11 @@ opts_chunk$set(echo=TRUE,
                tidy=FALSE,
                comment=NA,
                message=FALSE,
-               warning=FALSE)
+               warning=FALSE,
+               fig.align='center',
+               fig.height=4.8, 
+               fig.width=4, 
+               sm=TRUE)
 opts_knit$set(width=90)
 options(width = 90)
 knit_hooks$set(nm = function(before, options, envir){
@@ -21,10 +25,20 @@ knit_hooks$set(sm = function(before, options, envir){
     par(mar=c(0,0,1.2,0))
   } 
 })
+knit_hooks$set(dm = function(before, options, envir){
+  if (before){
+    par(mar=c(5.1,4.1,4.1,2.1))
+  } 
+})
+
 ```
 
 
 # Cartographie thématique  {#chapitre2}
+
+
+Nous ne détaillerons pas ici les règles de la cartographie thématique.
+Le lecteur pourra se référer à divers ouvrages de référence : @Bertin67, @Beguin10, @Lambert16
 
 
 
@@ -46,20 +60,23 @@ vignette("cartography")
 
 * La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique.   
 
-```{r, echo=FALSE, fig.align='center'}
+```{r, echo=FALSE}
 knitr::include_graphics("img/cheat_sheet.png")
 ```
 
 
 ## Représentations usuelles 
 
-### Symboles proportionnels
-```{r propS, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
+### Carte de symboles proportionnels
+
+
+Plusieurs symboles sont disponibles : cercles, carrés et bars. 
+
+```{r propS}
 library(cartography)
 library(sf)
 # Import des données
-mtq <- st_read(system.file("shape/martinique.shp", package="cartography"), quiet = 
-                 TRUE)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
 # Communes
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")
@@ -73,7 +90,7 @@ title(main = "Population en Martinique")
 
 ### Carte choroplèthe
 
-```{r choro, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
+```{r choro}
 mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
 choroLayer(x = mtq, var = "cagr", breaks = c(-6.14,-2,-1,0,1,2),
            col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
@@ -84,12 +101,13 @@ title(main = "Evolution de la population")
 ## Éléments d'habillage
 Titre, sources, auteur
 
-### Flèche nord
+### Ajuster les marges de la figures
 
+### Flèche nord
 
 ### Échelle
 
-```{r layout1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE}
+```{r layout1}
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")
 layoutLayer(title = "Martinique", sources = "IGN", 
@@ -101,7 +119,7 @@ barscale(size = 5, lwd = 1.2, cex = 0.8)
 ```
 
 
-```{r labs, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
+```{r labs}
 plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
      bg = "#A6CAE0")
 labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
@@ -109,17 +127,37 @@ labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
            show.lines = FALSE)
 ```
 
+### Créer un effet crayonné 
+
+```{r pencil}
+library(sf)
+mtq_pencil <- getPencilLayer(x = mtq)
+typoLayer(x = mtq_pencil, var="STATUT", add = FALSE,
+          col = c("aquamarine4", "yellow3","wheat"),
+          legend.values.order = c("Préfecture de région",
+                                  "Sous-préfecture", 
+                                  "Commune simple"),
+          legend.pos = "topright",
+          legend.title.txt = "Status")
+plot(st_geometry(mtq), add = TRUE, ldy=2)
+layoutLayer(title = "Commune Status",
+            author = "TG & HP, 2018",
+            sources = "IGN, 2016",
+            scale = NULL)
+```
+
 
 
 ### Ajouter un ombrage à une couche
 
 
-```{r shadow, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE}
+```{r shadow}
 plot(st_geometry(mtq) + c(500, -500), 
      col = "grey50", border = NA)
 plot(st_geometry(mtq), 
      col = "darkseagreen3", border = "darkseagreen4", 
      add = TRUE)
+title("Martinique")
 ```
 
 
@@ -128,27 +166,31 @@ plot(st_geometry(mtq),
 
 ## Palettes de couleurs
 
-
-```{r pal, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=4}
+La fonction `display.carto.all()` permet d'afficher toutes palettes de couleurs disponibles dans `cartography`.
+```{r pa, nm=TRUE}
 display.carto.all(20)
 ```
 
-```{r pal1, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=4}
+La fonction `display.carto.pal()` permet de détailler une palette de couleurs.
+
+```{r pal1, nm=TRUE}
 display.carto.pal("orange.pal")
 ```
 
+La fonction `carto.pal()` permet de construire une palette de couleur.
+Il est possible de créer des palettes associant 2 couleurs. 
 
-```{r pal2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.height=3}
-mypal <- carto.pal(pal1 = "wine.pal", n1 = 7, pal2 = "green.pal", n2 = 12,
-                   middle = TRUE, transparency = TRUE)
-k <- length(mypal)
-image(1:k, 1, as.matrix(1:k), col=mypal, xlab = paste(k," classes",sep=""),
-      ylab = "", xaxt = "n", yaxt = "n",bty = "n")
+```{r pal2,  fig.height=3, nm=TRUE}
+mypal <- carto.pal(pal1 = "wine.pal", n1 = 5, pal2 = "green.pal", n2 = 4)
+image(1:9, 1, as.matrix(1:9), col=mypal, xlab = "", ylab = "", xaxt = "n", 
+      yaxt = "n",bty = "n")
 ```
 
 ## Discrétisations
 
-```{r disc2, fig.height=3}
+La fonction `getBreaks()` met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique ...
+
+```{r discr2, fig.height=3, fig.width=5, dm=FALSE}
 var <- mtq$cagr
 moy <- mean(var)
 med <- median(var)
@@ -163,7 +205,7 @@ abline(v = med, col = "blue", lwd = 3)
 
 
 
-```{r disc3, fig.height=3}
+```{r discr3,  fig.height=3, fig.width=5, dm=TRUE}
 
 # Mean and standard deviation (msd)
 breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
@@ -180,7 +222,7 @@ abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 ## Combinaisons
 
 
-```{r choroprop, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE}
+```{r choroprop}
 plot(st_geometry(mtq), col = "lightblue4",
      border = "lightblue3", bg = "lightblue1")
 propSymbolsChoroLayer(x = mtq, var= "P13_POP",
@@ -247,7 +289,7 @@ labelLayer(osm_restau, txt = "name", overlap = F,show.lines = F, )
 
 ### Données raster
 
-```{r osm, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE}
+```{r osm}
 tiles <- getTiles(x = mtq, type = "osm", crop=T, zoom = 11)
 tilesLayer(tiles)
 plot(st_geometry(mtq), add=T)
@@ -256,49 +298,54 @@ plot(st_geometry(mtq), add=T)
 
 ## Création de cartons
 
-### Install `rmapinsetr`
-
-`mapinsetr`[@R-mapinsetr] n'est pas sur le CRAN pour l'instant, son code source est sur GitHub et on peut l'installer via le package `remotes`. 
+Le package `mapinsetr`[@R-mapinsetr] est dédié à la crétion de cartons cartographiques. Il 
+n'est pas sur le CRAN pour l'instant, mais on peut l'installer via le package `remotes`. 
 
 ```{r, eval=FALSE}
 remotes::install_github("riatelab/mapinsetr")
 ```
 
-mapinsetr permet de découper, redimensionner et déplacer une zone d'un fond de carte.
+`mapinsetr` permet de découper, redimensionner et déplacer une zone d'un fond de carte.
 
 
-```{r, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+```{r inset1}
 library(mapinsetr)
 library(cartography)
 library(sf)
-# Import des données
-mtq <- st_read(system.file("shape/martinique.shp", package="cartography"), 
-               quiet = TRUE)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
 resto <- st_read("data/resto.gpkg", quiet = TRUE)
 
-plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
-     bg = "lightblue1")
-plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
 
+# Création d'un masque
 box_FDF <- create_mask(bb = c(706880, 1615030,
                               708650, 1616870), 
                        prj = st_crs(mtq))
 
-plot(st_geometry(box_FDF), border = "red", add = T, lwd = 2)
-
-zbox_FDF <- move_and_resize(x = box_FDF, mask = box_FDF, xy = c(689000, 1603000), 
+# Découpage, déplacement et redimentionnement des couches sous le masque
+zbox_FDF <- move_and_resize(x = box_FDF, 
+                            mask = box_FDF, 
+                            xy = c(689000, 1603000), 
                             k = 7)
-zmtq_FDF <- move_and_resize(x = mtq, mask = box_FDF, xy = c(689000, 1603000), 
+zmtq_FDF <- move_and_resize(x = mtq, 
+                            mask = box_FDF, 
+                            xy = c(689000, 1603000), 
                             k = 7)
-zresto_FDF <- move_and_resize(x = resto, mask = box_FDF, xy = c(689000, 1603000), 
+zresto_FDF <- move_and_resize(x = resto, 
+                              mask = box_FDF, 
+                              xy = c(689000, 1603000), 
                               k = 7)
 
+# Affichage de la carte et des couhes crées
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
+plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
+plot(st_geometry(box_FDF), border = "red", add = T, lwd = 2)
 plot(st_geometry(zmtq_FDF), col = "lightblue4", border = "lightblue3", add=TRUE)
 plot(st_geometry(zresto_FDF), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(zbox_FDF), border = "red", add = T, lwd = 2)
+title("Carte initiale + couches créées")
 
-
-
+# Création de couches unqiues comprenant le zoom
 resto <- inset_rbinder(l = list(resto, zresto_FDF))
 mtq <- inset_rbinder(l = list(mtq, zmtq_FDF))
 box <- inset_rbinder(l = list(box_FDF, zbox_FDF))
@@ -306,10 +353,6 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
      bg = "lightblue1")
 plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(box), border = "red", add = T, lwd = 2)
-
-
-
-
-
+title("Carte finale avec carton")
 ```
 

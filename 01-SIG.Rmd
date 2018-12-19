@@ -3,12 +3,15 @@ library(knitr)
 ## Global options
 options(max.print="90")
 opts_chunk$set(echo=TRUE,
+               fig.align='center',
 	             cache=TRUE,
                prompt=FALSE,
                tidy=FALSE,
                comment=NA,
                message=FALSE,
-               warning=FALSE)
+               warning=FALSE,
+	             fig.height=4, 
+	             fig.width=4.8)
 opts_knit$set(width=90)
 options(width = 90)
 knit_hooks$set(nm = function(before, options, envir){
@@ -49,7 +52,7 @@ Dans ce document nous utiliserons `sf` tant que cela est possible, c'està dire 
 
 ### Format des objets spatiaux `sf`
 
-```{r, fig.align='center', echo = FALSE}
+```{r, echo = FALSE}
 knitr::include_graphics("img/sf.png")
 ```
 
@@ -64,6 +67,7 @@ Ce format très pratique dans la mesure ou les données et les géométries sont
 #### Couche de points
 
 ```{r}
+library(sf)
 pt1_sfg <- st_point(c(1,2))
 pt2_sfg <- st_point(c(3,4))
 pt3_sfg <- st_point(c(2,1))
@@ -115,7 +119,7 @@ plot(ls_sf)
 
 ```{r import}
 library(sf)
-mtq <- st_read("data/martinique.shp")
+mtq <- st_read("data/martinique.shp", quiet=TRUE)
 ```
 
 ```{r export}
@@ -127,14 +131,14 @@ st_write(obj = mtq, "data/mtq.shp", delete_layer = T)
 
 Aperçu des variables
 
-```{r, fig.height=5, fig.width=5, nm=TRUE}
+```{r}
 plot(mtq)
 ```
 
 
 Affichage de la géométrie
 
-```{r, fig.height=3, fig.width=3, nm=TRUE}
+```{r, nm=TRUE}
 plot(st_geometry(mtq))
 ```
 
@@ -157,7 +161,7 @@ plot(st_geometry(mtq))
 
 
 ### Extraire des centroides
-```{r centroid,  fig.height=3, fig.width=3, nm=TRUE}
+```{r centroid, nm=TRUE}
 mtq_c <- st_centroid(mtq)
 plot(st_geometry(mtq))
 plot(st_geometry(mtq_c), add=TRUE, cex=1.2, col="red", pch=20)
@@ -166,14 +170,14 @@ plot(st_geometry(mtq_c), add=TRUE, cex=1.2, col="red", pch=20)
 
 ### Créer une matrice de distances
 
-```{r distance,  fig.height=3, fig.width=3, nm=TRUE}
+```{r distance, nm=TRUE}
 mat <- st_distance(x=mtq_c,y=mtq_c)
 mat[1:5,1:5]
 ```
 
 ### Agréger des polygones
 
-```{r aggreg,  fig.height=3, fig.width=3, nm=TRUE}
+```{r aggreg, nm=TRUE}
 mtq_u <- st_union(mtq)
 plot(st_geometry(mtq), col="lightblue")
 plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
@@ -181,20 +185,19 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 
 ### Agréger des polygones en fonction d'une variable
 
-```{r aggreg2,  fig.height=3, fig.width=5, nm=TRUE}
+```{r aggreg2, nm=TRUE}
 library(dplyr)
 mtq_u2 <- mtq %>% 
   group_by(STATUT) %>% 
   summarize(P13_POP=sum(P13_POP))
-plot(mtq_u2["STATUT"])
-
+plot(mtq_u2["STATUT"], key.pos = NULL)
 ```
 
 
 
 ### Construire une zone tampon
 
-```{r buffers,  fig.height=3, fig.width=3, nm=TRUE}
+```{r buffers, nm=TRUE}
 mtq_b <- st_buffer(x = mtq_u, dist = 2000)
 plot(st_geometry(mtq), col="lightblue")
 plot(st_geometry(mtq_u), add=T, lwd=2)
@@ -204,7 +207,7 @@ plot(st_geometry(mtq_b), add=T, lwd=2, border = "red")
 
 ### Réaliser une intersection 
 
-```{r intersect,  fig.height=3, fig.width=3, nm=TRUE}
+```{r intersect, nm=TRUE}
 m <- rbind(c(700015,1624212), c(700015,1641586), c(719127,1641586), c(719127,1624212), c(700015,1624212))
 p <- st_sf(st_sfc(st_polygon(list(m))), crs = st_crs(mtq))
 plot(st_geometry(mtq))
@@ -219,7 +222,7 @@ plot(st_geometry(mtq_z))
 
 ### Compter des points dans un polygone
 
-```{r intersect2,  fig.height=3, fig.width=3, nm=TRUE}
+```{r intersect2, nm=TRUE}
 pts <- st_sample(x = mtq, size = 50)
 plot(st_geometry(mtq))
 plot(pts, pch = 20, col = "red", add=TRUE, cex = 1)
@@ -235,7 +238,7 @@ plot(pts, pch = 20, col = "red", add=TRUE, cex = 1)
 ### Construire des polygones de Voronoi
 google: "st_voronoi R sf" (https://github.com/r-spatial/sf/issues/474 & https://stackoverflow.com/questions/45719790/create-voronoi-polygon-with-simple-feature-in-r)
 
-```{r voronoi, fig.height=3, fig.width=3, nm=TRUE}
+```{r voronoi, nm=TRUE}
 mtq_v <- st_voronoi(x = st_union(mtq_c))
 mtq_v <- st_intersection(st_cast(mtq_v), st_union(mtq))
 mtq_v <- st_join(x = st_sf(mtq_v), y = mtq_c, join=st_intersects)
@@ -247,11 +250,53 @@ plot(st_geometry(mtq_v), col='lightblue')
 
 ## Géocodage d'adresses
 
-## Le package `raster`
+Plusieurs packages permettent de géocoder des adresses.
 
 
+- `photon`
 
+```{r, eval=FALSE}
+# remotes::install_github(repo = 'rCarto/photon')  
+library(photon)
+address <- c("19 rue Michel Bakounine, 29600 Morlaix, France",
+             "8 place Paul Ricoeur, 75013 Paris")
+place <- photon::geocode(address, limit = 1, key = "place", lang = "fr")
+place
+saveRDS(object = place, file = "data/place1.rds")
+```
 
+```{r, echo = FALSE}
+readRDS("data/place1.rds")
+```
 
+- `nominatim`
 
+```{r, eval=FALSE}
+# remotes::install_github("hrbrmstr/nominatim")
+library(nominatim)
+address <- c(URLencode("19 rue Michel Bakounine, 29600 Morlaix, France"),
+             URLencode("8 place Paul Ricoeur, 75013 Paris"))
+place <- osm_geocode(address, 
+            country_codes = "FR", 
+            key = "UneClefMapQuestValide")
+place
+```
+
+```{r, echo = FALSE}
+readRDS("data/place2.rds")
+```
+
+- `banR` (pour des adresses en France)
+
+```{r, eval=FALSE}
+library(banR)
+address <- c("19 rue Michel Bakounine, 29600 Morlaix, France",
+             "8 place Paul Ricoeur, 75013 Paris")
+place <- geocode_tbl(tbl = data.frame(address), adresse = "address")
+place
+```
+
+```{r, echo = FALSE}
+readRDS("data/place3.rds")
+```
 

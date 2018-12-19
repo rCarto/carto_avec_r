@@ -28,17 +28,17 @@ knit_hooks$set(sm = function(before, options, envir){
 # Cartographie thématique avancée  {#chapitre3}
 
 
-## Cartographie interactiv
+## Cartographie interactive
 
-
-`mapview`
+Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] basé sur la librairie javascript Leaflet [@JS-Leaflet] pour créer des cartes interactives. La création de carte est assez aisée, la documentation est un peu dense. 
 
 
 ```{r}
-mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
-resto <- st_read(dsn = "data/resto.gpkg")
+library(sf)
 library(mapview)
-?mapview
+mtq <- st_read("data/martinique.shp", quiet=TRUE)
+resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
+
 mapview(resto, map.types = "OpenStreetMap", col.regions = "#940000", 
         label = resto$name,alpha.regions=90,
         color = "white", legend = TRUE, layer.name = "Resto", 
@@ -54,7 +54,7 @@ mapview(resto, map.types = "OpenStreetMap", col.regions = "#940000",
 ## Les cartogrammes
 
 >L’anamorphose classique est une représentation des États (ou de mailles quelconques) par **des rectangles ou des polygones quelconques** en fonction d’une **quantité** qui leur est rattaché. (...)
-On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."   
+On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."  
 @Brunet93
 
 Nous aborderons ici 3 types d'anamorphoses ou cartogrammes :
@@ -63,7 +63,9 @@ Nous aborderons ici 3 types d'anamorphoses ou cartogrammes :
 - Les cartogrammes non contigus [@Olson76]
 - Les cartogrammes contigus [@Dougenik85]
 
-Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15]
+Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15].
+
+Pour réaliser les cartogrammes nous utilisons le package `cartogram` [@R-cartogram].
 
 ### Les cartogrammes de Dorling
 
@@ -85,6 +87,20 @@ La perception des quantités est très bonne.
 Les tailles de cercles sont vraiment comparables.    
 ```
 
+```{r dorling, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=6, fig.height=6, nm=TRUE, cache=TRUE, result='hide'}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq_dorling <- cartogram_dorling(x = mtq, weight = "P13_POP", k = 12) 
+plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
+labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
+           halo = TRUE, r = .15)
+```
+
+
+
+
 
 
 ### Les cartogrammes non continus
@@ -103,6 +119,17 @@ La topologie des régions est perdue.
 ```{block2, type='rmdplus'}
 La conservation de la forme des polygones est optimale.
 ```
+
+```{r olson, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5) 
+plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
+plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
+```
+
 
 
 ### Les cartogrammes continus
@@ -123,7 +150,16 @@ La forme des polygones est fortement distordue.
 C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
 ```
 
-
+```{r dougenik, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+# transformation POLYGON => MULTIPOLYGON
+mtq <- st_cast(mtq, "MULTIPOLYGON")
+mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
+plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
+```
 
 
 ### Forces et faiblesses des cartogrammes
@@ -155,7 +191,34 @@ Ces représentation induisent une perte de précision. Les maillages produit n'o
 La comparaison de maillages différents, à plusieurs dates ou de différentes sources est rendue possible. 
 ```
 
-La fonction getGridLayer du package cartography permet de construire ces grilles régulières.
+La fonction `getGridLayer()` du package `cartography` permet de construire ces grilles régulières.
+
+
+```{r grid, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+library(sf)
+library(cartography)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+# Plot dentsity of population 
+mtq$dens <- mtq$P13_POP / (st_area(mtq) / (1000 * 1000)) 
+bks <- getBreaks(v = mtq$dens, method = "q6")
+cols <- carto.pal(pal1 = "taupe.pal", n1 = 6)
+choroLayer(x = mtq, var = "dens", breaks = bks, 
+           border = "burlywood3", col = cols, 
+           legend.pos = "topright", legend.values.rnd = 1,
+           legend.title.txt = "Densité de population\n(hab/km2)")
+
+mygrid <- getGridLayer(x = mtq, cellsize = 3000 * 3000, 
+                       type = "hexagonal", var = "P13_POP")
+## conversion from square meter to square kilometers
+mygrid$densitykm <- mygrid$P13_POP / (mygrid$gridarea / (1000 * 1000)) 
+choroLayer(x = mygrid, var = "densitykm", breaks = bks,
+           border = "burlywood3", col = cols, 
+           legend.pos = "topright", legend.values.rnd = 1,
+           legend.title.txt = "Densité de population\n(hab/km2)")
+plot(st_geometry(mtq), lwd = 0.2, add=TRUE, border = "#ffffff75")
+
+```
+
 
 
 ## Les cartes de discontinuités
@@ -176,6 +239,41 @@ Ces cartes ne sont pas évidentes à paramétrer. Le choix des critères (seuil,
 ```{block2, type='rmdplus'}
 Ces représentations sont très puissantes pour montrer les inégalités. 
 ```
+
+
+La fonctions `getBorder()` du package `cartography` permet de construire une couche des frontières terrestres. La fonction `discLayer()` permet d'afficher les discontinuités. 
+
+```{r disc, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+library(sf)
+library(cartography)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+# Get borders
+mtq_bord <- getBorders(x = mtq)
+# Plot polygons
+plot(st_geometry(mtq), border = NA, col = "grey60")
+# Plot borders
+plot(st_geometry(mtq_bord), 
+     col = sample(x = rainbow(nrow(mtq_bord))), 
+     lwd = 3, add = TRUE)
+```
+
+```{r disc2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=5, fig.height=6, nm=TRUE, cache=TRUE, result='hide'}
+mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
+# Plot this share
+choroLayer(x = mtq, var = "emp_share", border = NA, 
+           method = 'quantile', nclass = 6, 
+           legend.values.rnd = 1, legend.pos = "topright", 
+           legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
+# Plot discontinuities
+discLayer(x = mtq_bord, df = mtq,
+          var = "emp_share", col="darkred", nclass=3,
+          method="quantile", threshold = 0.5, sizemin = 0.5,
+          sizemax = 8, type = "abs", legend.values.rnd = 1,
+          legend.title.txt = "Discontinuités\n(différences absolues)",
+          legend.pos = "bottomleft", add=TRUE)
+```
+
+
 
 ## Le lissage spatial
 
@@ -210,10 +308,8 @@ library(spatstat)
 library(maptools)
 library(raster)
 # Import des données
-mtq <- st_read(system.file("shape/martinique.shp", package="cartography"))
-# Communes
-
-resto <- st_read(dsn = "data/resto.gpkg")
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
 sigma = 1000
 res = 200
 # Define an observation window
@@ -235,9 +331,8 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
      bg = "lightblue1")
 plot(result, breaks = bks, col=cols, add = T,legend=F)
 plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "white")
-
-legendChoro(pos = "topright", cex = 0.8,
-            title.txt = "Resto Density",values.cex = 0.6,
+legendChoro(pos = "topright",
+            title.txt = "Densité\nde restaurants\n(par km2)",
             breaks = bks, nodata = FALSE,values.rnd = 1,
             col = cols)
 layoutLayer(title = "DKE RESTO", scale = 5,
@@ -250,6 +345,9 @@ layoutLayer(title = "DKE RESTO", scale = 5,
 
 
 ### Stewart
+
+
+
 [Vignette du package SpatialPosition](https://cran.r-project.org/web/packages/SpatialPosition/vignettes/StewartExample.html){target="_blank"}
 
 
@@ -278,10 +376,7 @@ text(x = bb[1], y = bb[4],adj = c(0,1),
 mapsources <-"Timothée Giraud\nR 3.4.1, cartography 2.0.0, linemap 0.1.0\nDonnées carroyées à 1 kilomètre, INSEE 2010"
 text(x = bb[3], y = bb[2],labels = mapsources,  
      col = "ivory4", font = 3, adj = c(1,0), cex = 0.6 )
+
 ```
-
-
-### rayshader
-
 
 
