@@ -22,10 +22,10 @@
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   <meta name="twitter:image" content="img/cartomix.png" />
 
-<meta name="author" content="Timothée Giraud &amp; Hugues Pécout">
+<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2018-12-19">
+<meta name="date" content="2018-12-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -246,8 +246,9 @@ Historiquement trois packages permettent d’importer, de manipuler et de transf
 <p><strong>La suite</strong><br />
 Le package <code>sf</code> a été publié fin 2016 par Edzer Pebesma (auteur de <code>sp</code>). Son objectif est de combiner dans les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique plus ergonomique.
 Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe <em>pipe</em> et les opérateurs du <code>tidyverse</code>.</p>
-<p>Aujourd’hui, les principaux développements dans l’écosystème spatial de R se détachent progressivement des 3 anciens (<code>sp</code>, <code>rgdal</code>, <code>rgeos</code>) pour se reposer sur <code>sf</code>.
-Dans ce document nous utiliserons <code>sf</code> tant que cela est possible, c’està dire la plupart du temps.</p>
+<p><span class="citation">(Pebesma <a href="#ref-R-sf">2018</a><a href="#ref-R-sf">a</a>)</span>
+<span class="citation">(Pebesma <a href="#ref-Pebesma18">2018</a><a href="#ref-Pebesma18">b</a>)</span></p>
+<p>Aujourd’hui, les principaux développements dans l’écosystème spatial de R se détachent progressivement des 3 anciens (<code>sp</code>, <code>rgdal</code>, <code>rgeos</code>) pour se reposer sur <code>sf</code>.</p>
 <div id="format-des-objets-spatiaux-sf" class="section level3">
 <h3><span class="header-section-number">1.1.1</span> Format des objets spatiaux <code>sf</code></h3>
 <p><img src="img/sf.png" width="562" style="display: block; margin: auto;" /></p>
@@ -535,6 +536,15 @@ place</code></pre>
 #   result_street &lt;chr&gt;, result_postcode &lt;int&gt;, result_city &lt;chr&gt;, result_context &lt;chr&gt;,
 #   result_citycode &lt;chr&gt;</code></pre>
 
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-R-sf">
+<p>Pebesma, Edzer. 2018a. <em>Sf: Simple Features for R</em>. <a href="https://CRAN.R-project.org/package=sf" class="uri">https://CRAN.R-project.org/package=sf</a>.</p>
+</div>
+<div id="ref-Pebesma18">
+<p>Pebesma, Edzer. 2018b. “Simple Features for R: Standardized Support for Spatial Vector Data.” <em>The R Journal</em>. <a href="https://journal.r-project.org/archive/2018/RJ-2018-009/index.html" class="uri">https://journal.r-project.org/archive/2018/RJ-2018-009/index.html</a>.</p>
 </div>
 </div>
             </section>

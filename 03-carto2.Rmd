@@ -3,12 +3,16 @@ library(knitr)
 ## Global options
 options(max.print="90")
 opts_chunk$set(echo=TRUE,
-	             cache=TRUE,
+               cache=TRUE,
                prompt=FALSE,
                tidy=FALSE,
                comment=NA,
                message=FALSE,
-               warning=FALSE)
+               warning=FALSE,
+               fig.align='center',
+               fig.height=4.8, 
+               fig.width=4, 
+               sm=TRUE)
 opts_knit$set(width=90)
 options(width = 90)
 knit_hooks$set(nm = function(before, options, envir){
@@ -41,11 +45,15 @@ resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
 
 mapview(resto, map.types = "OpenStreetMap", col.regions = "#940000", 
         label = resto$name,alpha.regions=90,
-        color = "white", legend = TRUE, layer.name = "Resto", 
-        homebutton = FALSE, lwd = 0.5) +
-  mapview(mtq, col.regions = "#000094", color = "white", legend = TRUE, 
-          label = mtq$LIBGEO, alpha.regions= 0.2, map.types = "OpenStreetMap",
-          lwd = 0.5, layer.name = "Communes",  homebutton = FALSE)
+        color = "white", legend = TRUE, layer.name = "Restaurants", 
+        homebutton = FALSE, lwd = 0.5, 
+        popup = NA) +
+  mapview(mtq, col.regions = "lightblue", color = "white", legend = TRUE, 
+          label = mtq$LIBGEO, alpha.regions= 0.5, map.types = "OpenStreetMap",
+          lwd = 0.5, layer.name = "Communes",  homebutton = FALSE, 
+          popup = popupTable(mtq, zcol = 1:4, row.numbers = FALSE, 
+                             feature.id = FALSE))
+
 ```
 
 
@@ -72,7 +80,7 @@ Pour réaliser les cartogrammes nous utilisons le package `cartogram` [@R-cartog
 Les territoires sont représentés par des figurés (cercles, des carrés ou des rectangles) ne se recouvrant pas dont les surfaces sont proportionnelle à une variable. Les positions des figurés sont définie selon les positions de départ. 
 
 
-```{r, fig.align='center', echo=FALSE}
+```{r, echo=FALSE}
 knitr::include_graphics("img/dorling.png")
 ```
 [@McCormick07]
@@ -87,7 +95,7 @@ La perception des quantités est très bonne.
 Les tailles de cercles sont vraiment comparables.    
 ```
 
-```{r dorling, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=6, fig.height=6, nm=TRUE, cache=TRUE, result='hide'}
+```{r dorling, fig.width=6, fig.height=6}
 library(cartography)
 library(cartogram)
 library(sf)
@@ -96,6 +104,8 @@ mtq_dorling <- cartogram_dorling(x = mtq, weight = "P13_POP", k = 12)
 plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
 labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
            halo = TRUE, r = .15)
+layoutLayer("Population en Martinique - Cartogramme de Dorling",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
 ```
 
 
@@ -120,7 +130,7 @@ La topologie des régions est perdue.
 La conservation de la forme des polygones est optimale.
 ```
 
-```{r olson, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+```{r olson}
 library(cartography)
 library(cartogram)
 library(sf)
@@ -128,6 +138,8 @@ mtq <- st_read("data/martinique.shp", quiet = TRUE)
 mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5) 
 plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
 plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
+layoutLayer("Population en Martinique - Cartogramme de Olson",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
 ```
 
 
@@ -150,7 +162,7 @@ La forme des polygones est fortement distordue.
 C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
 ```
 
-```{r dougenik, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+```{r dougenik}
 library(cartography)
 library(cartogram)
 library(sf)
@@ -159,6 +171,9 @@ mtq <- st_read("data/martinique.shp", quiet = TRUE)
 mtq <- st_cast(mtq, "MULTIPOLYGON")
 mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
 plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
+layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+
 ```
 
 
@@ -179,8 +194,11 @@ La méthode du carroyage consiste à découper l’espace géographique en un ma
 knitr::include_graphics("img/caromet.png")
 ```
 
-```{r, echo=FALSE, fig.align='center'}
-knitr::include_graphics(c("img/pregrid.png", "img/grid.png"))
+```{r, echo=FALSE }
+knitr::include_graphics(c("img/grid.png"))
+```
+```{r, echo=FALSE }
+knitr::include_graphics(c("img/grid.png"))
 ```
 
 ```{block2, type='rmdmoins'}
@@ -194,7 +212,7 @@ La comparaison de maillages différents, à plusieurs dates ou de différentes s
 La fonction `getGridLayer()` du package `cartography` permet de construire ces grilles régulières.
 
 
-```{r grid, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+```{r grid}
 library(sf)
 library(cartography)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
@@ -206,7 +224,9 @@ choroLayer(x = mtq, var = "dens", breaks = bks,
            border = "burlywood3", col = cols, 
            legend.pos = "topright", legend.values.rnd = 1,
            legend.title.txt = "Densité de population\n(hab/km2)")
-
+layoutLayer("Population en Martinique",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+north(pos = "topleft")
 mygrid <- getGridLayer(x = mtq, cellsize = 3000 * 3000, 
                        type = "hexagonal", var = "P13_POP")
 ## conversion from square meter to square kilometers
@@ -216,7 +236,9 @@ choroLayer(x = mygrid, var = "densitykm", breaks = bks,
            legend.pos = "topright", legend.values.rnd = 1,
            legend.title.txt = "Densité de population\n(hab/km2)")
 plot(st_geometry(mtq), lwd = 0.2, add=TRUE, border = "#ffffff75")
-
+layoutLayer("Population en Martinique",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+north(pos = "topleft")
 ```
 
 
@@ -243,7 +265,7 @@ Ces représentations sont très puissantes pour montrer les inégalités.
 
 La fonctions `getBorder()` du package `cartography` permet de construire une couche des frontières terrestres. La fonction `discLayer()` permet d'afficher les discontinuités. 
 
-```{r disc, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, nm=TRUE, cache=TRUE, result='hide'}
+```{r disc}
 library(sf)
 library(cartography)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
@@ -255,9 +277,11 @@ plot(st_geometry(mtq), border = NA, col = "grey60")
 plot(st_geometry(mtq_bord), 
      col = sample(x = rainbow(nrow(mtq_bord))), 
      lwd = 3, add = TRUE)
+layoutLayer("Frontières inter-communales",tabtitle=TRUE, north = TRUE,
+           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 ```
 
-```{r disc2, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=5, fig.height=6, nm=TRUE, cache=TRUE, result='hide'}
+```{r disc2}
 mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
 # Plot this share
 choroLayer(x = mtq, var = "emp_share", border = NA, 
@@ -271,6 +295,9 @@ discLayer(x = mtq_bord, df = mtq,
           sizemax = 8, type = "abs", legend.values.rnd = 1,
           legend.title.txt = "Discontinuités\n(différences absolues)",
           legend.pos = "bottomleft", add=TRUE)
+layoutLayer("Discontinuités - Part des employés",tabtitle=TRUE, 
+           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+north(pos = "topleft")
 ```
 
 
@@ -302,7 +329,7 @@ Cette méthode permet de passer d'une représentation ponctuelle ou discontinue 
 
 ### KDE
 
-```{r kde, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, fig.align="center",fig.width=4, fig.height=4.8, sm=TRUE, cache = TRUE, results='hide'}
+```{r kde}
 library(sf)
 library(spatstat)
 library(maptools)
@@ -332,13 +359,14 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
 plot(result, breaks = bks, col=cols, add = T,legend=F)
 plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "white")
 legendChoro(pos = "topright",
-            title.txt = "Densité\nde restaurants\n(par km2)",
+            title.txt = "Densité de\nrestaurants\n(N./km2)",
             breaks = bks, nodata = FALSE,values.rnd = 1,
             col = cols)
-layoutLayer(title = "DKE RESTO", scale = 5,
-            tabtitle = TRUE, frame = FALSE,
-            author = "TG & HP", 
-            sources = "IGN & OSM") 
+layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
+           author= "INSEE, 2016 - OSM, 2018", sources="", 
+           frame=FALSE, scale = 5)
+north(pos = "topleft")
+
 ```
 
 

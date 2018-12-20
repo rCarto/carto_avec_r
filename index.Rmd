@@ -1,6 +1,6 @@
 --- 
 title: "Cartographie avec R"
-author: "Timothée Giraud & Hugues Pécout"
+author: "![banner](img/banner2.png)\nTimothée Giraud & Hugues Pécout"
 date: "`r Sys.Date()`"
 bibliography:
 - book.bib
@@ -19,13 +19,6 @@ cover-image: img/cartomix.png
 
 
 # Introduction {-}
-![](img/cartomix.png)
-
-
-Toute carte est issue d’un processus complexe, de choix, de selections, d’opérations statistiques ou de géotraitements. Certains auteurs énoncent que les cartes sont subjectives [@Brunet87] et d’autres auteurs disent carrément qu'elles mentent [@Monmonier93]. Toute carte résulte des choix de son auteur. Dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique et cela est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”.
-
-La réalisation des cartes dans le langage R permet de tracer toutes les opérations nécessaires à une réalisation cartographique de qualité. Réaliser des cartes dans ce langage unique permet, en diffusant le code source en même temps que les cartes, de jouer “cartes sur table”. Cela permet de détailler les choix qui ont été faits et s’exposer à la controverse scientifique. Cela permet aussi de travailler à plusieurs sur une carte, en associant des compétences complémentaires (sémiologie graphique, statistique, géomatique, etc.) et de faciliter la mise à jour de documents déjà réalisés.
-
 
 Ce document se compose de trois parties permettant d'appréhender la création de cartes thématiques avec R. 
 
@@ -33,7 +26,7 @@ Ce document se compose de trois parties permettant d'appréhender la création d
 - [Cartographie thématique](#chapitre2)   
 - [Cartographie thématique avancée](#chapitre3)  
 
-Ce document mobilise un certain nombre de packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales. Les principaux packages sont `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats` mais d'autres pourront être nécessaires ponctuellement. 
+Voici une partie des packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales que nous utiliserons : `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats`. D'autres pourront être nécessaires ponctuellement. 
 
 
 

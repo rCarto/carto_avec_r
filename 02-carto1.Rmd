@@ -125,6 +125,9 @@ plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
 labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
            halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
            show.lines = FALSE)
+layoutLayer(title = "Communes",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", north=TRUE,  
+           frame=FALSE, scale = 5)
 ```
 
 ### Créer un effet crayonné 
@@ -140,10 +143,10 @@ typoLayer(x = mtq_pencil, var="STATUT", add = FALSE,
           legend.pos = "topright",
           legend.title.txt = "Status")
 plot(st_geometry(mtq), add = TRUE, ldy=2)
-layoutLayer(title = "Commune Status",
-            author = "TG & HP, 2018",
-            sources = "IGN, 2016",
-            scale = NULL)
+layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", 
+           frame=FALSE, scale = 5)
+north(pos = "topleft")
 ```
 
 
@@ -153,11 +156,11 @@ layoutLayer(title = "Commune Status",
 
 ```{r shadow}
 plot(st_geometry(mtq) + c(500, -500), 
-     col = "grey50", border = NA)
-plot(st_geometry(mtq), 
-     col = "darkseagreen3", border = "darkseagreen4", 
-     add = TRUE)
-title("Martinique")
+     col = "grey50", border = NA, bg = "lightblue1")
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4", add=TRUE)
+layoutLayer(title = "Communes",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", north=TRUE,  
+           frame=FALSE, scale = 5)
 ```
 
 
@@ -223,8 +226,8 @@ abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 
 
 ```{r choroprop}
-plot(st_geometry(mtq), col = "lightblue4",
-     border = "lightblue3", bg = "lightblue1")
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
+     bg = "lightblue1")
 propSymbolsChoroLayer(x = mtq, var= "P13_POP",
                       legend.var.title.txt = "Total\npopulation (2013)",
                       var2 = "cagr", legend.var.pos = "bottomleft",
@@ -232,7 +235,11 @@ propSymbolsChoroLayer(x = mtq, var= "P13_POP",
                       col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
                       legend.var2.title.txt = "Compound annual\ngrowth rate")
 # Title
-title(main = "Evolution de la population")
+layoutLayer(title = "Evolution de la population",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", 
+           frame=FALSE, scale = 5)
+north(pos = "topleft")
+
 ```
 
 
@@ -247,59 +254,88 @@ title(main = "Evolution de la population")
 
 ```{r, eval=FALSE}
 library("osmdata")
+# Définition d'une bounding box
 q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
-q1 <- add_osm_feature(opq = q, key = 'amenity', 
-                      value = "restaurant" )
-res <- osmdata_sf(q1)
-restau1  <- res$osm_points[!is.na(res$osm_points$amenity),]
-restau2 <- res$osm_polygons
-st_geometry(restau2) <- st_centroid(st_geometry(restau2))
-
-q1 <- add_osm_feature(opq = q, key = 'amenity', 
-                      value = "fast_food" )
-res <- osmdata_sf(q1)
-fast1  <- res$osm_points[!is.na(res$osm_points$amenity),]
-fast2 <- res$osm_polygons
-st_geometry(fast2) <- st_centroid(st_geometry(fast2))
-
-q1 <- add_osm_feature(opq = q, key = 'amenity', 
-                      value = "cafe" )
-res <- osmdata_sf(q1)
-cafe1  <- res$osm_points[!is.na(res$osm_points$amenity),]
-cafe2 <- res$osm_polygons
-st_geometry(cafe2) <- st_centroid(st_geometry(cafe2))
-
-osm_restau <- rbind(restau1[, c("osm_id", "name")], restau2[, c("osm_id", "name")], 
-                    fast1[, c("osm_id", "name")], fast2[, c("osm_id", "name")], 
-                    cafe1[, c("osm_id", "name")], cafe2[, c("osm_id", "name")])
-osm_restau <- st_transform(osm_restau, st_crs(mtq))
-
-plot(osm_restau)
-
-plot(mtq$geometry)
-plot(osm_restau$geometry,add=T, pch=20, col = "#330A5FFF", cex = 0.5)
-labelLayer(osm_restau, txt = "name", overlap = F,show.lines = F, )
-
-# st_write(osm_restau, dsn = "data/resto.gpkg")
+# Extraction des resaturants
+res <- add_osm_feature(opq = q, key = 'amenity', value = "restaurant")
+res.sf <- osmdata_sf(res)
+res.sf.pts  <- res.sf$osm_points[!is.na(res.sf$osm_points$amenity),]
+res.sf.pol <- res.sf$osm_polygons
+st_geometry(res.sf.pol) <- st_centroid(st_geometry(res.sf.pol))
+# Extraction des fast food
+ff <- add_osm_feature(opq = q, key = 'amenity',value = "fast_food")
+ff.sf <- osmdata_sf(ff)
+ff.sf.pts  <- ff.sf$osm_points[!is.na(ff.sf$osm_points$amenity),]
+ff.sf.pol <- ff.sf$osm_polygons
+st_geometry(ff.sf.pol) <- st_centroid(st_geometry(ff.sf.pol))
+# Extraction des cafés
+caf <- add_osm_feature(opq = q, key = 'amenity', value = "cafe" )
+caf.sf <- osmdata_sf(caf)
+caf.sf.pts  <- caf.sf$osm_points[!is.na(caf.sf$osm_points$amenity),]
+caf.sf.pol <- caf.sf$osm_polygons
+st_geometry(caf.sf.pol) <- st_centroid(st_geometry(caf.sf.pol))
+# regroupement des 3 types d'établissement
+resto <- rbind(res.sf.pts[, c("osm_id", "name")], 
+               res.sf.pol[, c("osm_id", "name")], 
+               ff.sf.pts[, c("osm_id", "name")], 
+               ff.sf.pol[, c("osm_id", "name")], 
+               caf.sf.pts[, c("osm_id", "name")], 
+               caf.sf.pol[, c("osm_id", "name")])
+resto <- st_transform(resto, st_crs(mtq))
 
 
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
+     bg = "lightblue1")
+plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
+layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
+           author= "INSEE, 2016 - OSM, 2018", sources="", north=TRUE,
+           frame=FALSE, scale = 5)
 ```
 
+```{r, eval=TRUE, echo=FALSE}
+resto <- st_read("data/resto.gpkg",quiet=TRUE)
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
+     bg = "lightblue1")
+plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
+layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
+           author= "INSEE, 2016 - OSM, 2018", sources="", north=TRUE,
+           frame=FALSE, scale = 5)
+```
 
 
 ### Données raster
 
-```{r osm}
-tiles <- getTiles(x = mtq, type = "osm", crop=T, zoom = 11)
-tilesLayer(tiles)
-plot(st_geometry(mtq), add=T)
+```{r osmcode, fig.width=6, fig.height=6, eval=FALSE}
+type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
+           "stamenwatercolor", "cartodark", "cartolight")
+par(mar = c(0,0,0,0), mfrow = c(3,3))
+for (i in type){
+  tilesLayer(getTiles(x = mtq, type = i, crop=TRUE))
+  mtext(side = 3, line = -1.5, text = i, col="red")
+}
 ```
+```{r osmbuild,eval=FALSE, echo=FALSE}
+type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
+           "stamenwatercolor", "cartodark", "cartolight")
+for (i in type){
+  saveRDS(getTiles(x = mtq, type = i, crop=TRUE),file = paste0("data/",i,".png"))
+}
+```
+```{r osmdisplay, fig.width=5, fig.height=6, echo=FALSE}
+type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
+           "stamenwatercolor", "cartodark", "cartolight")
+par(mar = c(0,0,0,0), mfrow = c(3,3))
+for (i in type){
+  tilesLayer(readRDS(paste0("data/",i,".png")))
+  mtext(side = 3, line = -1.5, text = i, col="red")
+}
+```
+
 
 
 ## Création de cartons
 
-Le package `mapinsetr`[@R-mapinsetr] est dédié à la crétion de cartons cartographiques. Il 
-n'est pas sur le CRAN pour l'instant, mais on peut l'installer via le package `remotes`. 
+Le package `mapinsetr`[@R-mapinsetr] est dédié à la crétion de cartons cartographiques. Il n'est pas sur le CRAN pour l'instant, mais on peut l'installer via le package `remotes`. 
 
 ```{r, eval=FALSE}
 remotes::install_github("riatelab/mapinsetr")
@@ -308,19 +344,17 @@ remotes::install_github("riatelab/mapinsetr")
 `mapinsetr` permet de découper, redimensionner et déplacer une zone d'un fond de carte.
 
 
+
 ```{r inset1}
 library(mapinsetr)
 library(cartography)
 library(sf)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 resto <- st_read("data/resto.gpkg", quiet = TRUE)
-
-
 # Création d'un masque
 box_FDF <- create_mask(bb = c(706880, 1615030,
                               708650, 1616870), 
                        prj = st_crs(mtq))
-
 # Découpage, déplacement et redimentionnement des couches sous le masque
 zbox_FDF <- move_and_resize(x = box_FDF, 
                             mask = box_FDF, 
@@ -334,7 +368,6 @@ zresto_FDF <- move_and_resize(x = resto,
                               mask = box_FDF, 
                               xy = c(689000, 1603000), 
                               k = 7)
-
 # Affichage de la carte et des couhes crées
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")
@@ -343,8 +376,9 @@ plot(st_geometry(box_FDF), border = "red", add = T, lwd = 2)
 plot(st_geometry(zmtq_FDF), col = "lightblue4", border = "lightblue3", add=TRUE)
 plot(st_geometry(zresto_FDF), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(zbox_FDF), border = "red", add = T, lwd = 2)
-title("Carte initiale + couches créées")
-
+layoutLayer(title = "Carte initiale + couches créées",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", north=TRUE,  
+           frame=FALSE, scale = 5)
 # Création de couches unqiues comprenant le zoom
 resto <- inset_rbinder(l = list(resto, zresto_FDF))
 mtq <- inset_rbinder(l = list(mtq, zmtq_FDF))
@@ -353,6 +387,8 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
      bg = "lightblue1")
 plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(box), border = "red", add = T, lwd = 2)
-title("Carte finale avec carton")
+layoutLayer(title = "Carte finale avec carton",tabtitle=TRUE,
+           author= "INSEE, 2016", sources="", north=TRUE,  
+           frame=FALSE, scale = 5)
 ```
 

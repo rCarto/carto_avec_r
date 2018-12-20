@@ -44,9 +44,13 @@ Historiquement trois packages permettent d'importer, de manipuler et de transfor
 Le package `sf` a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
 Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe *pipe* et les opérateurs du `tidyverse`.
 
+[@R-sf]
+[@Pebesma18]
+
 
 Aujourd'hui, les principaux développements dans l'écosystème spatial de R se détachent progressivement des 3 anciens (`sp`, `rgdal`, `rgeos`) pour se reposer sur `sf`. 
-Dans ce document nous utiliserons `sf` tant que cela est possible, c'està dire la plupart du temps.
+
+
 
 
 

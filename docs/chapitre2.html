@@ -22,10 +22,10 @@
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   <meta name="twitter:image" content="img/cartomix.png" />
 
-<meta name="author" content="Timothée Giraud &amp; Hugues Pécout">
+<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2018-12-19">
+<meta name="date" content="2018-12-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -304,7 +304,10 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="s
      <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
 <span class="kw">labelLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.7</span>, <span class="dt">font =</span> <span class="dv">4</span>,
            <span class="dt">halo =</span> <span class="ot">TRUE</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">r =</span> <span class="fl">0.1</span>, <span class="dt">overlap =</span> <span class="ot">FALSE</span>, 
-           <span class="dt">show.lines =</span> <span class="ot">FALSE</span>)</code></pre>
+           <span class="dt">show.lines =</span> <span class="ot">FALSE</span>)
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/labs-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="creer-un-effet-crayonne" class="section level3">
@@ -319,20 +322,20 @@ mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(
           <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,
           <span class="dt">legend.title.txt =</span> <span class="st">&quot;Status&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">ldy=</span><span class="dv">2</span>)
-<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Commune Status&quot;</span>,
-            <span class="dt">author =</span> <span class="st">&quot;TG &amp; HP, 2018&quot;</span>,
-            <span class="dt">sources =</span> <span class="st">&quot;IGN, 2016&quot;</span>,
-            <span class="dt">scale =</span> <span class="ot">NULL</span>)</code></pre>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Statut Administratif&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, 
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)
+<span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/pencil-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ajouter-un-ombrage-a-une-couche" class="section level3">
 <h3><span class="header-section-number">2.3.5</span> Ajouter un ombrage à une couche</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">-500</span>), 
-     <span class="dt">col =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), 
-     <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
-     <span class="dt">add =</span> <span class="ot">TRUE</span>)
-<span class="kw">title</span>(<span class="st">&quot;Martinique&quot;</span>)</code></pre>
+     <span class="dt">col =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/shadow-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -377,8 +380,8 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 </div>
 <div id="combinaisons" class="section level2">
 <h2><span class="header-section-number">2.6</span> Combinaisons</h2>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>,
-     <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  
+     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="kw">propSymbolsChoroLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">var=</span> <span class="st">&quot;P13_POP&quot;</span>,
                       <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>,
                       <span class="dt">var2 =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,
@@ -386,7 +389,10 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
                       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
                       <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Compound annual</span><span class="ch">\n</span><span class="st">growth rate&quot;</span>)
 <span class="co"># Title</span>
-<span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Evolution de la population&quot;</span>)</code></pre>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Evolution de la population&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, 
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)
+<span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/choroprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="les-donnees-osm" class="section level2">
@@ -395,53 +401,59 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 <div id="donnees-vectorielles" class="section level3">
 <h3><span class="header-section-number">2.7.1</span> Données vectorielles</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">&quot;osmdata&quot;</span>)
+<span class="co"># Définition d&#39;une bounding box</span>
 q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox=</span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(mtq,<span class="dv">4326</span>)))
-q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
-                      <span class="dt">value =</span> <span class="st">&quot;restaurant&quot;</span> )
-res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
-restau1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
-restau2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
-<span class="kw">st_geometry</span>(restau2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(restau2))
+<span class="co"># Extraction des resaturants</span>
+res &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, <span class="dt">value =</span> <span class="st">&quot;restaurant&quot;</span>)
+res.sf &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(res)
+res.sf.pts  &lt;-<span class="st"> </span>res.sf<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res.sf<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+res.sf.pol &lt;-<span class="st"> </span>res.sf<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(res.sf.pol) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(res.sf.pol))
+<span class="co"># Extraction des fast food</span>
+ff &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>,<span class="dt">value =</span> <span class="st">&quot;fast_food&quot;</span>)
+ff.sf &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(ff)
+ff.sf.pts  &lt;-<span class="st"> </span>ff.sf<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(ff.sf<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+ff.sf.pol &lt;-<span class="st"> </span>ff.sf<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(ff.sf.pol) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(ff.sf.pol))
+<span class="co"># Extraction des cafés</span>
+caf &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, <span class="dt">value =</span> <span class="st">&quot;cafe&quot;</span> )
+caf.sf &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(caf)
+caf.sf.pts  &lt;-<span class="st"> </span>caf.sf<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(caf.sf<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
+caf.sf.pol &lt;-<span class="st"> </span>caf.sf<span class="op">$</span>osm_polygons
+<span class="kw">st_geometry</span>(caf.sf.pol) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(caf.sf.pol))
+<span class="co"># regroupement des 3 types d&#39;établissement</span>
+resto &lt;-<span class="st"> </span><span class="kw">rbind</span>(res.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+               res.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+               ff.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+               ff.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+               caf.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+               caf.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)])
+resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(resto, <span class="kw">st_crs</span>(mtq))
 
-q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
-                      <span class="dt">value =</span> <span class="st">&quot;fast_food&quot;</span> )
-res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
-fast1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
-fast2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
-<span class="kw">st_geometry</span>(fast2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(fast2))
 
-q1 &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, 
-                      <span class="dt">value =</span> <span class="st">&quot;cafe&quot;</span> )
-res &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(q1)
-cafe1  &lt;-<span class="st"> </span>res<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res<span class="op">$</span>osm_points<span class="op">$</span>amenity),]
-cafe2 &lt;-<span class="st"> </span>res<span class="op">$</span>osm_polygons
-<span class="kw">st_geometry</span>(cafe2) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(cafe2))
-
-osm_restau &lt;-<span class="st"> </span><span class="kw">rbind</span>(restau1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], restau2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-                    fast1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], fast2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-                    cafe1[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], cafe2[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)])
-osm_restau &lt;-<span class="st"> </span><span class="kw">st_transform</span>(osm_restau, <span class="kw">st_crs</span>(mtq))
-
-<span class="kw">plot</span>(osm_restau)
-
-<span class="kw">plot</span>(mtq<span class="op">$</span>geometry)
-<span class="kw">plot</span>(osm_restau<span class="op">$</span>geometry,<span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)
-<span class="kw">labelLayer</span>(osm_restau, <span class="dt">txt =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">overlap =</span> F,<span class="dt">show.lines =</span> F, )
-
-<span class="co"># st_write(osm_restau, dsn = &quot;data/resto.gpkg&quot;)</span></code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  
+     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Répartition des restaurants&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016 - OSM, 2018&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-17-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="donnees-raster" class="section level3">
 <h3><span class="header-section-number">2.7.2</span> Données raster</h3>
-<pre class="sourceCode r"><code class="sourceCode r">tiles &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">type =</span> <span class="st">&quot;osm&quot;</span>, <span class="dt">crop=</span>T, <span class="dt">zoom =</span> <span class="dv">11</span>)
-<span class="kw">tilesLayer</span>(tiles)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add=</span>T)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/osm-1.png" width="384" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r">type &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;osm&quot;</span>, <span class="st">&quot;hotstyle&quot;</span>,  <span class="st">&quot;hikebike&quot;</span>, <span class="st">&quot;osmgrayscale&quot;</span>, <span class="st">&quot;stamenbw&quot;</span>,
+           <span class="st">&quot;stamenwatercolor&quot;</span>, <span class="st">&quot;cartodark&quot;</span>, <span class="st">&quot;cartolight&quot;</span>)
+<span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))
+<span class="cf">for</span> (i <span class="cf">in</span> type){
+  <span class="kw">tilesLayer</span>(<span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">type =</span> i, <span class="dt">crop=</span><span class="ot">TRUE</span>))
+  <span class="kw">mtext</span>(<span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="fl">-1.5</span>, <span class="dt">text =</span> i, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
+}</code></pre>
+<p><img src="Cartographie_avec_R_files/figure-html/osmdisplay-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="creation-de-cartons" class="section level2">
 <h2><span class="header-section-number">2.8</span> Création de cartons</h2>
-<p>Le package <code>mapinsetr</code><span class="citation">(Giraud and Lambert <a href="#ref-R-mapinsetr">2018</a><a href="#ref-R-mapinsetr">b</a>)</span> est dédié à la crétion de cartons cartographiques. Il
-n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le package <code>remotes</code>.</p>
+<p>Le package <code>mapinsetr</code><span class="citation">(Giraud and Lambert <a href="#ref-R-mapinsetr">2018</a><a href="#ref-R-mapinsetr">b</a>)</span> est dédié à la crétion de cartons cartographiques. Il n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le package <code>remotes</code>.</p>
 <pre class="sourceCode r"><code class="sourceCode r">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;riatelab/mapinsetr&quot;</span>)</code></pre>
 <p><code>mapinsetr</code> permet de découper, redimensionner et déplacer une zone d’un fond de carte.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mapinsetr)
@@ -449,13 +461,10 @@ n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le pack
 <span class="kw">library</span>(sf)
 mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
 resto &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/resto.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
-
-
 <span class="co"># Création d&#39;un masque</span>
 box_FDF &lt;-<span class="st"> </span><span class="kw">create_mask</span>(<span class="dt">bb =</span> <span class="kw">c</span>(<span class="dv">706880</span>, <span class="dv">1615030</span>,
                               <span class="dv">708650</span>, <span class="dv">1616870</span>), 
                        <span class="dt">prj =</span> <span class="kw">st_crs</span>(mtq))
-
 <span class="co"># Découpage, déplacement et redimentionnement des couches sous le masque</span>
 zbox_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(<span class="dt">x =</span> box_FDF, 
                             <span class="dt">mask =</span> box_FDF, 
@@ -469,7 +478,6 @@ zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>
                               <span class="dt">mask =</span> box_FDF, 
                               <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
                               <span class="dt">k =</span> <span class="dv">7</span>)
-
 <span class="co"># Affichage de la carte et des couhes crées</span>
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
@@ -478,7 +486,9 @@ zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(zmtq_FDF), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(zresto_FDF), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(zbox_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)
-<span class="kw">title</span>(<span class="st">&quot;Carte initiale + couches créées&quot;</span>)</code></pre>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte initiale + couches créées&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-1.png" width="384" style="display: block; margin: auto;" /></p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Création de couches unqiues comprenant le zoom</span>
 resto &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(resto, zresto_FDF))
@@ -488,7 +498,9 @@ box &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span cl
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(box), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)
-<span class="kw">title</span>(<span class="st">&quot;Carte finale avec carton&quot;</span>)</code></pre>
+<span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte finale avec carton&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
+           <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
+           <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-2.png" width="384" style="display: block; margin: auto;" /></p>
 
 </div>

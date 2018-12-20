@@ -22,10 +22,10 @@
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   <meta name="twitter:image" content="img/cartomix.png" />
 
-<meta name="author" content="Timothée Giraud &amp; Hugues Pécout">
+<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2018-12-19">
+<meta name="date" content="2018-12-20">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -231,14 +231,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Cartographie avec R</h1>
-<p class="author"><em>Timothée Giraud &amp; Hugues Pécout</em></p>
-<p class="date"><em>2018-12-19</em></p>
+<p class="author"><em><img src="img/banner2.png" alt="banner" />
+Timothée Giraud &amp; Hugues Pécout</em></p>
+<p class="date"><em>2018-12-20</em></p>
 </div>
 <div id="introduction" class="section level1 unnumbered">
 <h1>Introduction</h1>
-<p><img src="img/cartomix.png" /></p>
-<p>Toute carte est issue d’un processus complexe, de choix, de selections, d’opérations statistiques ou de géotraitements. Certains auteurs énoncent que les cartes sont subjectives <span class="citation">(Roger <a href="#ref-Brunet87">1987</a>)</span> et d’autres auteurs disent carrément qu’elles mentent <span class="citation">(Monmonier <a href="#ref-Monmonier93">1993</a>)</span>. Toute carte résulte des choix de son auteur. Dans une démarche scientifique, ces choix doivent être traçables, partageables et soumis à la discussion scientifique et cela est difficilement faisable quand ces cartes sont réalisées dans un environnement “clic-bouton”.</p>
-<p>La réalisation des cartes dans le langage R permet de tracer toutes les opérations nécessaires à une réalisation cartographique de qualité. Réaliser des cartes dans ce langage unique permet, en diffusant le code source en même temps que les cartes, de jouer “cartes sur table”. Cela permet de détailler les choix qui ont été faits et s’exposer à la controverse scientifique. Cela permet aussi de travailler à plusieurs sur une carte, en associant des compétences complémentaires (sémiologie graphique, statistique, géomatique, etc.) et de faciliter la mise à jour de documents déjà réalisés.</p>
 <p>Ce document se compose de trois parties permettant d’appréhender la création de cartes thématiques avec R.</p>
 <ul>
 <li><a href="chapitre1.html#chapitre1">Les données spatiales</a></li>
@@ -246,17 +244,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li><a href="chapitre3.html#chapitre3">Cartographie thématique avancée</a></li>
 </ul>
-<p>Ce document mobilise un certain nombre de packages dédiés à l’import, la manipulation, la transformation et l’affichage de données spatiales. Les principaux packages sont <code>sf</code>, <code>cartography</code>, <code>mapview</code>, <code>raster</code>, <code>SpatialPosition</code>, <code>spatstats</code> mais d’autres pourront être nécessaires ponctuellement.</p>
+<p>Voici une partie des packages dédiés à l’import, la manipulation, la transformation et l’affichage de données spatiales que nous utiliserons : <code>sf</code>, <code>cartography</code>, <code>mapview</code>, <code>raster</code>, <code>SpatialPosition</code>, <code>spatstats</code>. D’autres pourront être nécessaires ponctuellement.</p>
 
-</div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-Brunet87">
-<p>Roger, Brunet. 1987. “La Carte Mode d’emploi.” <em>Paris-Montpellier: Fayard-RECLUS</em>.</p>
-</div>
-<div id="ref-Monmonier93">
-<p>Monmonier, Mark Stephen. 1993. <em>Comment Faire Mentir Les Cartes Ou Du Mauvais Usage de La Géographie</em>. Flammarion.</p>
-</div>
 </div>
             </section>
 
