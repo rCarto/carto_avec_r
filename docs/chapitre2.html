@@ -314,13 +314,15 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="s
 <h3><span class="header-section-number">2.3.4</span> Créer un effet crayonné</h3>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
 mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(<span class="dt">x =</span> mtq)
-<span class="kw">typoLayer</span>(<span class="dt">x =</span> mtq_pencil, <span class="dt">var=</span><span class="st">&quot;STATUT&quot;</span>, <span class="dt">add =</span> <span class="ot">FALSE</span>,
-          <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>),
-          <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Préfecture de région&quot;</span>,
-                                  <span class="st">&quot;Sous-préfecture&quot;</span>, 
-                                  <span class="st">&quot;Commune simple&quot;</span>),
-          <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,
-          <span class="dt">legend.title.txt =</span> <span class="st">&quot;Status&quot;</span>)
+<span class="kw">typoLayer</span>(
+  <span class="dt">x =</span> mtq_pencil, <span class="dt">var=</span><span class="st">&quot;STATUT&quot;</span>, <span class="dt">add =</span> <span class="ot">FALSE</span>,
+  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>),
+  <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Préfecture de région&quot;</span>,
+                          <span class="st">&quot;Sous-préfecture&quot;</span>, 
+                          <span class="st">&quot;Commune simple&quot;</span>),
+  <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,
+  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Status&quot;</span>
+)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">ldy=</span><span class="dv">2</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Statut Administratif&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, 
@@ -382,12 +384,14 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 <h2><span class="header-section-number">2.6</span> Combinaisons</h2>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
-<span class="kw">propSymbolsChoroLayer</span>(<span class="dt">x =</span> mtq, <span class="dt">var=</span> <span class="st">&quot;P13_POP&quot;</span>,
-                      <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>,
-                      <span class="dt">var2 =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,
-                      <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">6.14</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>),
-                      <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
-                      <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Compound annual</span><span class="ch">\n</span><span class="st">growth rate&quot;</span>)
+<span class="kw">propSymbolsChoroLayer</span>(
+  <span class="dt">x =</span> mtq, <span class="dt">var=</span> <span class="st">&quot;P13_POP&quot;</span>,
+  <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Total</span><span class="ch">\n</span><span class="st">population (2013)&quot;</span>,
+  <span class="dt">var2 =</span> <span class="st">&quot;cagr&quot;</span>, <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,
+  <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">6.14</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>),
+  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
+  <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Compound annual</span><span class="ch">\n</span><span class="st">growth rate&quot;</span>
+)
 <span class="co"># Title</span>
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Evolution de la population&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, 
@@ -422,12 +426,11 @@ caf.sf.pts  &lt;-<span class="st"> </span>caf.sf<span class="op">$</span>osm_poi
 caf.sf.pol &lt;-<span class="st"> </span>caf.sf<span class="op">$</span>osm_polygons
 <span class="kw">st_geometry</span>(caf.sf.pol) &lt;-<span class="st"> </span><span class="kw">st_centroid</span>(<span class="kw">st_geometry</span>(caf.sf.pol))
 <span class="co"># regroupement des 3 types d&#39;établissement</span>
-resto &lt;-<span class="st"> </span><span class="kw">rbind</span>(res.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-               res.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-               ff.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-               ff.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-               caf.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
-               caf.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)])
+resto &lt;-<span class="st"> </span><span class="kw">rbind</span>(
+  res.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], res.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+  ff.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], ff.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], 
+  caf.sf.pts[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)], caf.sf.pol[, <span class="kw">c</span>(<span class="st">&quot;osm_id&quot;</span>, <span class="st">&quot;name&quot;</span>)]
+)
 resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(resto, <span class="kw">st_crs</span>(mtq))
 
 
@@ -462,22 +465,27 @@ resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(resto, 
 mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
 resto &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/resto.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
 <span class="co"># Création d&#39;un masque</span>
-box_FDF &lt;-<span class="st"> </span><span class="kw">create_mask</span>(<span class="dt">bb =</span> <span class="kw">c</span>(<span class="dv">706880</span>, <span class="dv">1615030</span>,
-                              <span class="dv">708650</span>, <span class="dv">1616870</span>), 
+box_FDF &lt;-<span class="st"> </span><span class="kw">create_mask</span>(<span class="dt">bb =</span> <span class="kw">c</span>(<span class="dv">706880</span>, <span class="dv">1615030</span>, <span class="dv">708650</span>, <span class="dv">1616870</span>), 
                        <span class="dt">prj =</span> <span class="kw">st_crs</span>(mtq))
 <span class="co"># Découpage, déplacement et redimentionnement des couches sous le masque</span>
-zbox_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(<span class="dt">x =</span> box_FDF, 
-                            <span class="dt">mask =</span> box_FDF, 
-                            <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
-                            <span class="dt">k =</span> <span class="dv">7</span>)
-zmtq_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(<span class="dt">x =</span> mtq, 
-                            <span class="dt">mask =</span> box_FDF, 
-                            <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
-                            <span class="dt">k =</span> <span class="dv">7</span>)
-zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(<span class="dt">x =</span> resto, 
-                              <span class="dt">mask =</span> box_FDF, 
-                              <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
-                              <span class="dt">k =</span> <span class="dv">7</span>)
+zbox_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(
+  <span class="dt">x =</span> box_FDF, 
+  <span class="dt">mask =</span> box_FDF, 
+  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
+  <span class="dt">k =</span> <span class="dv">7</span>
+)
+zmtq_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(
+  <span class="dt">x =</span> mtq, 
+  <span class="dt">mask =</span> box_FDF, 
+  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
+  <span class="dt">k =</span> <span class="dv">7</span>
+)
+zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(
+  <span class="dt">x =</span> resto, 
+  <span class="dt">mask =</span> box_FDF, 
+  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), 
+  <span class="dt">k =</span> <span class="dv">7</span>
+)
 <span class="co"># Affichage de la carte et des couhes crées</span>
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)

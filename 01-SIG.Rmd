@@ -128,7 +128,7 @@ mtq <- st_read("data/martinique.shp", quiet=TRUE)
 
 ```{r export}
 st_write(obj = mtq, dsn = "data/mtq.gpkg", layer = "mtq", delete_layer = TRUE)
-st_write(obj = mtq, "data/mtq.shp", delete_layer = T)
+st_write(obj = mtq, "data/mtq.shp", delete_layer = TRUE)
 ```
 
 ### Affichage de données
@@ -159,9 +159,29 @@ plot(st_geometry(mtq))
 ## Opérations de géotraitement
 
 ### Selection par attributs
+Les objets `sf` **sont** des `data.frame`, on peut donc selectionner leur lignes et leur colonnes de la même manière que les `data.frame`. 
+
+```{r selectAttr}
+# selection de ligne
+mtq[1:2, ]
+
+mtq[mtq$LIBGEO=="Fort-de-France", ]
+
+# selection de colonnes
+mtq[mtq$LIBGEO=="Fort-de-France", 1:4]
+
+```
 
 
 ### Selection spatiale
+Selection des communes interectants Fort-de-France
+```{r selectSpat}
+fdf <-  mtq[mtq$LIBGEO == "Fort-de-France", ]
+mtq$fdf <- st_intersects(x = mtq, y = fdf, sparse = FALSE)
+plot(st_geometry(mtq))
+plot(st_geometry(mtq[mtq$fdf,]), col = "grey", add = TRUE)
+```
+
 
 
 ### Extraire des centroides

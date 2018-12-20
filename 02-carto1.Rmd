@@ -135,13 +135,15 @@ layoutLayer(title = "Communes",tabtitle=TRUE,
 ```{r pencil}
 library(sf)
 mtq_pencil <- getPencilLayer(x = mtq)
-typoLayer(x = mtq_pencil, var="STATUT", add = FALSE,
-          col = c("aquamarine4", "yellow3","wheat"),
-          legend.values.order = c("Préfecture de région",
-                                  "Sous-préfecture", 
-                                  "Commune simple"),
-          legend.pos = "topright",
-          legend.title.txt = "Status")
+typoLayer(
+  x = mtq_pencil, var="STATUT", add = FALSE,
+  col = c("aquamarine4", "yellow3","wheat"),
+  legend.values.order = c("Préfecture de région",
+                          "Sous-préfecture", 
+                          "Commune simple"),
+  legend.pos = "topright",
+  legend.title.txt = "Status"
+)
 plot(st_geometry(mtq), add = TRUE, ldy=2)
 layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
            author= "INSEE, 2016", sources="", 
@@ -228,12 +230,14 @@ abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 ```{r choroprop}
 plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
      bg = "lightblue1")
-propSymbolsChoroLayer(x = mtq, var= "P13_POP",
-                      legend.var.title.txt = "Total\npopulation (2013)",
-                      var2 = "cagr", legend.var.pos = "bottomleft",
-                      breaks = c(-6.14,-2,-1,0,1,2),
-                      col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-                      legend.var2.title.txt = "Compound annual\ngrowth rate")
+propSymbolsChoroLayer(
+  x = mtq, var= "P13_POP",
+  legend.var.title.txt = "Total\npopulation (2013)",
+  var2 = "cagr", legend.var.pos = "bottomleft",
+  breaks = c(-6.14,-2,-1,0,1,2),
+  col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+  legend.var2.title.txt = "Compound annual\ngrowth rate"
+)
 # Title
 layoutLayer(title = "Evolution de la population",tabtitle=TRUE,
            author= "INSEE, 2016", sources="", 
@@ -275,12 +279,11 @@ caf.sf.pts  <- caf.sf$osm_points[!is.na(caf.sf$osm_points$amenity),]
 caf.sf.pol <- caf.sf$osm_polygons
 st_geometry(caf.sf.pol) <- st_centroid(st_geometry(caf.sf.pol))
 # regroupement des 3 types d'établissement
-resto <- rbind(res.sf.pts[, c("osm_id", "name")], 
-               res.sf.pol[, c("osm_id", "name")], 
-               ff.sf.pts[, c("osm_id", "name")], 
-               ff.sf.pol[, c("osm_id", "name")], 
-               caf.sf.pts[, c("osm_id", "name")], 
-               caf.sf.pol[, c("osm_id", "name")])
+resto <- rbind(
+  res.sf.pts[, c("osm_id", "name")], res.sf.pol[, c("osm_id", "name")], 
+  ff.sf.pts[, c("osm_id", "name")], ff.sf.pol[, c("osm_id", "name")], 
+  caf.sf.pts[, c("osm_id", "name")], caf.sf.pol[, c("osm_id", "name")]
+)
 resto <- st_transform(resto, st_crs(mtq))
 
 
@@ -352,22 +355,27 @@ library(sf)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 resto <- st_read("data/resto.gpkg", quiet = TRUE)
 # Création d'un masque
-box_FDF <- create_mask(bb = c(706880, 1615030,
-                              708650, 1616870), 
+box_FDF <- create_mask(bb = c(706880, 1615030, 708650, 1616870), 
                        prj = st_crs(mtq))
 # Découpage, déplacement et redimentionnement des couches sous le masque
-zbox_FDF <- move_and_resize(x = box_FDF, 
-                            mask = box_FDF, 
-                            xy = c(689000, 1603000), 
-                            k = 7)
-zmtq_FDF <- move_and_resize(x = mtq, 
-                            mask = box_FDF, 
-                            xy = c(689000, 1603000), 
-                            k = 7)
-zresto_FDF <- move_and_resize(x = resto, 
-                              mask = box_FDF, 
-                              xy = c(689000, 1603000), 
-                              k = 7)
+zbox_FDF <- move_and_resize(
+  x = box_FDF, 
+  mask = box_FDF, 
+  xy = c(689000, 1603000), 
+  k = 7
+)
+zmtq_FDF <- move_and_resize(
+  x = mtq, 
+  mask = box_FDF, 
+  xy = c(689000, 1603000), 
+  k = 7
+)
+zresto_FDF <- move_and_resize(
+  x = resto, 
+  mask = box_FDF, 
+  xy = c(689000, 1603000), 
+  k = 7
+)
 # Affichage de la carte et des couhes crées
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")

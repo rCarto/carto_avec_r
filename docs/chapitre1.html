@@ -359,7 +359,7 @@ Updating layer `mtq&#39; to data source `data/mtq.gpkg&#39; using driver `GPKG&#
 features:       34
 fields:         23
 geometry type:  Polygon</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_write</span>(<span class="dt">obj =</span> mtq, <span class="st">&quot;data/mtq.shp&quot;</span>, <span class="dt">delete_layer =</span> T)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">st_write</span>(<span class="dt">obj =</span> mtq, <span class="st">&quot;data/mtq.shp&quot;</span>, <span class="dt">delete_layer =</span> <span class="ot">TRUE</span>)</code></pre>
 <pre><code>Deleting layer `mtq&#39; using driver `ESRI Shapefile&#39;
 Writing layer `mtq&#39; to data source `data/mtq.shp&#39; using driver `ESRI Shapefile&#39;
 features:       34
@@ -386,9 +386,61 @@ geometry type:  Polygon</code></pre>
 <h2><span class="header-section-number">1.3</span> Opérations de géotraitement</h2>
 <div id="selection-par-attributs" class="section level3">
 <h3><span class="header-section-number">1.3.1</span> Selection par attributs</h3>
+<p>Les objets <code>sf</code> <strong>sont</strong> des <code>data.frame</code>, on peut donc selectionner leur lignes et leur colonnes de la même manière que les <code>data.frame</code>.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># selection de ligne</span>
+mtq[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, ]</code></pre>
+<pre><code>Simple feature collection with 2 features and 23 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 697601.7 ymin: 1598817 xmax: 710461.9 ymax: 1640521
+epsg (SRID):    32620
+proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
+  INSEE_COM         STATUT            LIBGEO P13_POP  C13_POP   C13_CS1   C13_CS2
+1     97201 Commune simple L&#39;Ajoupa-Bouillon    1830 1481.801  9.780866  48.90433
+2     97202 Commune simple Les Anses-d&#39;Arlet    3929 3190.115 97.433459 170.50855
+     C13_CS3  C13_CS4  C13_CS5  C13_CS6  C13_CS7  C13_CS8 P08_POP  C08_POP  C08_CS1
+1   9.780866 102.6991 273.8642 288.5355 430.3581 317.8781    1691 1346.519 31.40569
+2 109.612642 239.5239 560.2424 385.6741 746.5743 880.5453    3826 3067.742 49.00453
+    C08_CS2  C08_CS3  C08_CS4  C08_CS5  C08_CS6 C08_CS7  C08_CS8
+1  43.18282 11.77713 145.2513 223.7655 251.2455 380.794 259.0969
+2 143.95079 65.33937 216.3534 600.3054 459.4174 558.802 974.5694
+                        geometry
+1 POLYGON ((699261.2 1637681,...
+2 POLYGON ((709840 1599026, 7...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Fort-de-France&quot;</span>, ]</code></pre>
+<pre><code>Simple feature collection with 1 feature and 23 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 704448.6 ymin: 1614283 xmax: 711650.9 ymax: 1626937
+epsg (SRID):    32620
+proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
+  INSEE_COM               STATUT         LIBGEO P13_POP  C13_POP  C13_CS1  C13_CS2
+9     97209 Préfecture de région Fort-de-France   84174 68712.33 86.57284 2720.489
+   C13_CS3  C13_CS4  C13_CS5  C13_CS6  C13_CS7  C13_CS8 P08_POP  C08_POP  C08_CS1
+9 4000.387 8407.424 13799.23 7309.136 16184.26 16204.84   89000 71566.82 119.0608
+   C08_CS2  C08_CS3  C08_CS4 C08_CS5  C08_CS6  C08_CS7  C08_CS8
+9 2480.105 3976.898 8630.605 15437.6 7964.513 15996.58 16961.46
+                        geometry
+9 POLYGON ((711183.1 1619627,...</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># selection de colonnes</span>
+mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Fort-de-France&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>]</code></pre>
+<pre><code>Simple feature collection with 1 feature and 4 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 704448.6 ymin: 1614283 xmax: 711650.9 ymax: 1626937
+epsg (SRID):    32620
+proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
+  INSEE_COM               STATUT         LIBGEO P13_POP                       geometry
+9     97209 Préfecture de région Fort-de-France   84174 POLYGON ((711183.1 1619627,...</code></pre>
 </div>
 <div id="selection-spatiale" class="section level3">
 <h3><span class="header-section-number">1.3.2</span> Selection spatiale</h3>
+<p>Selection des communes interectants Fort-de-France</p>
+<pre class="sourceCode r"><code class="sourceCode r">fdf &lt;-<span class="st">  </span>mtq[mtq<span class="op">$</span>LIBGEO <span class="op">==</span><span class="st"> &quot;Fort-de-France&quot;</span>, ]
+mtq<span class="op">$</span>fdf &lt;-<span class="st"> </span><span class="kw">st_intersects</span>(<span class="dt">x =</span> mtq, <span class="dt">y =</span> fdf, <span class="dt">sparse =</span> <span class="ot">FALSE</span>)
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq[mtq<span class="op">$</span>fdf,]), <span class="dt">col =</span> <span class="st">&quot;grey&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre>
+<p><img src="Cartographie_avec_R_files/figure-html/selectSpat-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="extraire-des-centroides" class="section level3">
 <h3><span class="header-section-number">1.3.3</span> Extraire des centroides</h3>

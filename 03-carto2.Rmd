@@ -43,16 +43,20 @@ library(mapview)
 mtq <- st_read("data/martinique.shp", quiet=TRUE)
 resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
 
-mapview(resto, map.types = "OpenStreetMap", col.regions = "#940000", 
-        label = resto$name,alpha.regions=90,
-        color = "white", legend = TRUE, layer.name = "Restaurants", 
-        homebutton = FALSE, lwd = 0.5, 
-        popup = NA) +
-  mapview(mtq, col.regions = "lightblue", color = "white", legend = TRUE, 
-          label = mtq$LIBGEO, alpha.regions= 0.5, map.types = "OpenStreetMap",
-          lwd = 0.5, layer.name = "Communes",  homebutton = FALSE, 
-          popup = popupTable(mtq, zcol = 1:4, row.numbers = FALSE, 
-                             feature.id = FALSE))
+mapview(
+  resto, map.types = "OpenStreetMap", col.regions = "#940000", 
+  label = resto$name,alpha.regions=90,color = "white", legend = TRUE, 
+  layer.name = "Restaurants", 
+  homebutton = FALSE, lwd = 0.5, 
+  popup = NA
+) +
+  mapview(
+    mtq, col.regions = "lightblue", color = "white", legend = TRUE, 
+    label = mtq$LIBGEO, alpha.regions= 0.5, map.types = "OpenStreetMap",
+    lwd = 0.5, layer.name = "Communes",  homebutton = FALSE, 
+    popup = popupTable(mtq, zcol = 1:4, row.numbers = FALSE, 
+                       feature.id = FALSE)
+  )
 
 ```
 
@@ -105,7 +109,7 @@ plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue
 labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
            halo = TRUE, r = .15)
 layoutLayer("Population en Martinique - Cartogramme de Dorling",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
 ```
 
 
@@ -139,7 +143,7 @@ mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5)
 plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
 plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
 layoutLayer("Population en Martinique - Cartogramme de Olson",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
 ```
 
 
@@ -172,7 +176,7 @@ mtq <- st_cast(mtq, "MULTIPOLYGON")
 mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
 plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
 layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
 
 ```
 
@@ -220,24 +224,36 @@ mtq <- st_read("data/martinique.shp", quiet = TRUE)
 mtq$dens <- mtq$P13_POP / (st_area(mtq) / (1000 * 1000)) 
 bks <- getBreaks(v = mtq$dens, method = "q6")
 cols <- carto.pal(pal1 = "taupe.pal", n1 = 6)
-choroLayer(x = mtq, var = "dens", breaks = bks, 
-           border = "burlywood3", col = cols, 
-           legend.pos = "topright", legend.values.rnd = 1,
-           legend.title.txt = "Densité de population\n(hab/km2)")
+choroLayer(
+  x = mtq, 
+  var = "dens", 
+  breaks = bks, 
+  border = "burlywood3", 
+  col = cols, 
+  legend.pos = "topright", 
+  legend.values.rnd = 1,
+  legend.title.txt = "Densité de population\n(hab/km2)"
+)
 layoutLayer("Population en Martinique",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 north(pos = "topleft")
 mygrid <- getGridLayer(x = mtq, cellsize = 3000 * 3000, 
                        type = "hexagonal", var = "P13_POP")
 ## conversion from square meter to square kilometers
 mygrid$densitykm <- mygrid$P13_POP / (mygrid$gridarea / (1000 * 1000)) 
-choroLayer(x = mygrid, var = "densitykm", breaks = bks,
-           border = "burlywood3", col = cols, 
-           legend.pos = "topright", legend.values.rnd = 1,
-           legend.title.txt = "Densité de population\n(hab/km2)")
+choroLayer(
+  x = mygrid, 
+  var = "densitykm", 
+  breaks = bks,
+  border = "burlywood3", 
+  col = cols, 
+  legend.pos = "topright", 
+  legend.values.rnd = 1,
+  legend.title.txt = "Densité de population\n(hab/km2)"
+)
 plot(st_geometry(mtq), lwd = 0.2, add=TRUE, border = "#ffffff75")
 layoutLayer("Population en Martinique",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 north(pos = "topleft")
 ```
 
@@ -278,25 +294,35 @@ plot(st_geometry(mtq_bord),
      col = sample(x = rainbow(nrow(mtq_bord))), 
      lwd = 3, add = TRUE)
 layoutLayer("Frontières inter-communales",tabtitle=TRUE, north = TRUE,
-           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 ```
 
 ```{r disc2}
 mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
 # Plot this share
-choroLayer(x = mtq, var = "emp_share", border = NA, 
-           method = 'quantile', nclass = 6, 
-           legend.values.rnd = 1, legend.pos = "topright", 
-           legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
+choroLayer(
+  x = mtq, 
+  var = "emp_share", 
+  border = NA, 
+  method = 'quantile', nclass = 6, 
+  legend.values.rnd = 1, legend.pos = "topright", 
+  legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
 # Plot discontinuities
-discLayer(x = mtq_bord, df = mtq,
-          var = "emp_share", col="darkred", nclass=3,
-          method="quantile", threshold = 0.5, sizemin = 0.5,
-          sizemax = 8, type = "abs", legend.values.rnd = 1,
-          legend.title.txt = "Discontinuités\n(différences absolues)",
-          legend.pos = "bottomleft", add=TRUE)
+discLayer(
+  x = mtq_bord, 
+  df = mtq,
+  var = "emp_share", 
+  col="darkred", 
+  nclass=3, method="quantile", 
+  threshold = 0.5, 
+  sizemin = 0.5, sizemax = 8, 
+  type = "abs", 
+  legend.values.rnd = 1,
+  legend.title.txt = "Discontinuités\n(différences absolues)",
+  legend.pos = "bottomleft", add=TRUE
+)
 layoutLayer("Discontinuités - Part des employés",tabtitle=TRUE, 
-           author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 north(pos = "topleft")
 ```
 
@@ -358,13 +384,17 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
      bg = "lightblue1")
 plot(result, breaks = bks, col=cols, add = T,legend=F)
 plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "white")
-legendChoro(pos = "topright",
-            title.txt = "Densité de\nrestaurants\n(N./km2)",
-            breaks = bks, nodata = FALSE,values.rnd = 1,
-            col = cols)
+legendChoro(
+  pos = "topright",
+  title.txt = "Densité de\nrestaurants\n(N./km2)",
+  breaks = bks, 
+  nodata = FALSE,
+  values.rnd = 1,
+  col = cols
+)
 layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
-           author= "INSEE, 2016 - OSM, 2018", sources="", 
-           frame=FALSE, scale = 5)
+            author= "INSEE, 2016 - OSM, 2018", sources="", 
+            frame=FALSE, scale = 5)
 north(pos = "topleft")
 
 ```
@@ -395,8 +425,16 @@ data("occitanie")
 opar <- par(mar=c(0,0,0,0), bg = "ivory2")
 bb <- st_bbox(occitanie)
 plot(st_geometry(occitanie), col="ivory1", border = NA)
-linemap(x = popOcc, var = "pop", k = 2.5, threshold = 50,
-        col = "ivory1", border = "ivory4", lwd = 0.6, add = TRUE)
+linemap(
+  x = popOcc, 
+  var = "pop", 
+  k = 2.5, 
+  threshold = 50,
+  col = "ivory1", 
+  border = "ivory4", 
+  lwd = 0.6, 
+  add = TRUE
+)
 text(x = bb[1], y = bb[4],adj = c(0,1),
      labels = "Répartition de la\npopulation\nen Occitanie",  
      col = "ivory4", font = 2,  cex = 1.8)
