@@ -205,6 +205,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3.6" data-path="chapitre3.html"><a href="chapitre3.html#d"><i class="fa fa-check"></i><b>3.6</b> 3D</a><ul>
 <li class="chapter" data-level="3.6.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.6.1</b> linemap</a></li>
+<li class="chapter" data-level="3.6.2" data-path="chapitre3.html"><a href="chapitre3.html#tanaka"><i class="fa fa-check"></i><b>3.6.2</b> Tanaka</a></li>
+<li class="chapter" data-level="3.6.3" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.6.3</b> Rayshader</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="sessioninfo.html"><a href="sessioninfo.html"><i class="fa fa-check"></i><b>4</b> <code>sessionInfo()</code></a></li>
@@ -487,7 +489,8 @@ mtq_u2 &lt;-<span class="st"> </span>mtq <span class="op">%&gt;%</span><span cla
 </div>
 <div id="realiser-une-intersection" class="section level3">
 <h3><span class="header-section-number">1.3.8</span> Réaliser une intersection</h3>
-<pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>))
+<pre class="sourceCode r"><code class="sourceCode r">m &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1641586</span>), <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1641586</span>), 
+           <span class="kw">c</span>(<span class="dv">719127</span>,<span class="dv">1624212</span>), <span class="kw">c</span>(<span class="dv">700015</span>,<span class="dv">1624212</span>))
 p &lt;-<span class="st"> </span><span class="kw">st_sf</span>(<span class="kw">st_sfc</span>(<span class="kw">st_polygon</span>(<span class="kw">list</span>(m))), <span class="dt">crs =</span> <span class="kw">st_crs</span>(mtq))
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
 <span class="kw">plot</span>(p, <span class="dt">border=</span><span class="st">&quot;red&quot;</span>, <span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">add=</span>T)</code></pre>

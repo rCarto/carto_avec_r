@@ -1,6 +1,6 @@
 --- 
 title: "Cartographie avec R"
-author: "![banner](img/banner2.png)\nTimothée Giraud & Hugues Pécout"
+author: "![banner](img/banner.png)\nTimothée Giraud & Hugues Pécout"
 date: "`r Sys.Date()`"
 bibliography:
 - book.bib

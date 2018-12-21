@@ -232,7 +232,8 @@ plot(st_geometry(mtq_b), add=T, lwd=2, border = "red")
 ### Réaliser une intersection 
 
 ```{r intersect, nm=TRUE}
-m <- rbind(c(700015,1624212), c(700015,1641586), c(719127,1641586), c(719127,1624212), c(700015,1624212))
+m <- rbind(c(700015,1624212), c(700015,1641586), c(719127,1641586), 
+           c(719127,1624212), c(700015,1624212))
 p <- st_sf(st_sfc(st_polygon(list(m))), crs = st_crs(mtq))
 plot(st_geometry(mtq))
 plot(p, border="red", lwd=2, add=T)

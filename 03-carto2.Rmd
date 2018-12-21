@@ -417,7 +417,7 @@ north(pos = "topleft")
 
 ## 3D
 ### linemap
-```{r lines, echo=TRUE, eval=TRUE, prompt=FALSE, message=FALSE, results='hide', fig.align="center",fig.width=8, fig.height=5.75, nm=TRUE, cache=TRUE}
+```{r lines,fig.width=8, fig.height=5.75, nm=TRUE}
 library(linemap)
 library(sf)
 data("popOcc")
@@ -445,4 +445,79 @@ text(x = bb[3], y = bb[2],labels = mapsources,
 
 ```
 
+### Tanaka
 
+
+```{r tanaka}
+library(raster)
+library(cartography)
+library(sf)
+library(SpatialPosition)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)# use WGS84 proj
+mtq_latlon <- st_transform(mtq, 4326)
+# import raster
+ras <- raster("data/srtm_24_10.tif")
+# crop on martinique area
+mtq_ras <- crop(ras, st_bbox(mtq_latlon)[c(1,3,2,4)])
+# aggregate the raster
+mtq_ras <- aggregate(mtq_ras, fact=4,fun=mean)
+mtq_ras <- projectRaster(mtq_ras, crs=st_crs(mtq)$proj4string)
+# break values
+bv <- c(seq(0,1300,100),1339)
+# contour extraction
+mtq_cont <- rasterToContourPoly(r = mtq_ras, breaks = bv, 
+                                mask = as(mtq, "Spatial"))
+# custom palette
+pal <- c("#5D9D52", "#8DBC80", "#B8D9A9", "#FDEBBE", "#F7E0AC", "#F2D69B", 
+         "#EDCC8A", "#E8C279", "#E2B563", "#DBA84C", "#D49B36", "#BA8428", 
+         "#9A6A1E", "#7B5114")
+# sp to sf
+k <- st_as_sf(mtq_cont)
+# order the sf
+k <- k[order(k$center),]
+# png(filename = "mtq.png", width = 700, height = 800, res = 100, bg = NA)
+plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue")
+for(i in 1:nrow(k)){
+  p <- st_geometry(k[i,])
+  plot(p + c(-50, 50), add=T, border = "#ffffff90",col = "#ffffff90")
+  plot(p + c(100, -100),  col = "#00000090", add=T, border = "#00000090")
+  plot(p, col = pal[i], border = "NA", add=T)  
+}
+legendChoro(pos = c(689000,1598000 ), breaks = bv, col = pal, nodata = F,
+            title.txt = "Elevation\n(metres)", cex = 1)
+layoutLayer(title = "Martinique Relief", north = T,
+            sources = 'T. Giraud, 2018', author = "SRTM, 2018", 
+            col = "lightblue", 
+            tabtitle = T, coltitle = "black")
+```
+
+### Rayshader
+
+```{r rayshade,eval=FALSE}
+library(sf)
+library(raster)
+library(rayshader)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+st_geometry(mtq) <- st_buffer(st_geometry(mtq), 5000)
+mtq_latlon <- st_transform(mtq, 4326)
+ras <- raster("data/srtm_24_10.tif")
+mtq_ras <- crop(ras, st_bbox(mtq_latlon)[c(1,3,2,4)])
+mtq_ras <- projectRaster(mtq_ras, crs=st_crs(mtq)$proj4string)
+elmat = matrix(extract(mtq_ras,extent(mtq_ras),buffer=1000),
+               nrow=ncol(mtq_ras),ncol=nrow(mtq_ras))
+elmat[is.na(elmat)] <- 0
+raymat = ray_shade(elmat,lambert = TRUE,anglebreaks = 85,sunangle = 125)
+ambmat = ambient_shade(elmat,anglebreaks =  85)
+elmat %>%
+  sphere_shade(texture = "imhof1",sunangle = 125) %>%
+  add_water(detect_water(elmat), color="desert") %>%
+  add_shadow(raymat,0.5) %>%
+  add_shadow(ambmat,0.5) %>%
+  plot_3d(elmat,zscale=25,fov=10,theta=-15,phi=70, background="black",
+          zoom=.5, windowsize =c(900, 900))
+
+```
+
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/rayshade.png", dpi = 100)
+```
