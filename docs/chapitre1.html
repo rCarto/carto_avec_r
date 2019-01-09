@@ -459,12 +459,12 @@ proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
 <div id="modifier-la-projection-dun-objet" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> Modifier la projection d’un objet</h3>
 <pre class="sourceCode r"><code class="sourceCode r">mtq_reproj &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mtq, <span class="dv">2154</span>)
-<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))
-<span class="kw">title</span>(<span class="st">&quot;WGS 84 / UTM zone 20N&quot;</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_reproj))
-<span class="kw">title</span>(<span class="st">&quot;RGF93 / Lambert-93&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="st">&quot;WGS 84 / UTM zone 20N&quot;</span>)</code></pre>
 <p><img src="Cartographie_avec_R_files/figure-html/proj2-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_reproj))
+<span class="kw">title</span>(<span class="st">&quot;RGF93 / Lambert-93&quot;</span>)</code></pre>
+<p><img src="Cartographie_avec_R_files/figure-html/proj2-2.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="operations-de-geotraitement" class="section level2">

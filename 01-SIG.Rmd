@@ -166,7 +166,6 @@ st_crs(mtq)
 
 ```{r, proj2, sm=TRUE}
 mtq_reproj <- st_transform(mtq, 2154)
-par(mfrow=c(1,2))
 plot(st_geometry(mtq))
 title("WGS 84 / UTM zone 20N")
 plot(st_geometry(mtq_reproj))
