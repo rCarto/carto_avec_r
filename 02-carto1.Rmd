@@ -42,22 +42,17 @@ Le lecteur pourra se référer à divers ouvrages de référence : @Bertin67, @B
 
 
 
-## Le package `cartography`
+## Le package `cartography` 
+
+<img src="img/logo.png" align="right" alt="" width="120" />
 
 Le package `cartography` [@R-cartography] permet de créer et intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques tels que les cartes en symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
 
-Pour utiliser aisément ce package, plusieurs sources d'intérêts peuvent être consultées :
+Pour utiliser ce package plusieurs sources peuvent être consultées :
 
-* La documentation du package accessible directement dans R :
-```{r, eval = FALSE}
-?cartography
-```
-* La [vignette](https://CRAN.R-project.org/package=cartography/vignettes/cartography.html){target="_blank"} associée au package présente des exemples de scripts 
-```{r, eval = FALSE}
-vignette("cartography")
-```
-* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"} met à disposition ressources et exemples liés au package et plus généralement à l'écosystème spatiale de R.  
-
+* La documentation du package accessible [sur internet](http://riatelab.github.io/cartography/docs/){target="_blank"} ou directement dans R `?cartography`, 
+* La [vignette](https://CRAN.R-project.org/package=cartography/vignettes/cartography.html){target="_blank"} associée au package présente des exemples de scripts `vignette("cartography")`, 
+* Le blog [R Géomatique](https://rgeomatic.hypotheses.org/){target="_blank"} qui met à disposition ressources et exemples liés au package et plus généralement à l'écosystème spatiale de R, 
 * La [cheat sheet](http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf){target="_blank"} de cartography, qui résume les principales fonctions du package de façon synthétique.   
 
 ```{r, echo=FALSE}
@@ -65,12 +60,16 @@ knitr::include_graphics("img/cheat_sheet.png")
 ```
 
 
+Les fonctions de `cartography` dédiées à la représentation utilisent le suffixe `Layer`.
+En général l'argument `x` est utilisé par un objet et l'argument `var` sert à renseigner la variable à représenter. 
+
+
 ## Représentations usuelles 
 
 ### Carte de symboles proportionnels
 
-
-Plusieurs symboles sont disponibles : cercles, carrés et bars. 
+Les cartes de symboles proportionnels sont utilisées pour représenter les variables de stocks. 
+La fonction `propSymbolsLayer()` propose cette représentation, plusieurs symboles sont disponibles : cercles, carrés et bars. 
 
 ```{r propS}
 library(cartography)
@@ -78,235 +77,255 @@ library(sf)
 # Import des données
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 # Communes
-plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
-     bg = "lightblue1")
+plot(
+  st_geometry(mtq), 
+  col = "lightblue4", 
+  border = "lightblue3", 
+  bg = "lightblue1"
+)
 # Symboles proportionnels
-propSymbolsLayer(x = mtq, var = "P13_POP", 
-                 legend.title.txt = "Total\npopulation (2013)")
+propSymbolsLayer(
+  x = mtq, 
+  var = "P13_POP", 
+  legend.title.txt = "Population totale\n(2013)"
+)
 # Titre
 title(main = "Population en Martinique")
 ```
 
 
 ### Carte choroplèthe
+Les cartes de choroplèthes sont utilisées pour représenter les variables de ratios. 
+
+La fonction `choroLayer()` propose cette représentation. Les arguments `nclass`,  `method` et `breaks` servent à paramétrer les discrétisations et la fonction [`getBreaks()`](#discretisation) permet de travailler sur les discrétisations en dehors de la fonction `choroLayer()`. De même, l'argument `col` est utilisé pour renseigner une palette de couleur mais [plusieurs fonctions](#palettes) peuvent être utilisées pour paramétrer les palettes en dehors de la fonction. 
 
 ```{r choro}
 mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
-choroLayer(x = mtq, var = "cagr", breaks = c(-6.14,-2,-1,0,1,2),
-           col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-           legend.title.txt = "Compound annual\ngrowth rate")
+choroLayer(
+  x = mtq, 
+  var = "cagr", 
+  breaks = c(-6.14,-2,-1,0,1,2),
+  col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
+  legend.title.txt = "Taux de croissance\nannuel moyen\n(2008-2013)"
+)
 title(main = "Evolution de la population")
 ```
 
-## Éléments d'habillage
-Titre, sources, auteur
-
-### Ajuster les marges de la figures
-
-### Flèche nord
-
-### Échelle
-
-```{r layout1}
-plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
-     bg = "lightblue1")
-layoutLayer(title = "Martinique", sources = "IGN", 
-            author = "Giraud & Pécout, 2018", 
-            col ="grey20", coltitle = "red",
-            tabtitle = TRUE, frame = FALSE, scale = NULL)
-north(pos = "topright", col = "red")
-barscale(size = 5, lwd = 1.2, cex = 0.8)
-```
 
 
-```{r labs}
-plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
-     bg = "#A6CAE0")
-labelLayer(x = mtq, txt = "LIBGEO", col= "black", cex = 0.7, font = 4,
-           halo = TRUE, bg = "white", r = 0.1, overlap = FALSE, 
-           show.lines = FALSE)
-layoutLayer(title = "Communes",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", north=TRUE,  
-           frame=FALSE, scale = 5)
-```
+### Carte de typologie 
+Les cartes de typologies sont utilisées pour représenter les variables qualitatives. 
+La fonction `typoLayer()` propose cette représentation. L'argument `legend.values.order` sert à ordonner les modalités dans la légende.
 
-### Créer un effet crayonné 
-
-```{r pencil}
-library(sf)
-mtq_pencil <- getPencilLayer(x = mtq)
+```{r typolo}
 typoLayer(
-  x = mtq_pencil, var="STATUT", add = FALSE,
-  col = c("aquamarine4", "yellow3","wheat"),
+  x = mtq, 
+  var="STATUT",
   legend.values.order = c("Préfecture de région",
                           "Sous-préfecture", 
                           "Commune simple"),
+  col = c("aquamarine4", "yellow3","wheat"),
   legend.pos = "topright",
-  legend.title.txt = "Status"
+  legend.title.txt = "Statut administratif"
 )
-plot(st_geometry(mtq), add = TRUE, ldy=2)
-layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", 
-           frame=FALSE, scale = 5)
-north(pos = "topleft")
+title("Statut Administratif")
 ```
 
 
+## Combinaisons de représentations
 
-### Ajouter un ombrage à une couche
+Plusieurs fonctions sont dédiées à la représentation combinées de 2 variables. 
 
-
-```{r shadow}
-plot(st_geometry(mtq) + c(500, -500), 
-     col = "grey50", border = NA, bg = "lightblue1")
-plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4", add=TRUE)
-layoutLayer(title = "Communes",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", north=TRUE,  
-           frame=FALSE, scale = 5)
-```
-
-
-
-
-
-## Palettes de couleurs
-
-La fonction `display.carto.all()` permet d'afficher toutes palettes de couleurs disponibles dans `cartography`.
-```{r pa, nm=TRUE}
-display.carto.all(20)
-```
-
-La fonction `display.carto.pal()` permet de détailler une palette de couleurs.
-
-```{r pal1, nm=TRUE}
-display.carto.pal("orange.pal")
-```
-
-La fonction `carto.pal()` permet de construire une palette de couleur.
-Il est possible de créer des palettes associant 2 couleurs. 
-
-```{r pal2,  fig.height=3, nm=TRUE}
-mypal <- carto.pal(pal1 = "wine.pal", n1 = 5, pal2 = "green.pal", n2 = 4)
-image(1:9, 1, as.matrix(1:9), col=mypal, xlab = "", ylab = "", xaxt = "n", 
-      yaxt = "n",bty = "n")
-```
-
-## Discrétisations
-
-La fonction `getBreaks()` met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique ...
-
-```{r discr2, fig.height=3, fig.width=5, dm=FALSE}
-var <- mtq$cagr
-moy <- mean(var)
-med <- median(var)
-std <- sd(var)
-# Quantile intervals
-breaks <- getBreaks(v = var, nclass = 6, method = "quantile")
-hist(var, probability = TRUE, breaks = breaks, main="quantiles",
-     col = carto.pal(pal1 = "wine.pal",3, "green.pal", 3))
-rug(var)
-abline(v = med, col = "blue", lwd = 3)
-```
-
-
-
-```{r discr3,  fig.height=3, fig.width=5, dm=TRUE}
-
-# Mean and standard deviation (msd)
-breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
-hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
-     col = carto.pal(pal1 = "wine.pal",3 , "green.pal", 2, middle = TRUE))
-rug(var)
-abline(v = moy, col = "red", lwd = 3)
-abline(v = moy + 0.5 * std, col = "blue", lwd = 3)
-abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
-```
-
-
-
-## Combinaisons
-
+### Carte de stocks et de ratios 
+La fonction `propSymbolsChoroLayer()` représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d'une variable et dont la couleur repose sur la discrétisation d'une seconde variable. La fonction utilise les arguments des fonctions `propSymbolsLayer()` et `choroLayer()`. 
 
 ```{r choroprop}
-plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
-     bg = "lightblue1")
+plot(
+  st_geometry(mtq), 
+  col="darkseagreen3", 
+  border="darkseagreen4",  
+  bg = "lightblue1"
+)
 propSymbolsChoroLayer(
-  x = mtq, var= "P13_POP",
-  legend.var.title.txt = "Total\npopulation (2013)",
-  var2 = "cagr", legend.var.pos = "bottomleft",
+  x = mtq, 
+  var= "P13_POP",
+  var2 = "cagr", 
   breaks = c(-6.14,-2,-1,0,1,2),
   col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-  legend.var2.title.txt = "Compound annual\ngrowth rate"
+  legend.var.pos = "topright",
+  legend.var.title.txt = "Population totale\n(2013)",
+  legend.var2.pos = "bottomleft",
+  legend.var2.title.txt = "Taux de croissance\nannuel moyen\n(2008-2013)"
 )
-# Title
-layoutLayer(title = "Evolution de la population",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", 
-           frame=FALSE, scale = 5)
-north(pos = "topleft")
-
+title("Evolution de la population")
 ```
 
+### Carte de stocks et de qualitative 
+La fonction `propSymbolsTypoLayer()` représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d'une variable et dont la couleur représente les modalités d'une variable qualitative. La fonction utilise les arguments des fonctions `propSymbolsLayer()` et `typoLayer()`. 
 
-
-## Les données OSM
-
-[OpenStreetMap (OSM)](https://www.openstreetmap.org){target="_blank"} est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l'échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. En résumé, c'est comme Google Maps, mais en mieux...
-
-
-### Données vectorielles
-
-
-```{r, eval=FALSE}
-library("osmdata")
-# Définition d'une bounding box
-q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
-# Extraction des resaturants
-res <- add_osm_feature(opq = q, key = 'amenity', value = "restaurant")
-res.sf <- osmdata_sf(res)
-res.sf.pts  <- res.sf$osm_points[!is.na(res.sf$osm_points$amenity),]
-res.sf.pol <- res.sf$osm_polygons
-st_geometry(res.sf.pol) <- st_centroid(st_geometry(res.sf.pol))
-# Extraction des fast food
-ff <- add_osm_feature(opq = q, key = 'amenity',value = "fast_food")
-ff.sf <- osmdata_sf(ff)
-ff.sf.pts  <- ff.sf$osm_points[!is.na(ff.sf$osm_points$amenity),]
-ff.sf.pol <- ff.sf$osm_polygons
-st_geometry(ff.sf.pol) <- st_centroid(st_geometry(ff.sf.pol))
-# Extraction des cafés
-caf <- add_osm_feature(opq = q, key = 'amenity', value = "cafe" )
-caf.sf <- osmdata_sf(caf)
-caf.sf.pts  <- caf.sf$osm_points[!is.na(caf.sf$osm_points$amenity),]
-caf.sf.pol <- caf.sf$osm_polygons
-st_geometry(caf.sf.pol) <- st_centroid(st_geometry(caf.sf.pol))
-# regroupement des 3 types d'établissement
-resto <- rbind(
-  res.sf.pts[, c("osm_id", "name")], res.sf.pol[, c("osm_id", "name")], 
-  ff.sf.pts[, c("osm_id", "name")], ff.sf.pol[, c("osm_id", "name")], 
-  caf.sf.pts[, c("osm_id", "name")], caf.sf.pol[, c("osm_id", "name")]
+```{r typoprop}
+plot(
+  st_geometry(mtq), 
+  col="darkseagreen3", 
+  border="darkseagreen4",  
+  bg = "lightblue1"
 )
-resto <- st_transform(resto, st_crs(mtq))
-
-
-plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
-     bg = "lightblue1")
-plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
-layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
-           author= "INSEE, 2016 - OSM, 2018", sources="", north=TRUE,
-           frame=FALSE, scale = 5)
-```
-
-```{r, eval=TRUE, echo=FALSE}
-resto <- st_read("data/resto.gpkg",quiet=TRUE)
-plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
-     bg = "lightblue1")
-plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
-layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
-           author= "INSEE, 2016 - OSM, 2018", sources="", north=TRUE,
-           frame=FALSE, scale = 5)
+propSymbolsTypoLayer(
+  x = mtq, 
+  var = "P13_POP", 
+  symbols = "circle",
+  var2 = "STATUT",
+  col = c("aquamarine4", "yellow3","wheat"),
+  legend.var.pos = "bottomleft",
+  legend.var.title.txt = "Population totale\n(2013)",
+  legend.var2.title.txt = "Statut administratif",
+  legend.var2.values.order = c("Préfecture de région",
+                               "Sous-préfecture",
+                               "Commune simple")
+)
+title("Population en Martinique")
 ```
 
 
-### Données raster
+## Éléments d'habillage
+
+Une carte thématique doit être "habillée", certains éléments aditionnels doivent être présents : le titre, l'auteur, la source, l'échelle, l'orientation...
+
+### Habillage complet
+
+La fonction `layoutLayer()` permet d'afficher tous ces éléments. 
+
+```{r layout1}
+plot(
+  st_geometry(mtq), 
+  col = "lightblue4", 
+  border = "lightblue3", 
+  bg = "lightblue1"
+)
+layoutLayer(
+  title = "Martinique", 
+  sources = "IGN", 
+  author = "Giraud & Pécout, 2019",
+  north = TRUE
+)
+```
+
+Plusieurs arguments permettent de paramétrer plus finement les éléments d'habillage pour aboutir à des cartes plus personnalisées (`tabtitle`, `col`, `coltitle`, `theme`...).
+
+```{r layout2}
+plot(
+  st_geometry(mtq), 
+  col = "lightblue4", 
+  border = "lightblue3", 
+  bg = "lightblue1"
+)
+layoutLayer(
+  title = "Martinique", 
+  sources = "IGN", 
+  author = "Giraud & Pécout, 2019",
+  north = TRUE, 
+  scale = 5,
+  frame = FALSE, 
+  tabtitle = TRUE, 
+  theme = "turquoise.pal"
+)
+```
+
+### Flèche d'orientation
+
+La fonction `north()` permet de mieux choisir la position et l'aspect de la flêche d'orientation. 
+
+```{r north}
+plot(
+  st_geometry(mtq), 
+  col = "red", 
+  border = "white", 
+  bg = "grey80"
+)
+north(pos = "topleft", col = "red")
+layoutLayer(
+  title = "Martinique", 
+  sources = "IGN", 
+  author = "Giraud & Pécout, 2019",
+  frame = FALSE, 
+  col = "grey20", 
+  coltitle = "grey80", 
+  tabtitle = TRUE
+)
+```
+
+### Échelle
+
+La fonction `barscale()` permet de mieux choisir la position et l'aspect de l'échelle. 
+
+```{r scale}
+plot(
+  st_geometry(mtq), 
+  col = "red", 
+  border = "white", 
+  bg = "grey80"
+)
+barscale(
+  size = 5, 
+  lwd = 2, 
+  cex = 1.2, 
+  pos = c(713712.6,1594777)
+)
+layoutLayer(
+  title = "Martinique", 
+  sources = "IGN", 
+  author = "Giraud & Pécout, 2019",
+  frame = FALSE, 
+  col = "grey20", 
+  coltitle = "grey80", 
+  tabtitle = TRUE, 
+  scale = NULL
+)
+```
+
+
+### Étiquettes
+
+La fonction `labelLayer()` est dédiée à l'afichage d'étiquettes. 
+
+```{r labs}
+plot(
+  st_geometry(mtq), 
+  col = "darkseagreen3", 
+  border = "darkseagreen4",
+  bg = "#A6CAE0"
+)
+labelLayer(
+  x = mtq, 
+  txt = "LIBGEO", 
+  col= "black", 
+  cex = 0.7, 
+  font = 4,
+  halo = TRUE, 
+  bg = "white", 
+  r = 0.1, 
+  overlap = FALSE, 
+  show.lines = FALSE
+)
+layoutLayer(
+  title = "Communes",
+  tabtitle = TRUE,
+  author = "INSEE, 2016", 
+  sources ="", 
+  north =TRUE,  
+  frame = FALSE, 
+  scale = 5
+)
+```
+
+
+
+
+## Autres fonctionnalités utiles
+
+### Utiliser un fond de carte OSM
+
+La fonction `getTiles()` permet de télécharger des fonds de cartes OSM et la fonction `tilesLayer()` permet de les afficher. 
 
 ```{r osmcode, fig.width=6, fig.height=6, eval=FALSE}
 type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
@@ -335,8 +354,114 @@ for (i in type){
 ```
 
 
+### Mise en page
 
-## Création de cartons
+#### Ajuster les marges de la figures
+
+Pour modifier les marges d'une figure (carte ou autre) il faut utiliser la fonction `par()` et son argument `mar`. 
+
+```{r defmarg, dm=TRUE}
+par(bg="grey80")
+plot(st_geometry(mtq), main="Marges par défaut")
+box()
+par(mar=c(0,0,1.2,0))
+plot(st_geometry(mtq), main="Marges paramétrées")
+box()
+```
+
+La fonction `dev.off()` efface tous les graphiques en mémoire et permet de réinitialiser les marges avec leurs valeurs par défaut. 
+
+#### Afficher plusieurs cartes sur la même figure
+`par(mfrow=c(1,2))`
+
+#### Obtenir un ratio de figure adapté
+
+`getFigDim()`
+
+### Créer un effet crayonné 
+
+```{r pencil}
+library(sf)
+mtq_pencil <- getPencilLayer(x = mtq)
+typoLayer(
+  x = mtq_pencil, 
+  var="STATUT", 
+  col = c("aquamarine4", "yellow3","wheat"),
+  legend.values.order = c("Préfecture de région",
+                          "Sous-préfecture", 
+                          "Commune simple"),
+  legend.pos = "topright",
+  legend.title.txt = "Status"
+)
+plot(st_geometry(mtq), add = TRUE, ldy=2)
+layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
+            author= "INSEE, 2016", sources="", 
+            frame=FALSE, scale = 5)
+north(pos = "topleft")
+```
+
+### Ajouter un ombrage à une couche
+```{r shadow}
+plot(st_geometry(mtq) + c(500, -500), 
+     col = "grey50", border = NA, bg = "lightblue1")
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4", add=TRUE)
+layoutLayer(title = "Communes",tabtitle=TRUE,
+            author= "INSEE, 2016", sources="", north=TRUE,  
+            frame=FALSE, scale = 5)
+```
+
+### Palettes de couleurs {#palettes}
+
+La fonction `display.carto.all()` permet d'afficher toutes palettes de couleurs disponibles dans `cartography`.
+```{r pa, nm=TRUE}
+display.carto.all(20)
+```
+
+La fonction `display.carto.pal()` permet de détailler une palette de couleurs.
+
+```{r pal1, nm=TRUE}
+display.carto.pal("orange.pal")
+```
+
+La fonction `carto.pal()` permet de construire une palette de couleur.
+Il est possible de créer des palettes associant 2 couleurs. 
+
+```{r pal2,  fig.height=3, nm=TRUE}
+mypal <- carto.pal(pal1 = "wine.pal", n1 = 5, pal2 = "green.pal", n2 = 4)
+image(1:9, 1, as.matrix(1:9), col=mypal, xlab = "", ylab = "", xaxt = "n", 
+      yaxt = "n",bty = "n")
+```
+
+### Discrétisations {#discretisation}
+
+La fonction `getBreaks()` met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique ...
+
+```{r discr2, fig.height=3, fig.width=5, dm=FALSE}
+var <- mtq$cagr
+moy <- mean(var)
+med <- median(var)
+std <- sd(var)
+# Quantile intervals
+breaks <- getBreaks(v = var, nclass = 6, method = "quantile")
+hist(var, probability = TRUE, breaks = breaks, main="quantiles",
+     col = carto.pal(pal1 = "wine.pal",3, "green.pal", 3))
+rug(var)
+abline(v = med, col = "blue", lwd = 3)
+```
+
+```{r discr3,  fig.height=3, fig.width=5, dm=TRUE}
+
+# Mean and standard deviation (msd)
+breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
+hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
+     col = carto.pal(pal1 = "wine.pal",3 , "green.pal", 2, middle = TRUE))
+rug(var)
+abline(v = moy, col = "red", lwd = 3)
+abline(v = moy + 0.5 * std, col = "blue", lwd = 3)
+abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
+```
+
+### Création de cartons
 
 Le package `mapinsetr`[@R-mapinsetr] est dédié à la crétion de cartons cartographiques. Il n'est pas sur le CRAN pour l'instant, mais on peut l'installer via le package `remotes`. 
 
@@ -345,8 +470,6 @@ remotes::install_github("riatelab/mapinsetr")
 ```
 
 `mapinsetr` permet de découper, redimensionner et déplacer une zone d'un fond de carte.
-
-
 
 ```{r inset1}
 library(mapinsetr)
@@ -385,8 +508,8 @@ plot(st_geometry(zmtq_FDF), col = "lightblue4", border = "lightblue3", add=TRUE)
 plot(st_geometry(zresto_FDF), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(zbox_FDF), border = "red", add = T, lwd = 2)
 layoutLayer(title = "Carte initiale + couches créées",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", north=TRUE,  
-           frame=FALSE, scale = 5)
+            author= "INSEE, 2016", sources="", north=TRUE,  
+            frame=FALSE, scale = 5)
 # Création de couches unqiues comprenant le zoom
 resto <- inset_rbinder(l = list(resto, zresto_FDF))
 mtq <- inset_rbinder(l = list(mtq, zmtq_FDF))
@@ -396,7 +519,11 @@ plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3",
 plot(st_geometry(resto), add=T, pch=20, col = "#330A5FFF", cex = 0.5)
 plot(st_geometry(box), border = "red", add = T, lwd = 2)
 layoutLayer(title = "Carte finale avec carton",tabtitle=TRUE,
-           author= "INSEE, 2016", sources="", north=TRUE,  
-           frame=FALSE, scale = 5)
+            author= "INSEE, 2016", sources="", north=TRUE,  
+            frame=FALSE, scale = 5)
 ```
+
+
+
+
 

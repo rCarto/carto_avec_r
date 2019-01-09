@@ -41,12 +41,8 @@ Historiquement trois packages permettent d'importer, de manipuler et de transfor
 - Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/){target="_blank"}) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
 
 **La suite**  
-Le package `sf` a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
+Le package `sf` ([@R-sf], [@Pebesma18]) a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
 Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe *pipe* et les opérateurs du `tidyverse`.
-
-[@R-sf]
-[@Pebesma18]
-
 
 Aujourd'hui, les principaux développements dans l'écosystème spatial de R se détachent progressivement des 3 anciens (`sp`, `rgdal`, `rgeos`) pour se reposer sur `sf`. 
 
@@ -136,6 +132,7 @@ st_write(obj = mtq, "data/mtq.shp", delete_layer = TRUE)
 Aperçu des variables
 
 ```{r}
+head(mtq)
 plot(mtq)
 ```
 
@@ -148,12 +145,35 @@ plot(st_geometry(mtq))
 
 ### Joindre des données
 
+On peut joindre d'autres données à un objet sf en utilisant la fonction `merge()`. 
+
+```{r, mergedata}
+mtq2016 <- read.csv(file = "data/mtq2016.csv")
+head(mtq2016)
+mtq <- merge(x = mtq, y = mtq2016, by.x = "INSEE_COM", by.y = "ID")
+head(mtq)
+```
 
 
+## Les systèmes de projections
+
+### Consulter la projection d'un objet
+```{r, proj1}
+st_crs(mtq)
+```
+
+### Modifier la projection d'un objet 
+
+```{r, proj2, sm=TRUE}
+mtq_reproj <- st_transform(mtq, 2154)
+par(mfrow=c(1,2))
+plot(st_geometry(mtq))
+title("WGS 84 / UTM zone 20N")
+plot(st_geometry(mtq_reproj))
+title("RGF93 / Lambert-93")
+```
 
 
-
-## Les projections
 
 
 ## Opérations de géotraitement
@@ -175,7 +195,7 @@ mtq[mtq$LIBGEO=="Fort-de-France", 1:4]
 
 ### Selection spatiale
 Selection des communes interectants Fort-de-France
-```{r selectSpat}
+```{r selectSpat, nm=TRUE}
 fdf <-  mtq[mtq$LIBGEO == "Fort-de-France", ]
 mtq$fdf <- st_intersects(x = mtq, y = fdf, sparse = FALSE)
 plot(st_geometry(mtq))
@@ -325,3 +345,58 @@ place
 readRDS("data/place3.rds")
 ```
 
+## Importer des données OSM
+
+[OpenStreetMap (OSM)](https://www.openstreetmap.org){target="_blank"} est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l'échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. 
+
+Le package `osmdata` [@R-osmdata] permet d'extraire des données depuis OSM. 
+
+```{r, eval=FALSE}
+library(sf)
+library(osmdata)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+# Définition d'une bounding box
+q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
+# Extraction des resaturants
+res <- add_osm_feature(opq = q, key = 'amenity', value = "restaurant")
+res.sf <- osmdata_sf(res)
+res.sf.pts  <- res.sf$osm_points[!is.na(res.sf$osm_points$amenity),]
+res.sf.pol <- res.sf$osm_polygons
+st_geometry(res.sf.pol) <- st_centroid(st_geometry(res.sf.pol))
+# Extraction des fast food
+ff <- add_osm_feature(opq = q, key = 'amenity',value = "fast_food")
+ff.sf <- osmdata_sf(ff)
+ff.sf.pts  <- ff.sf$osm_points[!is.na(ff.sf$osm_points$amenity),]
+ff.sf.pol <- ff.sf$osm_polygons
+st_geometry(ff.sf.pol) <- st_centroid(st_geometry(ff.sf.pol))
+# Extraction des cafés
+caf <- add_osm_feature(opq = q, key = 'amenity', value = "cafe" )
+caf.sf <- osmdata_sf(caf)
+caf.sf.pts  <- caf.sf$osm_points[!is.na(caf.sf$osm_points$amenity),]
+caf.sf.pol <- caf.sf$osm_polygons
+st_geometry(caf.sf.pol) <- st_centroid(st_geometry(caf.sf.pol))
+# regroupement des 3 types d'établissement
+resto <- rbind(
+  res.sf.pts[, c("osm_id", "name")], res.sf.pol[, c("osm_id", "name")], 
+  ff.sf.pts[, c("osm_id", "name")], ff.sf.pol[, c("osm_id", "name")], 
+  caf.sf.pts[, c("osm_id", "name")], caf.sf.pol[, c("osm_id", "name")]
+)
+resto <- st_transform(resto, st_crs(mtq))
+
+# Affichage des restaurants
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
+     bg = "lightblue1")
+plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
+title("Répartition des restaurants")
+mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
+```
+
+```{r, eval=TRUE, echo=FALSE, sm=TRUE}
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+resto <- st_read("data/resto.gpkg",quiet=TRUE)
+plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
+     bg = "lightblue1")
+plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
+title("Répartition des restaurants")
+mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
+```
