@@ -1,17 +1,22 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 ```{r knitr_init, echo=FALSE, cache=FALSE}
 library(knitr)
 ## Global options
 options(max.print="90")
 opts_chunk$set(echo=TRUE,
                fig.align='center',
-	             cache=TRUE,
+               cache=TRUE,
                prompt=FALSE,
                tidy=FALSE,
                comment=NA,
                message=FALSE,
                warning=FALSE,
-	             fig.height=4, 
-	             fig.width=4.8)
+               fig.height=4, 
+               fig.width=4.8)
 opts_knit$set(width=90)
 options(width = 90)
 knit_hooks$set(nm = function(before, options, envir){
@@ -28,20 +33,20 @@ knit_hooks$set(sm = function(before, options, envir){
 
 # Les données spatiales {#chapitre1}
 
-Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponible dans R grace au package `sf`. Il devient alors possible d'utiliser R comme un SIG. 
+Il est possible d'importer, de manipuler, de traiter, d'afficher et d'exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponibles dans R grace au package `sf`. Il devient alors possible d'utiliser R comme un SIG. 
 
 
 ## Le package `sf`
 
 **Historique**  
-Historiquement trois packages permettent d'importer, de manipuler et de transformer les données spatiales :
+Historiquement, trois packages permettent d'importer, de manipuler et de transformer les données spatiales :
 
 - Le package `rgdal` qui est une interface entre R et les librairies GDAL ([Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"}) et [PROJ4](https://github.com/OSGeo/proj.4){target="_blank"} permet d'importer et d'exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques  
-- Le package `sp` fournit des classes et methodes pour les données spatiales dans R. C'est grace à ce package que l'on peut afficher des fond de cartes, inspecter une table attributaire etc.  
+- Le package `sp` fournit des classes et methodes pour les données spatiales dans R. Il permet afficher des fond de cartes, d'inspecter une table attributaire etc.  
 - Le package `rgeos` donne accès à la librairie d'opérations spatiales GEOS ([Geometry Engine - Open Source](http://trac.osgeo.org/geos/){target="_blank"}) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.
 
 **La suite**  
-Le package `sf` ([@R-sf], [@Pebesma18]) a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner dans les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
+Le package `sf` ([@R-sf], [@Pebesma18]) a été publié fin 2016 par Edzer Pebesma (auteur de `sp`). Son objectif est de combiner les fonctionnalités de `sp`, `rgeos` et `rgdal` dans un package unique plus ergonomique. 
 Ce package propose des objets plus simples (suivant le standard simple feature) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe *pipe* et les opérateurs du `tidyverse`.
 
 Aujourd'hui, les principaux développements dans l'écosystème spatial de R se détachent progressivement des 3 anciens (`sp`, `rgdal`, `rgeos`) pour se reposer sur `sf`. 
@@ -58,13 +63,13 @@ knitr::include_graphics("img/sf.png")
 
 
 
-Les objets `sf` sont des data.frame dont l'une des colonne contient des géométrie. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry).   
-Ce format très pratique dans la mesure ou les données et les géométries sont intrinsequement liées dans un même objet. 
+Les objets `sf` sont des `data.frame` dont l'une des colonnes contient des géométries. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry).   
+Ce format est très pratique dans la mesure ou les données et les géométries sont intrinsèquement liées dans un même objet. 
 
 
 ### Construction d'un objet sf
 
-#### Couche de points
+**Couche de points**
 
 ```{r}
 library(sf)
@@ -74,13 +79,13 @@ pt3_sfg <- st_point(c(2,1))
 (pt_sfc <- st_sfc(pt1_sfg,pt2_sfg,pt3_sfg, crs = (4326)))
 
 pt_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
 (pt_sf <- st_sf(pt_df,geometry = pt_sfc))
 plot(pt_sf)
 
 ```
 
-#### Couche de polygones
+**Couche de polygones**
 
 ```{r}
 p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))
@@ -91,14 +96,14 @@ pol2_sfg <-st_polygon(list(p2))
 pol3_sfg <-st_polygon(list(p3))
 (pol_sfc <- st_sfc(pol1_sfg, pol2_sfg, pol3_sfg, crs = 4326))
 pol_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+                     var1 = c(10,20,30), var2 = c(2.3,1.9,4))
 (pol_sf <- st_sf(pol_df,geometry = pol_sfc))
 plot(pol_sf)
 
 ```
 
+**Couche de linestring**
 
-#### Couche de linestring
 ```{r}
 p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4))
 p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1))
@@ -108,7 +113,7 @@ ls2_sfg <-st_linestring(p2)
 ls3_sfg <-st_linestring(p3)
 (ls_sfc <- st_sfc(ls1_sfg, ls2_sfg, ls3_sfg, crs = 4326))
 ls_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                   var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
 (ls_sf <- st_sf(ls_df,geometry = ls_sfc))
 plot(ls_sf)
 
@@ -116,6 +121,8 @@ plot(ls_sf)
 
 
 ### Import / Export
+
+Les fonctions `st_read()` et `st_write()` permettent d'importer et d'exporter de nombreux types de fichiers.
 
 ```{r import}
 library(sf)
@@ -129,15 +136,14 @@ st_write(obj = mtq, "data/mtq.shp", delete_layer = TRUE)
 
 ### Affichage de données
 
-Aperçu des variables
+**Aperçu des variables** via les fonctions `head()` et `plot()`.
 
 ```{r}
 head(mtq)
 plot(mtq)
 ```
 
-
-Affichage de la géométrie
+**Affichage de la géométrie** uniquement.
 
 ```{r, nm=TRUE}
 plot(st_geometry(mtq))
@@ -145,7 +151,7 @@ plot(st_geometry(mtq))
 
 ### Joindre des données
 
-On peut joindre d'autres données à un objet sf en utilisant la fonction `merge()`. 
+On peut joindre un `data.frame` à un objet sf en utilisant la fonction `merge()`. 
 
 ```{r, mergedata}
 mtq2016 <- read.csv(file = "data/mtq2016.csv")
@@ -158,27 +164,32 @@ head(mtq)
 ## Les systèmes de projections
 
 ### Consulter la projection d'un objet
+La fonction `st_crs()` permet de consulter le système de projection utilisé par un objet sf et de la modifier (**sans reprojeter les données**).
+
 ```{r, proj1}
 st_crs(mtq)
 ```
 
 ### Modifier la projection d'un objet 
 
+La fonction `st_transform()` permet de reprojeter un objet sf. 
+
 ```{r, proj2, sm=TRUE}
-mtq_reproj <- st_transform(mtq, 2154)
 plot(st_geometry(mtq))
 title("WGS 84 / UTM zone 20N")
+mtq_reproj <- st_transform(mtq, 2154)
 plot(st_geometry(mtq_reproj))
 title("RGF93 / Lambert-93")
 ```
+Le site [Spatial Reference](http://spatialreference.org/){target="_blank"} met à disposition les références de très nombreux systèmes de projection. 
 
 
 
 
 ## Opérations de géotraitement
 
-### Selection par attributs
-Les objets `sf` **sont** des `data.frame`, on peut donc selectionner leur lignes et leur colonnes de la même manière que les `data.frame`. 
+### Sélection par attributs
+Les objets `sf` **sont** des `data.frame`, on peut donc sélectionner leur lignes et leur colonnes de la même manière que les `data.frame`. 
 
 ```{r selectAttr}
 # selection de ligne
@@ -192,8 +203,8 @@ mtq[mtq$LIBGEO=="Fort-de-France", 1:4]
 ```
 
 
-### Selection spatiale
-Selection des communes interectants Fort-de-France
+### Sélection spatiale
+Sélection des communes intesectant Fort-de-France
 ```{r selectSpat, nm=TRUE}
 fdf <-  mtq[mtq$LIBGEO == "Fort-de-France", ]
 mtq$fdf <- st_intersects(x = mtq, y = fdf, sparse = FALSE)
@@ -213,8 +224,9 @@ plot(st_geometry(mtq_c), add=TRUE, cex=1.2, col="red", pch=20)
 
 ### Créer une matrice de distances
 
+Si le système de projection du jeu de données est renseigné les distances sont exprimées dans l'unité de mesure de la projection (en mètres le plus souvent).
 ```{r distance, nm=TRUE}
-mat <- st_distance(x=mtq_c,y=mtq_c)
+mat <- st_distance(x = mtq_c, y = mtq_c)
 mat[1:5,1:5]
 ```
 
@@ -296,8 +308,7 @@ plot(st_geometry(mtq_v), col='lightblue')
 
 Plusieurs packages permettent de géocoder des adresses.
 
-
-- `photon`
+- `photon` [@R-photon]
 
 ```{r, eval=FALSE}
 # remotes::install_github(repo = 'rCarto/photon')  
@@ -306,14 +317,15 @@ address <- c("19 rue Michel Bakounine, 29600 Morlaix, France",
              "8 place Paul Ricoeur, 75013 Paris")
 place <- photon::geocode(address, limit = 1, key = "place", lang = "fr")
 place
-saveRDS(object = place, file = "data/place1.rds")
+
 ```
 
 ```{r, echo = FALSE}
 readRDS("data/place1.rds")
+
 ```
 
-- `nominatim`
+- `nominatim` [@R-nominatim]
 
 ```{r, eval=FALSE}
 # remotes::install_github("hrbrmstr/nominatim")
@@ -321,8 +333,8 @@ library(nominatim)
 address <- c(URLencode("19 rue Michel Bakounine, 29600 Morlaix, France"),
              URLencode("8 place Paul Ricoeur, 75013 Paris"))
 place <- osm_geocode(address, 
-            country_codes = "FR", 
-            key = "UneClefMapQuestValide")
+                     country_codes = "FR", 
+                     key = "UneClefMapQuestValide")
 place
 ```
 
@@ -330,7 +342,7 @@ place
 readRDS("data/place2.rds")
 ```
 
-- `banR` (pour des adresses en France)
+- `banR` [@R-banR], pour des adresses en France uniquement.
 
 ```{r, eval=FALSE}
 library(banR)
@@ -341,14 +353,47 @@ place
 ```
 
 ```{r, echo = FALSE}
-readRDS("data/place3.rds")
+(place <- readRDS("data/place3.rds"))
 ```
+
+
+**Transformer les données en objet `sf`**
+
+```{r addbuild, eval = FALSE, echo = FALSE}
+library(sf)
+library(cartography)
+place_sf <- st_as_sf(place, coords = c("longitude", "latitude"), crs = 4326)
+saveRDS(getTiles(x = place_sf, zoom = 7 ), file = "data/osm_fr.RDS")
+tilesLayer(osm_fr)
+plot(st_geometry(place_sf), pch = 20, cex = 4, col = "red", add=T)
+```
+
+
+
+```{r addvis, eval = FALSE}
+library(sf)
+library(cartography)
+place_sf <- st_as_sf(place, coords = c("longitude", "latitude"), crs = 4326)
+osm_fr <- getTiles(x = place_sf, zoom = 7 )
+tilesLayer(osm_fr)
+plot(st_geometry(place_sf), pch = 20, cex = 4, col = "red", add=T)
+```
+
+```{r adddisplay, echo = FALSE, nm=T, fig.height=2}
+library(sf)
+library(cartography)
+place_sf <- st_as_sf(place, coords = c("longitude", "latitude"), crs = 4326)
+osm_fr <- readRDS("data/osm_fr.RDS")
+tilesLayer(osm_fr)
+plot(st_geometry(place_sf), pch = 20, cex = 4, col = "red", add=T)
+```
+
 
 ## Importer des données OSM
 
 [OpenStreetMap (OSM)](https://www.openstreetmap.org){target="_blank"} est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l'échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. 
 
-Le package `osmdata` [@R-osmdata] permet d'extraire des données depuis OSM. 
+Le package `osmdata` [@R-osmdata] permet d'extraire des données vectorielles depuis OSM. 
 
 ```{r, eval=FALSE}
 library(sf)
@@ -399,3 +444,10 @@ plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 title("Répartition des restaurants")
 mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
 ```
+
+
+<!-- ## Pour aller plus loin -->
+
+<!-- * liens vers d'autres ressources (blogs, github, liens) -->
+
+

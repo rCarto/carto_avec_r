@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 ```{r knitr3_init, echo=FALSE, cache=FALSE}
 library(knitr)
 ## Global options
@@ -31,161 +36,79 @@ knit_hooks$set(sm = function(before, options, envir){
 
 # Cartographie thématique avancée  {#chapitre3}
 
+## Les cartes de discontinuités
 
-## Cartographie interactive
-
-Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] basé sur la librairie javascript Leaflet [@JS-Leaflet] pour créer des cartes interactives. La création de carte est assez aisée, la documentation est un peu dense. 
-
-
-```{r}
-library(sf)
-library(mapview)
-mtq <- st_read("data/martinique.shp", quiet=TRUE)
-resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
-
-mapview(
-  resto, map.types = "OpenStreetMap", col.regions = "#940000", 
-  label = resto$name,alpha.regions=90,color = "white", legend = TRUE, 
-  layer.name = "Restaurants", 
-  homebutton = FALSE, lwd = 0.5, 
-  popup = NA
-) +
-  mapview(
-    mtq, col.regions = "lightblue", color = "white", legend = TRUE, 
-    label = mtq$LIBGEO, alpha.regions= 0.5, map.types = "OpenStreetMap",
-    lwd = 0.5, layer.name = "Communes",  homebutton = FALSE, 
-    popup = popupTable(mtq, zcol = 1:4, row.numbers = FALSE, 
-                       feature.id = FALSE)
-  )
-
-```
-
-
-
-
-## Les cartogrammes
-
->L’anamorphose classique est une représentation des États (ou de mailles quelconques) par **des rectangles ou des polygones quelconques** en fonction d’une **quantité** qui leur est rattaché. (...)
-On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."  
-@Brunet93
-
-Nous aborderons ici 3 types d'anamorphoses ou cartogrammes :
-
-- Les cartogrammes de Dorling [@Dorling96]
-- Les cartogrammes non contigus [@Olson76]
-- Les cartogrammes contigus [@Dougenik85]
-
-Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15].
-
-Pour réaliser les cartogrammes nous utilisons le package `cartogram` [@R-cartogram].
-
-### Les cartogrammes de Dorling
-
-Les territoires sont représentés par des figurés (cercles, des carrés ou des rectangles) ne se recouvrant pas dont les surfaces sont proportionnelle à une variable. Les positions des figurés sont définie selon les positions de départ. 
-
-
-```{r, echo=FALSE}
-knitr::include_graphics("img/dorling.png")
-```
-[@McCormick07]
-
-```{block2, type='rmdmoins'}
-On identifie assez mal l'espace.  
-On peut nommer les cercles pour se repérer et/ou s'aider de la couleur pour faire apparaitre des clusters et mieux identifier les blocks géographiques.    
-```
-
-```{block2, type='rmdplus'}
-La perception des quantités est très bonne.   
-Les tailles de cercles sont vraiment comparables.    
-```
-
-```{r dorling, fig.width=6, fig.height=6}
-library(cartography)
-library(cartogram)
-library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
-mtq_dorling <- cartogram_dorling(x = mtq, weight = "P13_POP", k = 12) 
-plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
-labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
-           halo = TRUE, r = .15)
-layoutLayer("Population en Martinique - Cartogramme de Dorling",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
-```
-
-
-
-
-
-
-### Les cartogrammes non continus
-
-La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. La forme des polygones est ressemblante. 
+Ce type de représentation permet de souligner cartographiquement les discontinuités territoriales d'un phénomène.  L'accent est porté sur ce qui distingue des territoires. Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d'autre. Puis nous représentons la frontière par un figuré d'autant plus épais que la différence est forte. Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
 
 ```{r, fig.align='center', echo=FALSE}
-knitr::include_graphics("img/nccartogram.png")
+knitr::include_graphics("img/discmet.png")
 ```
-[@Cauvin13]
-
-```{block2, type='rmdmoins'}
-La topologie des régions est perdue.
-```
-
-```{block2, type='rmdplus'}
-La conservation de la forme des polygones est optimale.
-```
-
-```{r olson}
-library(cartography)
-library(cartogram)
-library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
-mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5) 
-plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
-plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
-layoutLayer("Population en Martinique - Cartogramme de Olson",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
-```
-
-
-
-### Les cartogrammes continus
-
-
-La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. Pour conserver la contiguité, la forme des polygones est fortement transformée.  
 
 ```{r, fig.align='center', echo=FALSE}
-knitr::include_graphics("img/cartogram.jpg")
+knitr::include_graphics("img/disc2.png")
 ```
-[@Paull16]
 
 ```{block2, type='rmdmoins'}
-La forme des polygones est fortement distordue.
+Ces cartes ne sont pas évidentes à paramétrer. Le choix des critères (seuil, type de différences...) influence fortement la représentation. En fonction du maillage utilisé la lisibilité de la carte peut être faible. 
 ```
 
 ```{block2, type='rmdplus'}
-C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
+Ces représentations sont très puissantes pour montrer les inégalités. 
 ```
 
-```{r dougenik}
-library(cartography)
-library(cartogram)
+La fonctions `getBorder()` du package `cartography` permet de construire une couche des frontières terrestres. La fonction `discLayer()` permet d'afficher les discontinuités. 
+
+```{r disc}
 library(sf)
+library(cartography)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
-# transformation POLYGON => MULTIPOLYGON
-mtq <- st_cast(mtq, "MULTIPOLYGON")
-mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
-plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
-layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
-
+# Get borders
+mtq_bord <- getBorders(x = mtq)
+# Plot polygons
+plot(st_geometry(mtq), border = NA, col = "grey60")
+# Plot borders
+plot(
+  st_geometry(mtq_bord), 
+  col = sample(x = rainbow(nrow(mtq_bord))), 
+  lwd = 3, 
+  add = TRUE
+)
+layoutLayer("Frontières inter-communales",tabtitle=TRUE, north = TRUE,
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 ```
 
-
-### Forces et faiblesses des cartogrammes
-
-Les cartogrammes sont des représentations cartographiques perçues comme **innovante** (bien que la methode date de 40 ans). Ces images très généralisées rendent bien compte des **quantités** et des **gradiants**. Ce sont de vraies images de **communication** qui **provoquent**, suscitent **l’intérêt**, véhiculent un **message** fort, **interpellent**.  
-
-Mais les cartogrammes induisent une perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte), demandent un **effort de lecture** qui peut être important et ne permettent pas de **gérer des données manquantes**.   
+```{r disc2}
+mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
+# Plot this share
+choroLayer(
+  x = mtq, 
+  var = "emp_share", 
+  border = NA, 
+  method = 'quantile', 
+  nclass = 6, 
+  legend.values.rnd = 1, 
+  legend.pos = "topright", 
+  legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
+# Plot discontinuities
+discLayer(
+  x = mtq_bord, 
+  df = mtq,
+  var = "emp_share", 
+  col="darkred", 
+  nclass=3, 
+  method="quantile", 
+  threshold = 0.5, 
+  sizemin = 0.5, 
+  sizemax = 8, 
+  type = "abs", 
+  legend.values.rnd = 1,
+  legend.title.txt = "Discontinuités\n(différences absolues)",
+  legend.pos = "bottomleft", add=TRUE
+)
+layoutLayer("Discontinuités - Part des employés",tabtitle=TRUE, 
+            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+north(pos = "topleft")
+```
 
 
 
@@ -219,6 +142,7 @@ La fonction `getGridLayer()` du package `cartography` permet de construire ces g
 ```{r grid}
 library(sf)
 library(cartography)
+library(sp)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 # Plot dentsity of population 
 mtq$dens <- mtq$P13_POP / (st_area(mtq) / (1000 * 1000)) 
@@ -237,8 +161,13 @@ choroLayer(
 layoutLayer("Population en Martinique",tabtitle=TRUE, 
             author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 north(pos = "topleft")
-mygrid <- getGridLayer(x = mtq, cellsize = 3000 * 3000, 
-                       type = "hexagonal", var = "P13_POP")
+# Création de la grille
+mygrid <- getGridLayer(
+  x = mtq, 
+  cellsize = 10000 * 10000, 
+  type = "hexagonal", 
+  var = "P13_POP"
+)
 ## conversion from square meter to square kilometers
 mygrid$densitykm <- mygrid$P13_POP / (mygrid$gridarea / (1000 * 1000)) 
 choroLayer(
@@ -252,87 +181,25 @@ choroLayer(
   legend.title.txt = "Densité de population\n(hab/km2)"
 )
 plot(st_geometry(mtq), lwd = 0.2, add=TRUE, border = "#ffffff75")
-layoutLayer("Population en Martinique",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
-north(pos = "topleft")
-```
-
-
-
-## Les cartes de discontinuités
-
-Ce type de représentation permet de souligner cartographiquement les discontinuités territoriales d'un phénomène.  L'accent est porter sur ce qui distingue des territoires. Pour chaque frontière nous calculons le rapports ou la différence des valeurs des polygones de part et d'autre. Puis nous représentons la frontière par un figuré d'autant plus épais que la différence est forte. Il est souvent bénéfique de coupler ce type de représentation à une représentation choroplèthe (pour comprendre le sens des discontinuités).
-```{r, fig.align='center', echo=FALSE}
-knitr::include_graphics("img/discmet.png")
-```
-
-```{r, fig.align='center', echo=FALSE}
-knitr::include_graphics("img/disc2.png")
-```
-
-```{block2, type='rmdmoins'}
-Ces cartes ne sont pas évidentes à paramétrer. Le choix des critères (seuil, type de différences...) influence fortement la représentation. En fonction du maillage utilisé la lisibilité de la carte peut être faible. 
-```
-
-```{block2, type='rmdplus'}
-Ces représentations sont très puissantes pour montrer les inégalités. 
-```
-
-
-La fonctions `getBorder()` du package `cartography` permet de construire une couche des frontières terrestres. La fonction `discLayer()` permet d'afficher les discontinuités. 
-
-```{r disc}
-library(sf)
-library(cartography)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
-# Get borders
-mtq_bord <- getBorders(x = mtq)
-# Plot polygons
-plot(st_geometry(mtq), border = NA, col = "grey60")
-# Plot borders
-plot(st_geometry(mtq_bord), 
-     col = sample(x = rainbow(nrow(mtq_bord))), 
-     lwd = 3, add = TRUE)
-layoutLayer("Frontières inter-communales",tabtitle=TRUE, north = TRUE,
-            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
-```
-
-```{r disc2}
-mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
-# Plot this share
-choroLayer(
-  x = mtq, 
-  var = "emp_share", 
-  border = NA, 
-  method = 'quantile', nclass = 6, 
-  legend.values.rnd = 1, legend.pos = "topright", 
-  legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
-# Plot discontinuities
-discLayer(
-  x = mtq_bord, 
-  df = mtq,
-  var = "emp_share", 
-  col="darkred", 
-  nclass=3, method="quantile", 
-  threshold = 0.5, 
-  sizemin = 0.5, sizemax = 8, 
-  type = "abs", 
-  legend.values.rnd = 1,
-  legend.title.txt = "Discontinuités\n(différences absolues)",
-  legend.pos = "bottomleft", add=TRUE
+layoutLayer(
+  title = "Population en Martinique",
+  tabtitle=TRUE, 
+  author= "INSEE 2016", 
+  sources="", 
+  frame=FALSE, 
+  scale = 5
 )
-layoutLayer("Discontinuités - Part des employés",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
 north(pos = "topleft")
 ```
+
 
 
 
 ## Le lissage spatial
 
-L'idée principale du lissage est de filtrer l’information pour révéler des structures spatiales sous-jacentes. C'est un ensemble de méthodes qui consistent à affecter aux points que l'on observe une valeur prenant en compte les valeurs de leur voisinnage. 
+L'idée principale du lissage est de filtrer l’information pour révéler des structures spatiales sous-jacentes. C'est un ensemble de méthodes qui consistent à affecter aux points que l'on observe une valeur prenant en compte les valeurs de leur voisinage. 
 Il existe plusieurs méthodes de lissage (kde, potentiels...) plus ou moins paramétrables. 
-Cette méthode permet de passer représentations ponctuelles à une représentation continu
+Cette méthode permet de passer d'une représentations de données ponctuelles vers la représentation d'une surface continue.
 
 ```{r, fig.align='center', echo=FALSE}
 knitr::include_graphics("img/liss1.png")
@@ -353,8 +220,7 @@ Les cartes produites attirent l'oeil par leur originalité.
 Cette méthode permet de passer d'une représentation ponctuelle ou discontinue (dans un maillage) à une représentation continue s'affranchissant des maillages existants. 
 ```
 
-### KDE
-
+La méthode utilisée ici est celle de l'estimation par noyau (KDE). 
 ```{r kde}
 library(sf)
 library(spatstat)
@@ -402,21 +268,10 @@ north(pos = "topleft")
 
 
 
-### Stewart
-
-
-
-[Vignette du package SpatialPosition](https://cran.r-project.org/web/packages/SpatialPosition/vignettes/StewartExample.html){target="_blank"}
-
-
-
-
-
-
-
-
-## 3D
+## Cartes en 3D
 ### linemap
+Le package `linemap` [@R-linemap] permet de réaliser des cartes composées de lignes.
+
 ```{r lines,fig.width=8, fig.height=5.75, nm=TRUE}
 library(linemap)
 library(sf)
@@ -445,8 +300,9 @@ text(x = bb[3], y = bb[2],labels = mapsources,
 
 ```
 
-### Tanaka
+### Relief Tanaka
 
+Cette méthode [@Tanaka50] est utilisée pour améliorer la perception du relief. 
 
 ```{r tanaka}
 library(raster)
@@ -475,7 +331,6 @@ pal <- c("#5D9D52", "#8DBC80", "#B8D9A9", "#FDEBBE", "#F7E0AC", "#F2D69B",
 k <- st_as_sf(mtq_cont)
 # order the sf
 k <- k[order(k$center),]
-# png(filename = "mtq.png", width = 700, height = 800, res = 100, bg = NA)
 plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue")
 for(i in 1:nrow(k)){
   p <- st_geometry(k[i,])
@@ -486,12 +341,15 @@ for(i in 1:nrow(k)){
 legendChoro(pos = c(689000,1598000 ), breaks = bv, col = pal, nodata = F,
             title.txt = "Elevation\n(metres)", cex = 1)
 layoutLayer(title = "Martinique Relief", north = T,
-            sources = 'T. Giraud, 2018', author = "SRTM, 2018", 
+            sources = 'T. Giraud, 2019', author = "SRTM, 2018", 
             col = "lightblue", 
             tabtitle = T, coltitle = "black")
 ```
 
 ### Rayshader
+
+Le package `rayshader` [@R-rayshader] permet de réaliser de belles cartes en relief. 
+L'export des images n'est pas évident, il s'agit ici d'une simple capture d'écran. 
 
 ```{r rayshade,eval=FALSE}
 library(sf)
@@ -520,4 +378,182 @@ elmat %>%
 
 ```{r, fig.align='center', echo=FALSE}
 knitr::include_graphics("img/rayshade.png", dpi = 100)
+```
+
+
+## Les cartogrammes
+
+>L’anamorphose classique est une représentation des États (ou de mailles quelconques) par **des rectangles ou des polygones quelconques** en fonction d’une **quantité** qui leur est rattaché. (...)
+On s’efforce de **garder l’arrangement général** des mailles ou la silhouette du continent."  
+@Brunet93
+
+3 types d'anamorphoses ou cartogrammes sont ici présentés :
+
+- Les cartogrammes de Dorling [@Dorling96]
+- Les cartogrammes non contigus [@Olson76]
+- Les cartogrammes contigus [@Dougenik85]
+
+Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15].
+
+Pour réaliser les cartogrammes nous utilisons le package `cartogram` [@R-cartogram].
+
+### Les cartogrammes de Dorling
+
+Les territoires sont représentés par des figurés (cercles, des carrés ou des rectangles) ne se recouvrant pas dont les surfaces sont proportionnelles à une variable. Les positions des figurés sont définie selon les positions de départ. 
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/dorling.png")
+```
+[@McCormick07]
+
+```{block2, type='rmdmoins'}
+On identifie assez mal l'espace.  
+On peut nommer les cercles pour se repérer et/ou s'aider de la couleur pour faire apparaitre des clusters et mieux identifier les blocks géographiques.    
+```
+
+```{block2, type='rmdplus'}
+La perception des quantités est très bonne.   
+Les tailles de cercles sont vraiment comparables.    
+```
+
+```{r dorling, fig.width=6, fig.height=6}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq_dorling <- cartogram_dorling(x = mtq, weight = "P13_POP", k = 12) 
+plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
+labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
+           halo = TRUE, r = .15)
+layoutLayer("Population en Martinique - Cartogramme de Dorling",tabtitle=TRUE, 
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+```
+Le paramètre `k` permet de faire varier le facteur d'expansion des cercles. 
+
+
+
+
+
+### Les cartogrammes non continus
+
+La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. La forme des polygones est ressemblante. 
+
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/nccartogram.png")
+```
+[@Cauvin13]
+
+```{block2, type='rmdmoins'}
+La topologie des régions est perdue.
+```
+
+```{block2, type='rmdplus'}
+La conservation de la forme des polygones est optimale.
+```
+
+```{r olson}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5) 
+plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
+plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
+layoutLayer("Population en Martinique - Cartogramme de Olson",tabtitle=TRUE, 
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+```
+
+Le paramètre `k` permet de faire varier le facteur d'expansion des polygones. 
+
+
+### Les cartogrammes continus
+
+
+La taille des polygones est proportionnelle à une variable. L'agencement des polygones les uns par rapport aux autres est conservée. Pour conserver la contiguité, la forme des polygones est fortement transformée.  
+
+```{r, fig.align='center', echo=FALSE}
+knitr::include_graphics("img/cartogram.jpg")
+```
+[@Paull16]
+
+```{block2, type='rmdmoins'}
+La forme des polygones est fortement distordue.
+```
+
+```{block2, type='rmdplus'}
+C'est une “vraie carte de géographie” : la topologie et la contiguité sont conservées.
+```
+
+```{r dougenik}
+library(cartography)
+library(cartogram)
+library(sf)
+mtq <- st_read("data/martinique.shp", quiet = TRUE)
+# transformation POLYGON => MULTIPOLYGON
+mtq <- st_cast(mtq, "MULTIPOLYGON")
+mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
+plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
+layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
+            author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
+
+```
+
+
+### Forces et faiblesses des cartogrammes
+
+Les cartogrammes sont des représentations cartographiques perçues comme **innovante** (bien que la methode date de 40 ans). Ces images très généralisées rendent bien compte des **quantités** et des **gradiants**. Ce sont de vraies images de **communication** qui **provoquent**, suscitent **l’intérêt**, véhiculent un **message** fort, **interpellent**.  
+
+Mais les cartogrammes induisent une perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte), demandent un **effort de lecture** qui peut être important et ne permettent pas de **gérer des données manquantes**.   
+
+
+## Cartographie interactive
+
+Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] basé sur la librairie javascript Leaflet [@JS-Leaflet] pour créer des cartes interactives. La création de carte est assez aisée, la documentation est un peu dense. 
+
+**Utilisation simple**
+```{r interact1}
+library(sf)
+library(mapview)
+mtq <- st_read("data/martinique.shp", quiet=TRUE)
+resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
+mapview(resto) + mapview(mtq) 
+```
+</br>
+**Utilisation personnalisée**
+```{r interact2}
+library(sf)
+library(mapview)
+mtq <- st_read("data/martinique.shp", quiet=TRUE)
+resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
+mapview(
+  resto, 
+  map.types = "OpenStreetMap", 
+  col.regions = "#940000", 
+  label = resto$name,
+  alpha.regions=90,
+  color = "white", 
+  legend = TRUE, 
+  layer.name = "Restaurants", 
+  homebutton = FALSE, 
+  lwd = 0.5, 
+  popup = NA
+) +
+  mapview(
+    mtq, 
+    col.regions = "lightblue", 
+    color = "white", 
+    legend = TRUE, 
+    label = mtq$LIBGEO, 
+    alpha.regions= 0.5, 
+    map.types = "OpenStreetMap",
+    lwd = 0.5, 
+    layer.name = "Communes",
+    homebutton = FALSE, 
+    popup = popupTable(mtq, 
+                       zcol = 1:4, 
+                       row.numbers = FALSE, 
+                       feature.id = FALSE)
+  )
+
 ```

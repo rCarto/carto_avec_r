@@ -25,8 +25,14 @@ Ce document se compose de trois parties permettant d'appréhender la création d
 - [Cartographie thématique](#chapitre2)   
 - [Cartographie thématique avancée](#chapitre3)  
 
-Voici une partie des packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales que nous utiliserons : `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats`. D'autres pourront être nécessaires ponctuellement. 
-`mapinsetr`, `osmdata`, `maptools`, `linemap`, `raster`, `rayshader`, `dplyr`, `photon`, `nominatim`, `banR`, 
+Voici une partie des packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales que nous utiliserons : `sf`, `cartography`, `mapview`, `raster`, `SpatialPosition`, `spatstats`. D'autres pourront être nécessaires ponctuellement (`mapinsetr`, `osmdata`, `maptools`, `linemap`, `raster`, `rayshader`, `dplyr`, `photon`, `nominatim`, `banR`)
+
+
+**Objectifs**
+
+* Savoir créer et manipuler des données spatiales
+* Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie
+* Connaitre des modes de représentation plus complexes
 
 
 
