@@ -313,7 +313,7 @@ barscale(
   pos = c(713712.6,1594777)
 )
 layoutLayer(title = "Martinique", sources = "IGN", 
-            author = "Giraud & Pécout, 2019", frame = FALSE, scale = 5,
+            author = "Giraud & Pécout, 2019", frame = FALSE, scale = NULL,
             coltitle = "#D1914D",tabtitle = TRUE)
 ```
 
@@ -367,8 +367,6 @@ plot(st_geometry(mtq), main="Marges paramétrées")
 Plusieurs solutions sont possible : 
 
 * Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l'on souhaite afficher. 
-
-
 ```{r}
 carbet <- mtq[mtq$LIBGEO=="Le Carbet",]
 # affichage de la couche de zoom "invisible"
@@ -441,10 +439,21 @@ layoutLayer(
 #### Afficher plusieurs cartes sur la même figure
 
 Il faut ici utiliser l'argument `mfrow` de la fonction `par()`. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes. 
+
+
+```{r mfrow0, fig.height=2.5}
+# deux lignes et deux colonnes
+par(mfrow=c(2,2))
+plot(st_geometry(mtq), col="red")
+plot(st_geometry(mtq), col="blue")
+plot(st_geometry(mtq), col="green")
+plot(st_geometry(mtq), col="yellow")
+```
+
+
 ```{r mfrow, fig.height=2.5}
 # une ligne et deux colonnes
 par(mfrow=c(1,2), mar = c(0,.2,1.2,.2))
-
 # 1ere carte
 carbet_bb <- st_bbox(carbet)
 plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
@@ -455,7 +464,7 @@ layoutLayer(title = "Le Carbet", sources = "", author = "", scale = 1,
             tabtitle = TRUE, frame=FALSE)
 # 2eme carte 
 plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
-     xlim = diams_bb[c(1,3)], ylim = carbet_bb[c(2,4)], bg = "#A6CAE0")
+     xlim = diams_bb[c(1,3)], ylim = diams_bb[c(2,4)], bg = "#A6CAE0")
 plot(st_geometry(diams), col = "darkseagreen3", border = "darkseagreen4", 
      lwd = 2, add=TRUE)
 layoutLayer(title = "Le Diamant", sources = "", author = "", scale = 1, 
@@ -532,6 +541,8 @@ text(x = 694019, y = 1615161,
      labels = "MER\nDES\nCARAÏBES", 
      col = "#e3f1f9", font = 3, srt=20 )
 ```
+
+`locator()`peut être utilisée sur la plupart des graphiques (pas ceux produits avec `ggplot2`). 
 
 
 
