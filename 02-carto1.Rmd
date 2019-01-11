@@ -261,12 +261,8 @@ Pour être finalisée, une carte thématique doit contenir certains éléments a
 La fonction `layoutLayer()` permet d'afficher tous ces éléments. 
 
 ```{r layout1}
-plot(
-  st_geometry(mtq), 
-  col = "lightblue4", 
-  border = "lightblue3", 
-  bg = "lightblue1"
-)
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
 layoutLayer(
   title = "Martinique", 
   sources = "IGN", 
@@ -278,12 +274,8 @@ layoutLayer(
 Plusieurs arguments permettent de paramétrer plus finement les éléments d'habillage pour aboutir à des cartes plus personnalisées (`tabtitle`, `col`, `coltitle`, `theme`...).
 
 ```{r layout2}
-plot(
-  st_geometry(mtq), 
-  col = "lightblue4", 
-  border = "lightblue3", 
-  bg = "lightblue1"
-)
+plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
+     bg = "lightblue1")
 layoutLayer(
   title = "Martinique", 
   sources = "IGN", 
@@ -301,22 +293,11 @@ layoutLayer(
 La fonction `north()` permet de mieux choisir la position et l'aspect de la flêche d'orientation. 
 
 ```{r north}
-plot(
-  st_geometry(mtq), 
-  col = "red", 
-  border = "white", 
-  bg = "grey80"
-)
-north(pos = "topleft", col = "red")
-layoutLayer(
-  title = "Martinique", 
-  sources = "IGN", 
-  author = "Giraud & Pécout, 2019",
-  frame = FALSE, 
-  col = "grey20", 
-  coltitle = "grey80", 
-  tabtitle = TRUE
-)
+plot(st_geometry(mtq), col = "#D1914D", border = "white")
+north(pos = "topleft", col = "#D1914D")
+layoutLayer(title = "Martinique", sources = "IGN", 
+            author = "Giraud & Pécout, 2019", frame = FALSE, scale = 5,
+            coltitle = "#D1914D",tabtitle = TRUE, postitle = "right")
 ```
 
 ### Échelle
@@ -324,28 +305,16 @@ layoutLayer(
 La fonction `barscale()` permet de mieux choisir la position et l'aspect de l'échelle. 
 
 ```{r scale}
-plot(
-  st_geometry(mtq), 
-  col = "red", 
-  border = "white", 
-  bg = "grey80"
-)
+plot(st_geometry(mtq), col = "#D1914D", border = "white")
 barscale(
   size = 5, 
   lwd = 2, 
   cex = 1.2, 
   pos = c(713712.6,1594777)
 )
-layoutLayer(
-  title = "Martinique", 
-  sources = "IGN", 
-  author = "Giraud & Pécout, 2019",
-  frame = FALSE, 
-  col = "grey20", 
-  coltitle = "grey80", 
-  tabtitle = TRUE, 
-  scale = NULL
-)
+layoutLayer(title = "Martinique", sources = "IGN", 
+            author = "Giraud & Pécout, 2019", frame = FALSE, scale = 5,
+            coltitle = "#D1914D",tabtitle = TRUE)
 ```
 
 
@@ -354,12 +323,8 @@ layoutLayer(
 La fonction `labelLayer()` est dédiée à l'afichage d'étiquettes. 
 
 ```{r labs}
-plot(
-  st_geometry(mtq), 
-  col = "darkseagreen3", 
-  border = "darkseagreen4",
-  bg = "#A6CAE0"
-)
+plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4", 
+     bg = "#A6CAE0")
 labelLayer(
   x = mtq, 
   txt = "LIBGEO", 
@@ -372,21 +337,204 @@ labelLayer(
   overlap = FALSE, 
   show.lines = FALSE
 )
-layoutLayer(
-  title = "Communes",
-  tabtitle = TRUE,
-  author = "INSEE, 2016", 
-  sources ="", 
-  north =TRUE,  
-  frame = FALSE, 
-  scale = 5
-)
+layoutLayer(title = "Communes", tabtitle = TRUE, author = "INSEE, 2016", 
+            sources ="", north =TRUE, frame = FALSE, scale = 5)
 ```
 
 
 
 
 ## Autres fonctionnalités utiles
+
+### Mise en page
+
+#### Ajuster les marges d'une figure
+
+Pour modifier les marges d'une figure (carte ou autre) il faut utiliser la fonction `par()` qui défini certains paramètres graphiques des figures et son argument `mar`. 
+La fonction `dev.off()` efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.
+
+```{r defmarg, dm=TRUE}
+# Modification de la couleur de fond des graphique
+par(bg="grey90")
+plot(st_geometry(mtq), main="Marges par défaut")
+# Modification des marges
+par(mar=c(0,0,1.2,0))
+plot(st_geometry(mtq), main="Marges paramétrées")
+```
+
+
+#### Centrer la carte sur une région
+Plusieurs solutions sont possible : 
+
+* Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l'on souhaite afficher. 
+
+
+```{r}
+carbet <- mtq[mtq$LIBGEO=="Le Carbet",]
+# affichage de la couche de zoom "invisible"
+plot(
+  st_geometry(carbet), 
+  col = NA, 
+  border = NA,
+  bg = "#A6CAE0"
+)
+# affichage des communes
+plot(
+  st_geometry(mtq), 
+  col = "darkseagreen1", 
+  border = "darkseagreen4", 
+  add=TRUE
+)
+# affichage de la couche d'intérêt
+plot(
+  st_geometry(carbet), 
+  col = "darkseagreen3", 
+  border = "darkseagreen4", 
+  lwd = 2, 
+  add=TRUE
+)
+layoutLayer(
+  title = "Le Carbet", 
+  sources = "",
+  author = "",
+  scale = 1,
+  tabtitle = TRUE,
+  frame=FALSE
+)
+```
+
+* Utiliser les paramètres `xlim` et `ylim` de la fonction `plot()` aves les valeurs fournies par la fonction `st_bbox()`
+
+```{r}
+diams <- mtq[mtq$LIBGEO=="Le Diamant",]
+diams_bb <- st_bbox(diams)
+# affichage des communes
+plot(
+  st_geometry(mtq), 
+  col = "darkseagreen1", 
+  border = "darkseagreen4", 
+  xlim = diams_bb[c(1,3)], 
+  ylim = diams_bb[c(2,4)], 
+  bg = "#A6CAE0"
+)
+# affichage de la couche d'intérêt
+plot(
+  st_geometry(diams), 
+  col = "darkseagreen3", 
+  border = "darkseagreen4", 
+  lwd = 2, 
+  add=TRUE
+)
+layoutLayer(
+  title = "Le Diamant", 
+  sources = "",
+  author = "",
+  scale = 1,
+  tabtitle = TRUE,
+  frame=FALSE
+)
+```
+
+
+
+
+#### Afficher plusieurs cartes sur la même figure
+
+Il faut ici utiliser l'argument `mfrow` de la fonction `par()`. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes. 
+```{r mfrow, fig.height=2.5}
+# une ligne et deux colonnes
+par(mfrow=c(1,2), mar = c(0,.2,1.2,.2))
+
+# 1ere carte
+carbet_bb <- st_bbox(carbet)
+plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
+     xlim = carbet_bb[c(1,3)], ylim = carbet_bb[c(2,4)], bg = "#A6CAE0")
+plot(st_geometry(carbet), col = "darkseagreen3", border = "darkseagreen4", 
+     lwd = 2, add=TRUE)
+layoutLayer(title = "Le Carbet", sources = "", author = "", scale = 1, 
+            tabtitle = TRUE, frame=FALSE)
+# 2eme carte 
+plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
+     xlim = diams_bb[c(1,3)], ylim = carbet_bb[c(2,4)], bg = "#A6CAE0")
+plot(st_geometry(diams), col = "darkseagreen3", border = "darkseagreen4", 
+     lwd = 2, add=TRUE)
+layoutLayer(title = "Le Diamant", sources = "", author = "", scale = 1, 
+            tabtitle = TRUE, frame=FALSE)
+
+```
+
+
+```{r mfrow2, fig.width=3}
+# une ligne et deux colonnes
+par(mfrow=c(2,1), mar = c(0.2,0,1.4,0))
+# 1ere carte
+carbet_bb <- st_bbox(carbet)
+plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
+     xlim = carbet_bb[c(1,3)], ylim = carbet_bb[c(2,4)], bg = "#A6CAE0")
+plot(st_geometry(carbet), col = "darkseagreen3", border = "darkseagreen4", 
+     lwd = 2, add=TRUE)
+layoutLayer(title = "Le Carbet", sources = "", author = "", scale = 1, 
+            tabtitle = TRUE, frame=FALSE)
+# 2eme carte 
+plot(st_geometry(mtq), col = "darkseagreen1", border = "darkseagreen4", 
+     xlim = diams_bb[c(1,3)], ylim = diams_bb[c(2,4)], bg = "#A6CAE0")
+plot(st_geometry(diams), col = "darkseagreen3", border = "darkseagreen4", 
+     lwd = 2, add=TRUE)
+layoutLayer(title = "Le Diamant", sources = "", author = "", scale = 1, 
+            tabtitle = TRUE, frame=FALSE)
+```
+
+#### Obtenir un ratio de figure adapté
+
+Il est assez difficile d'exporter des figures (cartes ou autres) dont le ratio hauteur/largeur soit satisfaisant. Le ratio par défaut des figure au format png est de 1 (480x480 pixels) : 
+
+```{r, eval=FALSE}
+png(filename = "img/martinique1.png", res = 96)
+par(mar = c(0,0,1.2,0), bg = "grey90")
+plot(st_geometry(mtq), bg = "#A6CAE0", col = "#D1914D", border = "white")
+layoutLayer(title = "Martinique", sources = "", author = "", scale = NULL)
+dev.off()
+```
+![](img/martinique1.png)
+
+Sur cette carte beaucoup d'espace est perdu à l'est et à l'ouest de l'ile. 
+
+La fonction `getFigDim()` de `cartography` permet de choisir un ratio hauteur/largeur correspondant à l'emprise d'un objet `sf` en prenant en compte une largeur (ou hauteur) fixée, les paramètres de marges et la résolution souhaitée. 
+
+```{r}
+getFigDim(x = mtq, width = 480, mar = c(0,0,1.2,0), res = 96)
+```
+
+```{r, eval=FALSE}
+png(filename = "img/martinique2.png", width = 480, height = 583, res = 96)
+par(mar = c(0,0,1.2,0), bg = "grey90")
+plot(st_geometry(mtq), bg = "#A6CAE0", col = "#D1914D", border = "white")
+layoutLayer(title = "Martinique", sources = "", author = "", scale = NULL)
+dev.off()
+```
+![](img/martinique2.png)
+
+L'emprise de cette carte est exactement celle de l'île. 
+
+
+#### Placer précisément un élément sur la carte
+
+La fonction `locator()` permet de cliquer sur une figure et d'obtenir les coordonnées d'un point dans le système de coordonnées de la figure (de la carte). 
+
+<video width="800" controls="controls">
+<source src="img/locator.webm" type="video/webm" />
+</video>
+
+```{r}
+plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4", 
+     bg = "#A6CAE0")
+text(x = 694019, y = 1615161, 
+     labels = "MER\nDES\nCARAÏBES", 
+     col = "#e3f1f9", font = 3, srt=20 )
+```
+
+
+
 
 
 ### Utiliser un fond de carte OSM
@@ -419,65 +567,6 @@ for (i in type){
   mtext(side = 3, line = -1.5, text = i, col="red")
 }
 ```
-
-
-
-
-### Mise en page
-
-#### Ajuster les marges d'une figure
-
-Pour modifier les marges d'une figure (carte ou autre) il faut utiliser la fonction `par()` qui défini certains paramètres graphiques des figures et son argument `mar`. 
-La fonction `dev.off()` efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.
-
-
-```{r defmarg, dm=TRUE}
-# Modification de la couleur de fond des graphique
-par(bg="grey80")
-plot(st_geometry(mtq), main="Marges par défaut")
-# Modification des marges
-par(mar=c(0,0,1.2,0))
-plot(st_geometry(mtq), main="Marges paramétrées")
-```
-
-
-#### Afficher plusieurs cartes sur la même figure
-Il faut ici utiliser l'argument `mfrow` de la fonction `par()`. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes. 
-```{r mfrow}
-# une ligne et deux colonnes
-par(mfrow=c(1,2))
-# plot(mtq[mtq$])
-
-
-```
-
-
-#### Obtenir un ratio de figure adapté
-
-`getFigDim()`
-
-
-#### Placer précisément un élément sur la carte
-
-La fonction `locator()` permet de cliquer sur une figure et d'obtenir les coordonnées d'un point dans le système de coordonnées de la figure (de la carte). 
-
-
-<video width="800" controls="controls">
-  <source src="img/locator.webm" type="video/webm" />
-</video>
-
-```{r}
-plot(
-  st_geometry(mtq), 
-  col = "darkseagreen3", 
-  border = "darkseagreen4",
-  bg = "#A6CAE0"
-)
-
-barscale(size = 5, pos = c(694019, 1615161))
-```
-
-
 
 
 ### Créer un effet crayonné 
