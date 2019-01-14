@@ -25,7 +25,7 @@
 <meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2019-01-11">
+<meta name="date" content="2019-01-14">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -48,72 +48,58 @@
 
 
 
+<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {  }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -226,8 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapitre2" class="section level1">
 <h1><span class="header-section-number">Chapitre 2</span> Cartographie thématique</h1>
-<p>Nous ne détaillerons pas ici les règles de la cartographie thématique.
-Le lecteur pourra se référer à divers ouvrages de référence : <span class="citation">Bertin (<a href="#ref-Bertin67">1967</a>)</span>, <span class="citation">Pumain and Béguin (<a href="#ref-Beguin10">2010</a>)</span>, <span class="citation">Lambert and Zanin (<a href="#ref-Lambert16">2016</a>)</span></p>
+<p>Nous ne détaillerons pas ici les règles de la cartographie thématique. Le lecteur pourra se référer à divers ouvrages de référence : <span class="citation">Bertin (<a href="#ref-Bertin67">1967</a>)</span>, <span class="citation">Pumain and Béguin (<a href="#ref-Beguin10">2010</a>)</span>, <span class="citation">Lambert and Zanin (<a href="#ref-Lambert16">2016</a>)</span></p>
 <div id="le-package-cartography" class="section level2">
 <h2><span class="header-section-number">2.1</span> Le package <code>cartography</code></h2>
 <p><img src="img/logo.png" align="right" alt="" width="120" /></p>
@@ -240,16 +225,14 @@ Le lecteur pourra se référer à divers ouvrages de référence : <span class="
 <li>La <a href="http://riatelab.github.io/cartography/vignettes/cheatsheet/cartography_cheatsheet.pdf" target="_blank">cheat sheet</a> de cartography, qui résume les principales fonctions du package de façon synthétique.</li>
 </ul>
 <p><img src="img/cheat_sheet.png" width="1000" style="display: block; margin: auto;" /></p>
-<p>Les fonctions de <code>cartography</code> dédiées à la représentation utilisent le suffixe <code>Layer</code>.
-En général l’argument <code>x</code> est utilisé par un objet <code>sf</code> et l’argument <code>var</code> sert à renseigner la variable à représenter.</p>
+<p>Les fonctions de <code>cartography</code> dédiées à la représentation utilisent le suffixe <code>Layer</code>. En général l’argument <code>x</code> est utilisé par un objet <code>sf</code> et l’argument <code>var</code> sert à renseigner la variable à représenter.</p>
 </div>
 <div id="representations-usuelles" class="section level2">
 <h2><span class="header-section-number">2.2</span> Représentations usuelles</h2>
 <div id="carte-de-symboles-proportionnels" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Carte de symboles proportionnels</h3>
-<p>Les cartes de symboles proportionnels sont utilisées pour représenter les variables de stocks (variables quantitatives absolues, la somme et la moyenne ont un sens).
-La fonction <code>propSymbolsLayer()</code> propose cette représentation, plusieurs symboles sont disponibles : cercles, carrés et barres.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
+<p>Les cartes de symboles proportionnels sont utilisées pour représenter les variables de stocks (variables quantitatives absolues, la somme et la moyenne ont un sens). La fonction <code>propSymbolsLayer()</code> propose cette représentation, plusieurs symboles sont disponibles : cercles, carrés et barres.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(cartography)
 <span class="kw">library</span>(sf)
 <span class="co"># Import des données</span>
 mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
@@ -267,7 +250,7 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="s
   <span class="dt">legend.title.txt =</span> <span class="st">&quot;Population totale</span><span class="ch">\n</span><span class="st">(2013)&quot;</span>
 )
 <span class="co"># Titre</span>
-<span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Population en Martinique&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Population en Martinique&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/propS-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="carte-choroplethe" class="section level3">
@@ -280,7 +263,7 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="s
 <li>choisir une palette de couleurs.</li>
 </ul>
 <p>La fonction <code>choroLayer()</code> permet de créer des cartes choroplètes . Les arguments <code>nclass</code>, <code>method</code> et <code>breaks</code> servent à paramétrer les discrétisations et la fonction <code>getBreaks()</code> permet de travailler sur les discrétisations en dehors de la fonction <code>choroLayer()</code>. De même, l’argument <code>col</code> est utilisé pour renseigner une palette de couleur mais plusieurs fonctions peuvent être utilisées pour paramétrer les palettes en dehors de la fonction (<code>carto.pal()</code>…).</p>
-<pre class="sourceCode r"><code class="sourceCode r">mtq<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((mtq<span class="op">$</span>P13_POP <span class="op">/</span><span class="st"> </span>mtq<span class="op">$</span>P08_POP)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq<span class="op">$</span>cagr &lt;-<span class="st"> </span>(((mtq<span class="op">$</span>P13_POP <span class="op">/</span><span class="st"> </span>mtq<span class="op">$</span>P08_POP)<span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>)) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>
 <span class="kw">choroLayer</span>(
   <span class="dt">x =</span> mtq, 
   <span class="dt">var =</span> <span class="st">&quot;cagr&quot;</span>, 
@@ -288,12 +271,12 @@ mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="s
   <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#135D89&quot;</span>, <span class="st">&quot;#4D95BA&quot;</span>, <span class="st">&quot;#96D1EA&quot;</span>, <span class="st">&quot;#FCDACA&quot;</span>, <span class="st">&quot;#EC4E49&quot;</span>),
   <span class="dt">legend.title.txt =</span> <span class="st">&quot;Taux de croissance</span><span class="ch">\n</span><span class="st">annuel moyen</span><span class="ch">\n</span><span class="st">(2008-2013)&quot;</span>
 )
-<span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Evolution de la population&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Evolution de la population&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/choro-1.png" width="384" style="display: block; margin: auto;" /></p>
 <div id="discretisation" class="section level4">
 <h4><span class="header-section-number">2.2.2.1</span> Discrétisations</h4>
 <p>La fonction <code>getBreaks()</code> met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique …</p>
-<pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span>mtq<span class="op">$</span>cagr
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span>mtq<span class="op">$</span>cagr
 moy &lt;-<span class="st"> </span><span class="kw">mean</span>(var)
 med &lt;-<span class="st"> </span><span class="kw">median</span>(var)
 std &lt;-<span class="st"> </span><span class="kw">sd</span>(var)
@@ -302,39 +285,37 @@ breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span cla
 <span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;quantiles&quot;</span>,
      <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span>, <span class="st">&quot;green.pal&quot;</span>, <span class="dv">3</span>))
 <span class="kw">rug</span>(var)
-<span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre>
+<span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/discr2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean and standard deviation (msd)</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean and standard deviation (msd)</span>
 breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">method =</span> <span class="st">&quot;msd&quot;</span>, <span class="dt">k =</span> <span class="dv">1</span>, <span class="dt">middle =</span> <span class="ot">TRUE</span>)
 <span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;moyenne / écart-type&quot;</span>,
      <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span> , <span class="st">&quot;green.pal&quot;</span>, <span class="dv">2</span>, <span class="dt">middle =</span> <span class="ot">TRUE</span>))
 <span class="kw">rug</span>(var)
 <span class="kw">abline</span>(<span class="dt">v =</span> moy, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
 <span class="kw">abline</span>(<span class="dt">v =</span> moy <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>std, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> moy <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>std, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre>
+<span class="kw">abline</span>(<span class="dt">v =</span> moy <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span> <span class="op">*</span><span class="st"> </span>std, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/discr3-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="palettes" class="section level4">
 <h4><span class="header-section-number">2.2.2.2</span> Palettes de couleurs</h4>
 <p>La fonction <code>display.carto.all()</code> permet d’afficher toutes palettes de couleurs disponibles dans <code>cartography</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.all</span>(<span class="dv">20</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.all</span>(<span class="dv">20</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pa-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La fonction <code>display.carto.pal()</code> permet de détailler une palette de couleurs.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.pal</span>(<span class="st">&quot;turquoise.pal&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">display.carto.pal</span>(<span class="st">&quot;turquoise.pal&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pal1-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>La fonction <code>carto.pal()</code> permet de construire une palette de couleur.
-Il est possible de créer des palettes associant 2 couleurs.</p>
-<pre class="sourceCode r"><code class="sourceCode r">mypal &lt;-<span class="st"> </span><span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">5</span>, <span class="dt">pal2 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n2 =</span> <span class="dv">4</span>)
+<p>La fonction <code>carto.pal()</code> permet de construire une palette de couleur. Il est possible de créer des palettes associant 2 couleurs.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mypal &lt;-<span class="st"> </span><span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">5</span>, <span class="dt">pal2 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n2 =</span> <span class="dv">4</span>)
 <span class="kw">image</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">1</span>, <span class="kw">as.matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">col=</span>mypal, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>, 
-      <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre>
+      <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pal2-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="carte-de-typologie" class="section level3">
 <h3><span class="header-section-number">2.2.3</span> Carte de typologie</h3>
-<p>Les cartes de typologies sont utilisées pour représenter les variables qualitatives.
-La fonction <code>typoLayer()</code> propose cette représentation. L’argument <code>legend.values.order</code> sert à ordonner les modalités dans la légende.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typoLayer</span>(
+<p>Les cartes de typologies sont utilisées pour représenter les variables qualitatives. La fonction <code>typoLayer()</code> propose cette représentation. L’argument <code>legend.values.order</code> sert à ordonner les modalités dans la légende.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typoLayer</span>(
   <span class="dt">x =</span> mtq, 
   <span class="dt">var=</span><span class="st">&quot;STATUT&quot;</span>,
   <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Préfecture de région&quot;</span>,
@@ -344,7 +325,7 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
   <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,
   <span class="dt">legend.title.txt =</span> <span class="st">&quot;Statut administratif&quot;</span>
 )
-<span class="kw">title</span>(<span class="st">&quot;Statut Administratif&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="st">&quot;Statut Administratif&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/typolo-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -354,7 +335,7 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 <div id="carte-de-stocks-et-de-ratios" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Carte de stocks et de ratios</h3>
 <p>La fonction <code>propSymbolsChoroLayer()</code> représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d’une variable et dont la couleur repose sur la discrétisation d’une seconde variable. La fonction utilise les arguments des fonctions <code>propSymbolsLayer()</code> et <code>choroLayer()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
   <span class="kw">st_geometry</span>(mtq), 
   <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, 
   <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  
@@ -371,13 +352,13 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
   <span class="dt">legend.var2.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,
   <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Taux de croissance</span><span class="ch">\n</span><span class="st">annuel moyen</span><span class="ch">\n</span><span class="st">(2008-2013)&quot;</span>
 )
-<span class="kw">title</span>(<span class="st">&quot;Evolution de la population&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="st">&quot;Evolution de la population&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/choroprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="carte-de-stocks-et-de-qualitative" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Carte de stocks et de qualitative</h3>
 <p>La fonction <code>propSymbolsTypoLayer()</code> représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d’une variable et dont la couleur représente les modalités d’une variable qualitative. La fonction utilise les arguments des fonctions <code>propSymbolsLayer()</code> et <code>typoLayer()</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(
   <span class="kw">st_geometry</span>(mtq), 
   <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, 
   <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  
@@ -396,7 +377,7 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
                                <span class="st">&quot;Sous-préfecture&quot;</span>,
                                <span class="st">&quot;Commune simple&quot;</span>)
 )
-<span class="kw">title</span>(<span class="st">&quot;Population en Martinique&quot;</span>)</code></pre>
+<span class="kw">title</span>(<span class="st">&quot;Population en Martinique&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/typoprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -406,17 +387,17 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 <div id="habillage-complet" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Habillage complet</h3>
 <p>La fonction <code>layoutLayer()</code> permet d’afficher tous ces éléments.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="kw">layoutLayer</span>(
   <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, 
   <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, 
   <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>,
   <span class="dt">north =</span> <span class="ot">TRUE</span>
-)</code></pre>
+)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/layout1-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Plusieurs arguments permettent de paramétrer plus finement les éléments d’habillage pour aboutir à des cartes plus personnalisées (<code>tabtitle</code>, <code>col</code>, <code>coltitle</code>, <code>theme</code>…).</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="kw">layoutLayer</span>(
   <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, 
@@ -427,23 +408,23 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
   <span class="dt">frame =</span> <span class="ot">FALSE</span>, 
   <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, 
   <span class="dt">theme =</span> <span class="st">&quot;turquoise.pal&quot;</span>
-)</code></pre>
+)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/layout2-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="fleche-dorientation" class="section level3">
 <h3><span class="header-section-number">2.4.2</span> Flèche d’orientation</h3>
 <p>La fonction <code>north()</code> permet de mieux choisir la position et l’aspect de la flêche d’orientation.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
 <span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, 
             <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>,
-            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">postitle =</span> <span class="st">&quot;right&quot;</span>)</code></pre>
+            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">postitle =</span> <span class="st">&quot;right&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/north-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="echelle" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Échelle</h3>
 <p>La fonction <code>barscale()</code> permet de mieux choisir la position et l’aspect de l’échelle.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
 <span class="kw">barscale</span>(
   <span class="dt">size =</span> <span class="dv">5</span>, 
   <span class="dt">lwd =</span> <span class="dv">2</span>, 
@@ -452,13 +433,13 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 )
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, 
             <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>,
-            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>)</code></pre>
+            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/scale-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="etiquettes" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Étiquettes</h3>
 <p>La fonction <code>labelLayer()</code> est dédiée à l’afichage d’étiquettes.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
 <span class="kw">labelLayer</span>(
   <span class="dt">x =</span> mtq, 
@@ -473,7 +454,7 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
   <span class="dt">show.lines =</span> <span class="ot">FALSE</span>
 )
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>, <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">author =</span> <span class="st">&quot;INSEE, 2016&quot;</span>, 
-            <span class="dt">sources =</span><span class="st">&quot;&quot;</span>, <span class="dt">north =</span><span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
+            <span class="dt">sources =</span><span class="st">&quot;&quot;</span>, <span class="dt">north =</span><span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/labs-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -483,15 +464,14 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 <h3><span class="header-section-number">2.5.1</span> Mise en page</h3>
 <div id="ajuster-les-marges-dune-figure" class="section level4">
 <h4><span class="header-section-number">2.5.1.1</span> Ajuster les marges d’une figure</h4>
-<p>Pour modifier les marges d’une figure (carte ou autre) il faut utiliser la fonction <code>par()</code> qui défini certains paramètres graphiques des figures et son argument <code>mar</code>.
-La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Modification de la couleur de fond des graphique</span>
+<p>Pour modifier les marges d’une figure (carte ou autre) il faut utiliser la fonction <code>par()</code> qui défini certains paramètres graphiques des figures et son argument <code>mar</code>. La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Modification de la couleur de fond des graphique</span>
 <span class="kw">par</span>(<span class="dt">bg=</span><span class="st">&quot;grey90&quot;</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges par défaut&quot;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges par défaut&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/defmarg-1.png" width="384" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Modification des marges</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Modification des marges</span>
 <span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges paramétrées&quot;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges paramétrées&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/defmarg-2.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="centrer-la-carte-sur-une-region" class="section level4">
@@ -500,7 +480,7 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <ul>
 <li>Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l’on souhaite afficher.</li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">carbet &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Carbet&quot;</span>,]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">carbet &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Carbet&quot;</span>,]
 <span class="co"># affichage de la couche de zoom &quot;invisible&quot;</span>
 <span class="kw">plot</span>(
   <span class="kw">st_geometry</span>(carbet), 
@@ -530,12 +510,12 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
   <span class="dt">scale =</span> <span class="dv">1</span>,
   <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,
   <span class="dt">frame=</span><span class="ot">FALSE</span>
-)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="384" style="display: block; margin: auto;" /></p>
+)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-16-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ul>
 <li>Utiliser les paramètres <code>xlim</code> et <code>ylim</code> de la fonction <code>plot()</code> aves les valeurs fournies par la fonction <code>st_bbox()</code></li>
 </ul>
-<pre class="sourceCode r"><code class="sourceCode r">diams &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Diamant&quot;</span>,]
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">diams &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Diamant&quot;</span>,]
 diams_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(diams)
 <span class="co"># affichage des communes</span>
 <span class="kw">plot</span>(
@@ -561,20 +541,20 @@ diams_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(diams)
   <span class="dt">scale =</span> <span class="dv">1</span>,
   <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,
   <span class="dt">frame=</span><span class="ot">FALSE</span>
-)</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" /></p>
+)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-17-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="afficher-plusieurs-cartes-sur-la-meme-figure" class="section level4">
 <h4><span class="header-section-number">2.5.1.3</span> Afficher plusieurs cartes sur la même figure</h4>
 <p>Il faut ici utiliser l’argument <code>mfrow</code> de la fonction <code>par()</code>. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># deux lignes et deux colonnes</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># deux lignes et deux colonnes</span>
 <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;green&quot;</span>)
-<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;yellow&quot;</span>)</code></pre>
+<span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;yellow&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow0-1.png" width="384" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># une ligne et deux colonnes</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># une ligne et deux colonnes</span>
 <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,.<span class="dv">2</span>,<span class="fl">1.2</span>,.<span class="dv">2</span>))
 <span class="co"># 1ere carte</span>
 carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)
@@ -590,9 +570,9 @@ carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
      <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, 
-            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</code></pre>
+            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow-1.png" width="384" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># une ligne et deux colonnes</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># une ligne et deux colonnes</span>
 <span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.2</span>,<span class="dv">0</span>,<span class="fl">1.4</span>,<span class="dv">0</span>))
 <span class="co"># 1ere carte</span>
 carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)
@@ -608,28 +588,34 @@ carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
      <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, 
-            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</code></pre>
+            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow2-1.png" width="288" style="display: block; margin: auto;" /></p>
 </div>
 <div id="obtenir-un-ratio-de-figure-adapte" class="section level4">
 <h4><span class="header-section-number">2.5.1.4</span> Obtenir un ratio de figure adapté</h4>
 <p>Il est assez difficile d’exporter des figures (cartes ou autres) dont le ratio hauteur/largeur soit satisfaisant. Le ratio par défaut des figure au format png est de 1 (480x480 pixels) :</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique1.png&quot;</span>, <span class="dt">res =</span> <span class="dv">96</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique1.png&quot;</span>, <span class="dt">res =</span> <span class="dv">96</span>)
 <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)
-<span class="kw">dev.off</span>()</code></pre>
-<p><img src="img/martinique1.png" /></p>
+<span class="kw">dev.off</span>()</code></pre></div>
+<div class="figure">
+<img src="img/martinique1.png" />
+
+</div>
 <p>Sur cette carte beaucoup d’espace est perdu à l’est et à l’ouest de l’ile.</p>
 <p>La fonction <code>getFigDim()</code> de <code>cartography</code> permet de choisir un ratio hauteur/largeur correspondant à l’emprise d’un objet <code>sf</code> en prenant en compte une largeur (ou hauteur) fixée, les paramètres de marges et la résolution souhaitée.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getFigDim</span>(<span class="dt">x =</span> mtq, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">res =</span> <span class="dv">96</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getFigDim</span>(<span class="dt">x =</span> mtq, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">res =</span> <span class="dv">96</span>)</code></pre></div>
 <pre><code>[1] 480 583</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">height =</span> <span class="dv">583</span>, <span class="dt">res =</span> <span class="dv">96</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">height =</span> <span class="dv">583</span>, <span class="dt">res =</span> <span class="dv">96</span>)
 <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)
-<span class="kw">dev.off</span>()</code></pre>
-<p><img src="img/martinique2.png" /></p>
+<span class="kw">dev.off</span>()</code></pre></div>
+<div class="figure">
+<img src="img/martinique2.png" />
+
+</div>
 <p>L’emprise de cette carte est exactement celle de l’île.</p>
 </div>
 <div id="placer-precisement-un-element-sur-la-carte" class="section level4">
@@ -638,30 +624,30 @@ carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)
 <video width="800" controls="controls">
 <source src="img/locator.webm" type="video/webm" />
 </video>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, 
      <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)
 <span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">694019</span>, <span class="dt">y =</span> <span class="dv">1615161</span>, 
      <span class="dt">labels =</span> <span class="st">&quot;MER</span><span class="ch">\n</span><span class="st">DES</span><span class="ch">\n</span><span class="st">CARAÏBES&quot;</span>, 
-     <span class="dt">col =</span> <span class="st">&quot;#e3f1f9&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">srt=</span><span class="dv">20</span> )</code></pre>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-7-1.png" width="384" style="display: block; margin: auto;" /></p>
+     <span class="dt">col =</span> <span class="st">&quot;#e3f1f9&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">srt=</span><span class="dv">20</span> )</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-21-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><code>locator()</code>peut être utilisée sur la plupart des graphiques (pas ceux produits avec <code>ggplot2</code>).</p>
 </div>
 </div>
 <div id="utiliser-un-fond-de-carte-osm" class="section level3">
 <h3><span class="header-section-number">2.5.2</span> Utiliser un fond de carte OSM</h3>
 <p>La fonction <code>getTiles()</code> permet de télécharger des fonds de cartes OSM et la fonction <code>tilesLayer()</code> permet de les afficher.</p>
-<pre class="sourceCode r"><code class="sourceCode r">type &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;osm&quot;</span>, <span class="st">&quot;hotstyle&quot;</span>,  <span class="st">&quot;hikebike&quot;</span>, <span class="st">&quot;osmgrayscale&quot;</span>, <span class="st">&quot;stamenbw&quot;</span>,
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">type &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;osm&quot;</span>, <span class="st">&quot;hotstyle&quot;</span>,  <span class="st">&quot;hikebike&quot;</span>, <span class="st">&quot;osmgrayscale&quot;</span>, <span class="st">&quot;stamenbw&quot;</span>,
            <span class="st">&quot;stamenwatercolor&quot;</span>, <span class="st">&quot;cartodark&quot;</span>, <span class="st">&quot;cartolight&quot;</span>)
 <span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>), <span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))
 <span class="cf">for</span> (i <span class="cf">in</span> type){
   <span class="kw">tilesLayer</span>(<span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">type =</span> i, <span class="dt">crop=</span><span class="ot">TRUE</span>))
-  <span class="kw">mtext</span>(<span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="fl">-1.5</span>, <span class="dt">text =</span> i, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
-}</code></pre>
+  <span class="kw">mtext</span>(<span class="dt">side =</span> <span class="dv">3</span>, <span class="dt">line =</span> <span class="op">-</span><span class="fl">1.5</span>, <span class="dt">text =</span> i, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)
+}</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/osmdisplay-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="creer-un-effet-crayonne" class="section level3">
 <h3><span class="header-section-number">2.5.3</span> Créer un effet crayonné</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
 mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(<span class="dt">x =</span> mtq)
 <span class="kw">typoLayer</span>(
   <span class="dt">x =</span> mtq_pencil, 
@@ -677,25 +663,25 @@ mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Statut Administratif&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
             <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, 
             <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)
-<span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</code></pre>
+<span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pencil-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ajouter-un-ombrage-a-une-couche" class="section level3">
 <h3><span class="header-section-number">2.5.4</span> Ajouter un ombrage à une couche</h3>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">-500</span>), 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">500</span>, <span class="op">-</span><span class="dv">500</span>), 
      <span class="dt">col =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
             <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
-            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
+            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/shadow-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="creation-de-cartons" class="section level3">
 <h3><span class="header-section-number">2.5.5</span> Création de cartons</h3>
 <p>Le package <code>mapinsetr</code><span class="citation">(Giraud and Lambert <a href="#ref-R-mapinsetr">2018</a><a href="#ref-R-mapinsetr">b</a>)</span> est dédié à la crétion de cartons cartographiques. Il n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le package <code>remotes</code>.</p>
-<pre class="sourceCode r"><code class="sourceCode r">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;riatelab/mapinsetr&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;riatelab/mapinsetr&quot;</span>)</code></pre></div>
 <p><code>mapinsetr</code> permet de découper, redimensionner et déplacer une zone d’un fond de carte.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mapinsetr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(mapinsetr)
 <span class="kw">library</span>(cartography)
 <span class="kw">library</span>(sf)
 mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
@@ -732,9 +718,9 @@ zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(zbox_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte initiale + couches créées&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
             <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
-            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
+            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-1.png" width="384" style="display: block; margin: auto;" /></p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Création de couches unqiues comprenant le zoom</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Création de couches unqiues comprenant le zoom</span>
 resto &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(resto, zresto_FDF))
 mtq &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(mtq, zmtq_FDF))
 box &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(box_FDF, zbox_FDF))
@@ -744,7 +730,7 @@ box &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span cl
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(box), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)
 <span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte finale avec carton&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,
             <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  
-            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre>
+            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-2.png" width="384" style="display: block; margin: auto;" /></p>
 
 </div>
