@@ -34,7 +34,9 @@ Voici une partie des packages dédiés à l'import, la manipulation, la transfor
 * Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie
 * Connaitre des modes de représentation plus complexes
 
-
+</br>
+![Creative Commons License](img/by-nc-sa.png)  
+La version en ligne de ce document est sous licence [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/). 
 
 
 

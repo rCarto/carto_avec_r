@@ -48,8 +48,12 @@
 
 # REALISEZ SEPT CARTES THEMATIQUES, avec au moins :
 
-# 3 territoires différents (ex: un EPCI, un Département, une région, France)
-# 3 découpages territoriale différents (ex: commune, EPCI, département...)
+# 3 échelles différentes (échelle du pays, de la région, du département, de l'EPCI...)
+# 3 découpages territoriaux différents (les communes, les EPCI, les départements...)
+# Exemple : 
+# - Une carte à des départements à l'échelle d'une région, 
+# - Une carte des EPCI à l'échelle de la France, 
+# - Unne carte des communes à l'échelle d'un département...
 
 # 1 carte de localisation (avec carton de localisation, label, legende...)
 # 1 carte quantitative de stock
@@ -70,5 +74,5 @@
 
 #####
 # Exemple : Carte du taux de chômage et discontinuité par EPCI en Île de France
-
+# (échelle = une région, territoire = EPCI)
 
