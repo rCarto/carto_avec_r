@@ -46,22 +46,32 @@
 ## 4) REALISATION DE CARTE THEMATIQUES 
 ################################################################################
 
-# REALISEZ SEPT CARTES THEMATIQUES, avec au moins :
+# REALISEZ HUIT CARTES THEMATIQUES dans un projet RStudio, avec au moins :
 
 # 3 échelles différentes (échelle du pays, de la région, du département, de l'EPCI...)
 # 3 découpages territoriaux différents (les communes, les EPCI, les départements...)
 # Exemple : 
-# - Une carte à des départements à l'échelle d'une région, 
+# - Une carte des départements à l'échelle d'une région, 
 # - Une carte des EPCI à l'échelle de la France, 
 # - Unne carte des communes à l'échelle d'un département...
 
-# 1 carte de localisation (avec carton de localisation, label, legende...)
-# 1 carte quantitative de stock
-# 1 carte quantitative de ratio
+# 1 carte de localisation (avec carton de localisation si possible, label, legende...)
+# 1 carte quantitative absolue (stock)
+# 1 carte quantitative relative (ratio)
 # 1 carte quantitative combinant stock et ratio
 # 1 carte qualitative
 # 1 Anamorphose/cartogram
-# 1 carte avec des discontinuités représentées
+# 1 ccarte interactive
+# 1 carte avec une grille 
+
+# 2 points par cartes
+# 4 points pour la qualité du code (code commenté, clair)
+
+# A rendre :
+#   - un fichier nommé Prenom_NOM.R
+
+
+
 
 
 # Nous vous conseillons d'utiliser le package 'cartography' pour l'ensemble de 
