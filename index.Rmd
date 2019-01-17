@@ -12,6 +12,7 @@ site: bookdown::bookdown_site
 biblio-style: apalike
 link-citation: true
 github-repo: rCarto/carto_avec_r
+always_allow_html: yes
 ---
 
 

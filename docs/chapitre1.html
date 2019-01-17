@@ -25,7 +25,7 @@
 <meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
 
 
-<meta name="date" content="2019-01-15">
+<meta name="date" content="2019-01-17">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -122,10 +122,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="chapitre1.html"><a href="chapitre1.html"><i class="fa fa-check"></i><b>1</b> Les données spatiales</a><ul>
 <li class="chapter" data-level="1.1" data-path="chapitre1.html"><a href="chapitre1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a><ul>
 <li class="chapter" data-level="1.1.1" data-path="chapitre1.html"><a href="chapitre1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
-<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#construction-dun-objet-sf"><i class="fa fa-check"></i><b>1.1.2</b> Construction d’un objet sf</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.3</b> Import / Export</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Affichage de données</a></li>
-<li class="chapter" data-level="1.1.5" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.5</b> Joindre des données</a></li>
+<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
+<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
+<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-systemes-de-projections"><i class="fa fa-check"></i><b>1.2</b> Les systèmes de projections</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="chapitre1.html"><a href="chapitre1.html#consulter-la-projection-dun-objet"><i class="fa fa-check"></i><b>1.2.1</b> Consulter la projection d’un objet</a></li>
@@ -142,6 +141,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.8</b> Réaliser une intersection</a></li>
 <li class="chapter" data-level="1.3.9" data-path="chapitre1.html"><a href="chapitre1.html#compter-des-points-dans-un-polygone"><i class="fa fa-check"></i><b>1.3.9</b> Compter des points dans un polygone</a></li>
 <li class="chapter" data-level="1.3.10" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.10</b> Construire des polygones de Voronoi</a></li>
+<li class="chapter" data-level="1.3.11" data-path="chapitre1.html"><a href="chapitre1.html#construction-dobjets-sf"><i class="fa fa-check"></i><b>1.3.11</b> Construction d’objets sf</a></li>
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#geocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a></li>
 <li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#importer-des-donnees-osm"><i class="fa fa-check"></i><b>1.5</b> Importer des données OSM</a></li>
@@ -163,12 +163,17 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="2.4.3" data-path="chapitre2.html"><a href="chapitre2.html#echelle"><i class="fa fa-check"></i><b>2.4.3</b> Échelle</a></li>
 <li class="chapter" data-level="2.4.4" data-path="chapitre2.html"><a href="chapitre2.html#etiquettes"><i class="fa fa-check"></i><b>2.4.4</b> Étiquettes</a></li>
 </ul></li>
-<li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#autres-fonctionnalites-utiles"><i class="fa fa-check"></i><b>2.5</b> Autres fonctionnalités utiles</a><ul>
-<li class="chapter" data-level="2.5.1" data-path="chapitre2.html"><a href="chapitre2.html#mise-en-page"><i class="fa fa-check"></i><b>2.5.1</b> Mise en page</a></li>
-<li class="chapter" data-level="2.5.2" data-path="chapitre2.html"><a href="chapitre2.html#utiliser-un-fond-de-carte-osm"><i class="fa fa-check"></i><b>2.5.2</b> Utiliser un fond de carte OSM</a></li>
-<li class="chapter" data-level="2.5.3" data-path="chapitre2.html"><a href="chapitre2.html#creer-un-effet-crayonne"><i class="fa fa-check"></i><b>2.5.3</b> Créer un effet crayonné</a></li>
-<li class="chapter" data-level="2.5.4" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-un-ombrage-a-une-couche"><i class="fa fa-check"></i><b>2.5.4</b> Ajouter un ombrage à une couche</a></li>
-<li class="chapter" data-level="2.5.5" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.5.5</b> Création de cartons</a></li>
+<li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#mise-en-page"><i class="fa fa-check"></i><b>2.5</b> Mise en page</a><ul>
+<li class="chapter" data-level="2.5.1" data-path="chapitre2.html"><a href="chapitre2.html#ajuster-les-marges-dune-figure"><i class="fa fa-check"></i><b>2.5.1</b> Ajuster les marges d’une figure</a></li>
+<li class="chapter" data-level="2.5.2" data-path="chapitre2.html"><a href="chapitre2.html#centrer-la-carte-sur-une-region"><i class="fa fa-check"></i><b>2.5.2</b> Centrer la carte sur une région</a></li>
+<li class="chapter" data-level="2.5.3" data-path="chapitre2.html"><a href="chapitre2.html#afficher-plusieurs-cartes-sur-la-meme-figure"><i class="fa fa-check"></i><b>2.5.3</b> Afficher plusieurs cartes sur la même figure</a></li>
+<li class="chapter" data-level="2.5.4" data-path="chapitre2.html"><a href="chapitre2.html#obtenir-un-ratio-de-figure-adapte"><i class="fa fa-check"></i><b>2.5.4</b> Obtenir un ratio de figure adapté</a></li>
+<li class="chapter" data-level="2.5.5" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-une-image-sur-une-carte"><i class="fa fa-check"></i><b>2.5.5</b> Ajouter une image sur une carte</a></li>
+<li class="chapter" data-level="2.5.6" data-path="chapitre2.html"><a href="chapitre2.html#placer-precisement-un-element-sur-la-carte"><i class="fa fa-check"></i><b>2.5.6</b> Placer précisément un élément sur la carte</a></li>
+<li class="chapter" data-level="2.5.7" data-path="chapitre2.html"><a href="chapitre2.html#utiliser-un-fond-de-carte-osm"><i class="fa fa-check"></i><b>2.5.7</b> Utiliser un fond de carte OSM</a></li>
+<li class="chapter" data-level="2.5.8" data-path="chapitre2.html"><a href="chapitre2.html#creer-un-effet-crayonne"><i class="fa fa-check"></i><b>2.5.8</b> Créer un effet crayonné</a></li>
+<li class="chapter" data-level="2.5.9" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-un-ombrage-a-une-couche"><i class="fa fa-check"></i><b>2.5.9</b> Ajouter un ombrage à une couche</a></li>
+<li class="chapter" data-level="2.5.10" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.5.10</b> Création de cartons</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapitre3.html"><a href="chapitre3.html"><i class="fa fa-check"></i><b>3</b> Cartographie thématique avancée</a><ul>
@@ -233,96 +238,8 @@ Le package <code>sf</code> (<span class="citation">(Pebesma <a href="#ref-R-sf">
 <p>Les objets <code>sf</code> sont des <code>data.frame</code> dont l’une des colonnes contient des géométries. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry).<br />
 Ce format est très pratique dans la mesure ou les données et les géométries sont intrinsèquement liées dans un même objet.</p>
 </div>
-<div id="construction-dun-objet-sf" class="section level3">
-<h3><span class="header-section-number">1.1.2</span> Construction d’un objet sf</h3>
-<p><strong>Couche de points</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
-pt1_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
-pt2_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>))
-pt3_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
-(pt_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(pt1_sfg,pt2_sfg,pt3_sfg, <span class="dt">crs =</span> (<span class="dv">4326</span>)))</code></pre></div>
-<pre><code>Geometry set for 3 features 
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: 1 ymin: 1 xmax: 3 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pt_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
-                    <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
-(pt_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(pt_df,<span class="dt">geometry =</span> pt_sfc))</code></pre></div>
-<pre><code>Simple feature collection with 3 features and 4 fields
-geometry type:  POINT
-dimension:      XY
-bbox:           xmin: 1 ymin: 1 xmax: 3 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs
-  id cat var1 var2    geometry
-1  1   A   10  2.3 POINT (1 2)
-2  2   B   20  1.9 POINT (3 4)
-3  3   A   30  4.0 POINT (2 1)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(pt_sf)</code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="460.8" style="display: block; margin: auto;" /></p>
-<p><strong>Couche de polygones</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
-p2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>))
-p3 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))
-pol1_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p1))
-pol2_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p2))
-pol3_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p3))
-(pol_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(pol1_sfg, pol2_sfg, pol3_sfg, <span class="dt">crs =</span> <span class="dv">4326</span>))</code></pre></div>
-<pre><code>Geometry set for 3 features 
-geometry type:  POLYGON
-dimension:      XY
-bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pol_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
-                     <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
-(pol_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(pol_df,<span class="dt">geometry =</span> pol_sfc))</code></pre></div>
-<pre><code>Simple feature collection with 3 features and 4 fields
-geometry type:  POLYGON
-dimension:      XY
-bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs
-  id cat var1 var2                       geometry
-1  1   A   10  2.3 POLYGON ((0 0, 1 0, 3 2, 2 ...
-2  2   B   20  1.9 POLYGON ((3 0, 4 0, 4 1, 3 ...
-3  3   A   30  4.0 POLYGON ((3 3, 4 2, 4 3, 3 3))</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(pol_sf)</code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-3-1.png" width="460.8" style="display: block; margin: auto;" /></p>
-<p><strong>Couche de linestring</strong></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))
-p2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))
-p3 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">3</span>))
-ls1_sfg &lt;-<span class="kw">st_linestring</span>(p1)
-ls2_sfg &lt;-<span class="kw">st_linestring</span>(p2)
-ls3_sfg &lt;-<span class="kw">st_linestring</span>(p3)
-(ls_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(ls1_sfg, ls2_sfg, ls3_sfg, <span class="dt">crs =</span> <span class="dv">4326</span>))</code></pre></div>
-<pre><code>Geometry set for 3 features 
-geometry type:  LINESTRING
-dimension:      XY
-bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ls_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
-                    <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
-(ls_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(ls_df,<span class="dt">geometry =</span> ls_sfc))</code></pre></div>
-<pre><code>Simple feature collection with 3 features and 4 fields
-geometry type:  LINESTRING
-dimension:      XY
-bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
-epsg (SRID):    4326
-proj4string:    +proj=longlat +datum=WGS84 +no_defs
-  id cat var1 var2                       geometry
-1  1   A   10  2.3 LINESTRING (0 0, 1 0, 3 2, ...
-2  2   B   20  1.9 LINESTRING (3 0, 4 0, 4 1, ...
-3  3   A   30  4.0     LINESTRING (3 3, 4 2, 4 3)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ls_sf)</code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-4-1.png" width="460.8" style="display: block; margin: auto;" /></p>
-</div>
 <div id="import-export" class="section level3">
-<h3><span class="header-section-number">1.1.3</span> Import / Export</h3>
+<h3><span class="header-section-number">1.1.2</span> Import / Export</h3>
 <p>Les fonctions <code>st_read()</code> et <code>st_write()</code> permettent d’importer et d’exporter de nombreux types de fichiers.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
 mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/martinique.shp&quot;</span>, <span class="dt">quiet=</span><span class="ot">TRUE</span>)</code></pre></div>
@@ -340,7 +257,7 @@ fields:         23
 geometry type:  Polygon</code></pre>
 </div>
 <div id="affichage-de-donnees" class="section level3">
-<h3><span class="header-section-number">1.1.4</span> Affichage de données</h3>
+<h3><span class="header-section-number">1.1.3</span> Affichage de données</h3>
 <p><strong>Aperçu des variables</strong> via les fonctions <code>head()</code> et <code>plot()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(mtq)</code></pre></div>
 <pre><code>Simple feature collection with 6 features and 23 fields
@@ -367,13 +284,13 @@ proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
 3 POLYGON ((706092.8 1642964,...
  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 3 rows ]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mtq)</code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-5-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 <p><strong>Affichage de la géométrie</strong> uniquement.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-3-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="joindre-des-donnees" class="section level3">
-<h3><span class="header-section-number">1.1.5</span> Joindre des données</h3>
+<h3><span class="header-section-number">1.1.4</span> Joindre des données</h3>
 <p>On peut joindre un <code>data.frame</code> à un objet sf en utilisant la fonction <code>merge()</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtq2016 &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;data/mtq2016.csv&quot;</span>)
 <span class="kw">head</span>(mtq2016)</code></pre></div>
@@ -575,6 +492,100 @@ mtq_v &lt;-<span class="st"> </span><span class="kw">st_cast</span>(mtq_v, <span
 <span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_v), <span class="dt">col=</span><span class="st">&#39;lightblue&#39;</span>)</code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/voronoi-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
+<div id="construction-dobjets-sf" class="section level3">
+<h3><span class="header-section-number">1.3.11</span> Construction d’objets sf</h3>
+<div id="points" class="section level4">
+<h4><span class="header-section-number">1.3.11.1</span> POINTS</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sf)
+pt1_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))
+pt2_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>))
+pt3_sfg &lt;-<span class="st"> </span><span class="kw">st_point</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))
+(pt_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(pt1_sfg,pt2_sfg,pt3_sfg, <span class="dt">crs =</span> (<span class="dv">4326</span>)))</code></pre></div>
+<pre><code>Geometry set for 3 features 
+geometry type:  POINT
+dimension:      XY
+bbox:           xmin: 1 ymin: 1 xmax: 3 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pt_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
+                    <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
+(pt_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(pt_df,<span class="dt">geometry =</span> pt_sfc))</code></pre></div>
+<pre><code>Simple feature collection with 3 features and 4 fields
+geometry type:  POINT
+dimension:      XY
+bbox:           xmin: 1 ymin: 1 xmax: 3 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs
+  id cat var1 var2    geometry
+1  1   A   10  2.3 POINT (1 2)
+2  2   B   20  1.9 POINT (3 4)
+3  3   A   30  4.0 POINT (2 1)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(pt_sf)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-4-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+</div>
+<div id="polygon" class="section level4">
+<h4><span class="header-section-number">1.3.11.2</span> POLYGON</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))
+p2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>))
+p3 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>))
+pol1_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p1))
+pol2_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p2))
+pol3_sfg &lt;-<span class="kw">st_polygon</span>(<span class="kw">list</span>(p3))
+(pol_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(pol1_sfg, pol2_sfg, pol3_sfg, <span class="dt">crs =</span> <span class="dv">4326</span>))</code></pre></div>
+<pre><code>Geometry set for 3 features 
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pol_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
+                     <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
+(pol_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(pol_df,<span class="dt">geometry =</span> pol_sfc))</code></pre></div>
+<pre><code>Simple feature collection with 3 features and 4 fields
+geometry type:  POLYGON
+dimension:      XY
+bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs
+  id cat var1 var2                       geometry
+1  1   A   10  2.3 POLYGON ((0 0, 1 0, 3 2, 2 ...
+2  2   B   20  1.9 POLYGON ((3 0, 4 0, 4 1, 3 ...
+3  3   A   30  4.0 POLYGON ((3 3, 4 2, 4 3, 3 3))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(pol_sf)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-5-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+</div>
+<div id="linestring" class="section level4">
+<h4><span class="header-section-number">1.3.11.3</span> LINESTRING</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p1 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>), <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))
+p2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">0</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">1</span>))
+p3 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">3</span>))
+ls1_sfg &lt;-<span class="kw">st_linestring</span>(p1)
+ls2_sfg &lt;-<span class="kw">st_linestring</span>(p2)
+ls3_sfg &lt;-<span class="kw">st_linestring</span>(p3)
+(ls_sfc &lt;-<span class="st"> </span><span class="kw">st_sfc</span>(ls1_sfg, ls2_sfg, ls3_sfg, <span class="dt">crs =</span> <span class="dv">4326</span>))</code></pre></div>
+<pre><code>Geometry set for 3 features 
+geometry type:  LINESTRING
+dimension:      XY
+bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ls_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>), <span class="dt">cat =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;A&quot;</span>), 
+                    <span class="dt">var1 =</span> <span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">20</span>,<span class="dv">30</span>), <span class="dt">var2 =</span> <span class="kw">c</span>(<span class="fl">2.3</span>,<span class="fl">1.9</span>,<span class="dv">4</span>))
+(ls_sf &lt;-<span class="st"> </span><span class="kw">st_sf</span>(ls_df,<span class="dt">geometry =</span> ls_sfc))</code></pre></div>
+<pre><code>Simple feature collection with 3 features and 4 fields
+geometry type:  LINESTRING
+dimension:      XY
+bbox:           xmin: 0 ymin: 0 xmax: 4 ymax: 4
+epsg (SRID):    4326
+proj4string:    +proj=longlat +datum=WGS84 +no_defs
+  id cat var1 var2                       geometry
+1  1   A   10  2.3 LINESTRING (0 0, 1 0, 3 2, ...
+2  2   B   20  1.9 LINESTRING (3 0, 4 0, 4 1, ...
+3  3   A   30  4.0     LINESTRING (3 3, 4 2, 4 3)</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ls_sf)</code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+</div>
+</div>
 </div>
 <div id="geocodage-dadresses" class="section level2">
 <h2><span class="header-section-number">1.4</span> Géocodage d’adresses</h2>
@@ -692,6 +703,9 @@ resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(resto, 
 <p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-14-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 <!-- ## Pour aller plus loin -->
 <!-- * liens vers d'autres ressources (blogs, github, liens) -->
+<ul>
+<li></li>
+</ul>
 
 </div>
 </div>

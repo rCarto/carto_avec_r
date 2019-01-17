@@ -66,60 +66,6 @@ knitr::include_graphics("img/sf.png")
 Les objets `sf` sont des `data.frame` dont l'une des colonnes contient des géométries. Cette colonne est de la classe sfc (simple feature column) et chaque individu de la colonne est un sfg (simple feature geometry).   
 Ce format est très pratique dans la mesure ou les données et les géométries sont intrinsèquement liées dans un même objet. 
 
-
-### Construction d'un objet sf
-
-**Couche de points**
-
-```{r}
-library(sf)
-pt1_sfg <- st_point(c(1,2))
-pt2_sfg <- st_point(c(3,4))
-pt3_sfg <- st_point(c(2,1))
-(pt_sfc <- st_sfc(pt1_sfg,pt2_sfg,pt3_sfg, crs = (4326)))
-
-pt_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
-(pt_sf <- st_sf(pt_df,geometry = pt_sfc))
-plot(pt_sf)
-
-```
-
-**Couche de polygones**
-
-```{r}
-p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))
-p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1), c(3,0))
-p3 <- rbind(c(3,3), c(4,2), c(4,3), c(3,3))
-pol1_sfg <-st_polygon(list(p1))
-pol2_sfg <-st_polygon(list(p2))
-pol3_sfg <-st_polygon(list(p3))
-(pol_sfc <- st_sfc(pol1_sfg, pol2_sfg, pol3_sfg, crs = 4326))
-pol_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                     var1 = c(10,20,30), var2 = c(2.3,1.9,4))
-(pol_sf <- st_sf(pol_df,geometry = pol_sfc))
-plot(pol_sf)
-
-```
-
-**Couche de linestring**
-
-```{r}
-p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4))
-p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1))
-p3 <- rbind(c(3,3), c(4,2), c(4,3))
-ls1_sfg <-st_linestring(p1)
-ls2_sfg <-st_linestring(p2)
-ls3_sfg <-st_linestring(p3)
-(ls_sfc <- st_sfc(ls1_sfg, ls2_sfg, ls3_sfg, crs = 4326))
-ls_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
-                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
-(ls_sf <- st_sf(ls_df,geometry = ls_sfc))
-plot(ls_sf)
-
-```
-
-
 ### Import / Export
 
 Les fonctions `st_read()` et `st_write()` permettent d'importer et d'exporter de nombreux types de fichiers.
@@ -304,6 +250,63 @@ plot(st_geometry(mtq_v), col='lightblue')
 
 
 
+
+
+### Construction d'objets sf
+
+#### POINTS
+
+```{r}
+library(sf)
+pt1_sfg <- st_point(c(1,2))
+pt2_sfg <- st_point(c(3,4))
+pt3_sfg <- st_point(c(2,1))
+(pt_sfc <- st_sfc(pt1_sfg,pt2_sfg,pt3_sfg, crs = (4326)))
+
+pt_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(pt_sf <- st_sf(pt_df,geometry = pt_sfc))
+plot(pt_sf)
+
+```
+
+#### POLYGON
+
+```{r}
+p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4), c(0,0))
+p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1), c(3,0))
+p3 <- rbind(c(3,3), c(4,2), c(4,3), c(3,3))
+pol1_sfg <-st_polygon(list(p1))
+pol2_sfg <-st_polygon(list(p2))
+pol3_sfg <-st_polygon(list(p3))
+(pol_sfc <- st_sfc(pol1_sfg, pol2_sfg, pol3_sfg, crs = 4326))
+pol_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                     var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(pol_sf <- st_sf(pol_df,geometry = pol_sfc))
+plot(pol_sf)
+
+```
+
+#### LINESTRING
+
+```{r}
+p1 <- rbind(c(0,0), c(1,0), c(3,2), c(2,4), c(1,4))
+p2 <- rbind(c(3,0), c(4,0), c(4,1), c(3,1))
+p3 <- rbind(c(3,3), c(4,2), c(4,3))
+ls1_sfg <-st_linestring(p1)
+ls2_sfg <-st_linestring(p2)
+ls3_sfg <-st_linestring(p3)
+(ls_sfc <- st_sfc(ls1_sfg, ls2_sfg, ls3_sfg, crs = 4326))
+ls_df <- data.frame(id= c(1,2,3), cat = c("A", "B", "A"), 
+                    var1 = c(10,20,30), var2 = c(2.3,1.9,4))
+(ls_sf <- st_sf(ls_df,geometry = ls_sfc))
+plot(ls_sf)
+
+```
+
+
+
+
 ## Géocodage d'adresses
 
 Plusieurs packages permettent de géocoder des adresses.
@@ -451,3 +454,4 @@ mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
 <!-- * liens vers d'autres ressources (blogs, github, liens) -->
 
 
+*

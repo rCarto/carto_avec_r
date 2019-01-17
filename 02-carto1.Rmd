@@ -342,13 +342,9 @@ layoutLayer(title = "Communes", tabtitle = TRUE, author = "INSEE, 2016",
 ```
 
 
+## Mise en page
 
-
-## Autres fonctionnalités utiles
-
-### Mise en page
-
-#### Ajuster les marges d'une figure
+### Ajuster les marges d'une figure
 
 Pour modifier les marges d'une figure (carte ou autre) il faut utiliser la fonction `par()` qui défini certains paramètres graphiques des figures et son argument `mar`. 
 La fonction `dev.off()` efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.
@@ -363,7 +359,7 @@ plot(st_geometry(mtq), main="Marges paramétrées")
 ```
 
 
-#### Centrer la carte sur une région
+### Centrer la carte sur une région
 Plusieurs solutions sont possible : 
 
 * Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l'on souhaite afficher. 
@@ -436,7 +432,7 @@ layoutLayer(
 
 
 
-#### Afficher plusieurs cartes sur la même figure
+### Afficher plusieurs cartes sur la même figure
 
 Il faut ici utiliser l'argument `mfrow` de la fonction `par()`. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes. 
 
@@ -493,7 +489,7 @@ layoutLayer(title = "Le Diamant", sources = "", author = "", scale = 1,
             tabtitle = TRUE, frame=FALSE)
 ```
 
-#### Obtenir un ratio de figure adapté
+### Obtenir un ratio de figure adapté
 
 Il est assez difficile d'exporter des figures (cartes ou autres) dont le ratio hauteur/largeur soit satisfaisant. Le ratio par défaut des figure au format png est de 1 (480x480 pixels) : 
 
@@ -525,8 +521,34 @@ dev.off()
 
 L'emprise de cette carte est exactement celle de l'île. 
 
+### Ajouter une image sur une carte 
+Cela peut être utile pour ajouter un logo un pictogramme. La fonction `readPNG()` du package `png` permet l'ajout d'images sur une figure.
 
-#### Placer précisément un élément sur la carte
+```{r logo}
+library(png)
+# import de l'image
+logo <- readPNG("img/mapmonster.png")
+# dimension de l'image en unité de la carte
+pp <- dim(logo)[2:1] * 16 
+# Définition d'un point d'encrage de l'image dans la figure, ici
+# le coin inférieur gauche de la bounding box de la martique.
+xy <- st_bbox(mtq)[1:2]
+par(mar = c(0,0,1.2,0))
+plot(st_geometry(mtq), bg = "#A6CAE0", col = "#D1914D", border = "white")
+rasterImage(
+  image   = logo, 
+  xleft   = xy[1], 
+  ybottom = xy[2], 
+  xright  = xy[1] + pp[1], 
+  ytop    = xy[2] + pp[2]
+) 
+layoutLayer(title = "Martinique", tabtitle = TRUE, frame = FALSE, 
+            sources = "", author = "", scale = NULL)
+```
+
+
+
+### Placer précisément un élément sur la carte
 
 La fonction `locator()` permet de cliquer sur une figure et d'obtenir les coordonnées d'un point dans le système de coordonnées de la figure (de la carte). 
 
