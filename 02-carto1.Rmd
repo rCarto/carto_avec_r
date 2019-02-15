@@ -91,8 +91,8 @@ plot(
 # Symboles proportionnels
 propSymbolsLayer(
   x = mtq, 
-  var = "P13_POP", 
-  legend.title.txt = "Population totale\n(2013)"
+  var = "POP", 
+  legend.title.txt = "Population totale\n(2015)"
 )
 # Titre
 title(main = "Population en Martinique")
@@ -112,15 +112,16 @@ La fonction `choroLayer()` permet de créer des cartes choroplètes . Les argume
 
 
 ```{r choro}
-mtq$cagr <- (((mtq$P13_POP / mtq$P08_POP)^(1/4)) - 1) * 100
+# Densité de population (hab./km2) en utilisant la fonction sf::st_area()
+mtq$POPDENS <- 1e6 * mtq$POP / as.numeric(st_area(mtq))
 choroLayer(
   x = mtq, 
-  var = "cagr", 
-  breaks = c(-6.14,-2,-1,0,1,2),
-  col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-  legend.title.txt = "Taux de croissance\nannuel moyen\n(2008-2013)"
+  var = "POPDENS", 
+  breaks = c(33, 75, 168, 377, 845, 1895),
+  col = c("#F1B1B4", "#E3898E", "#D35E63", "#BD2D33", "#7E1512"),
+  legend.title.txt = "Densité de population\n(habitants par km2)"
 )
-title(main = "Evolution de la population")
+title(main = "Distribution de la population en Martinique (2015)")
 ```
 
 #### Discrétisations {#discretisation}
@@ -128,12 +129,11 @@ title(main = "Evolution de la population")
 La fonction `getBreaks()` met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique ...
 
 ```{r discr2, fig.height=3, fig.width=5, dm=FALSE}
-var <- mtq$cagr
+var <- mtq$POPDENS
 moy <- mean(var)
 med <- median(var)
 std <- sd(var)
-# Quantile intervals
-breaks <- getBreaks(v = var, nclass = 6, method = "quantile")
+breaks <- getBreaks(v = var, nclass = 5, method = "quantile")
 hist(var, probability = TRUE, breaks = breaks, main="quantiles",
      col = carto.pal(pal1 = "wine.pal",3, "green.pal", 3))
 rug(var)
@@ -141,15 +141,10 @@ abline(v = med, col = "blue", lwd = 3)
 ```
 
 ```{r discr3,  fig.height=3, fig.width=5, dm=TRUE}
-
-# Mean and standard deviation (msd)
-breaks <- getBreaks(v = var, method = "msd", k = 1, middle = TRUE)
-hist(var, probability = TRUE, breaks = breaks, main="moyenne / écart-type",
-     col = carto.pal(pal1 = "wine.pal",3 , "green.pal", 2, middle = TRUE))
+breaks <- getBreaks(v = var, nclass=5, method = "geom")
+hist(var, probability = TRUE, breaks = breaks, main="progression géométrique",
+     col = carto.pal(pal1 = "wine.pal",6))
 rug(var)
-abline(v = moy, col = "red", lwd = 3)
-abline(v = moy + 0.5 * std, col = "blue", lwd = 3)
-abline(v = moy - 0.5 * std, col = "blue", lwd = 3)
 ```
 
 
@@ -185,13 +180,14 @@ La fonction `typoLayer()` propose cette représentation. L'argument `legend.valu
 ```{r typolo}
 typoLayer(
   x = mtq, 
-  var="STATUT",
-  legend.values.order = c("Préfecture de région",
-                          "Sous-préfecture", 
-                          "Commune simple"),
-  col = c("aquamarine4", "yellow3","wheat"),
+  var="STATUS",
+  col = c("aquamarine4", "yellow3","wheat"), 
+  lwd = .7,
+  legend.values.order = c("Prefecture",
+                          "Sub-prefecture", 
+                          "Simple municipality"),
   legend.pos = "topright",
-  legend.title.txt = "Statut administratif"
+  legend.title.txt = ""
 )
 title("Statut Administratif")
 ```
@@ -213,16 +209,20 @@ plot(
 )
 propSymbolsChoroLayer(
   x = mtq, 
-  var= "P13_POP",
-  var2 = "cagr", 
-  breaks = c(-6.14,-2,-1,0,1,2),
-  col = c("#135D89", "#4D95BA", "#96D1EA", "#FCDACA", "#EC4E49"),
-  legend.var.pos = "topright",
-  legend.var.title.txt = "Population totale\n(2013)",
-  legend.var2.pos = "bottomleft",
-  legend.var2.title.txt = "Taux de croissance\nannuel moyen\n(2008-2013)"
-)
-title("Evolution de la population")
+  var = "POP", 
+  border = "grey50",
+  lwd = 1,
+  legend.var.pos = "topright", 
+  legend.var.title.txt = "Population",
+  var2 = "MED",
+  method = "equal", 
+  nclass = 4, 
+  col = carto.pal(pal1 = "sand.pal", n1 = 4),
+  legend.var2.values.rnd = -2,
+  legend.var2.pos = "left", 
+  legend.var2.title.txt = "Revenu\nmédian\n(en euros)"
+) 
+title("Population et richesse en Martinique, 2015")
 ```
 
 ### Carte de stocks et de qualitative 
@@ -237,16 +237,16 @@ plot(
 )
 propSymbolsTypoLayer(
   x = mtq, 
-  var = "P13_POP", 
+  var = "POP", 
   symbols = "circle",
-  var2 = "STATUT",
+  var2 = "STATUS",
   col = c("aquamarine4", "yellow3","wheat"),
   legend.var.pos = "bottomleft",
-  legend.var.title.txt = "Population totale\n(2013)",
+  legend.var.title.txt = "Population\n(2015)",
   legend.var2.title.txt = "Statut administratif",
-  legend.var2.values.order = c("Préfecture de région",
-                               "Sous-préfecture",
-                               "Commune simple")
+  legend.var2.values.order = c("Prefecture",
+                          "Sub-prefecture", 
+                          "Simple municipality")
 )
 title("Population en Martinique")
 ```
@@ -313,7 +313,7 @@ barscale(
   pos = c(713712.6,1594777)
 )
 layoutLayer(title = "Martinique", sources = "IGN", 
-            author = "Giraud & Pécout, 2019", frame = FALSE, scale = NULL,
+            author = "Giraud & Pécout, 2019", scale = NULL,
             coltitle = "#D1914D",tabtitle = TRUE)
 ```
 
@@ -561,7 +561,7 @@ plot(st_geometry(mtq), col = "darkseagreen3", border = "darkseagreen4",
      bg = "#A6CAE0")
 text(x = 694019, y = 1615161, 
      labels = "MER\nDES\nCARAÏBES", 
-     col = "#e3f1f9", font = 3, srt=20 )
+     col = "#e3f1f9", font = 3, srt=20)
 ```
 
 `locator()`peut être utilisée sur la plupart des graphiques (pas ceux produits avec `ggplot2`). 
@@ -609,13 +609,14 @@ library(sf)
 mtq_pencil <- getPencilLayer(x = mtq)
 typoLayer(
   x = mtq_pencil, 
-  var="STATUT", 
-  col = c("aquamarine4", "yellow3","wheat"),
-  legend.values.order = c("Préfecture de région",
-                          "Sous-préfecture", 
-                          "Commune simple"),
+  var="STATUS",  
+  col = c("aquamarine4", "yellow3","wheat"), 
+  lwd = .7,
+  legend.values.order = c("Prefecture",
+                          "Sub-prefecture", 
+                          "Simple municipality"),
   legend.pos = "topright",
-  legend.title.txt = "Status"
+  legend.title.txt = ""
 )
 plot(st_geometry(mtq), add = TRUE, ldy=2)
 layoutLayer(title = "Statut Administratif",tabtitle=TRUE,

@@ -189,9 +189,9 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 ```{r aggreg2, nm=TRUE}
 library(dplyr)
 mtq_u2 <- mtq %>% 
-  group_by(STATUT) %>% 
-  summarize(P13_POP=sum(P13_POP))
-plot(mtq_u2["STATUT"], key.pos = NULL)
+  group_by(STATUS) %>% 
+  summarize(POP = sum(POP))
+plot(mtq_u2["STATUS"], key.pos = NULL)
 ```
 
 

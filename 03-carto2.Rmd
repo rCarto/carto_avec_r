@@ -78,35 +78,40 @@ layoutLayer("Frontières inter-communales",tabtitle=TRUE, north = TRUE,
 ```
 
 ```{r disc2}
-mtq$emp_share <- 100 * mtq$C13_CS5/mtq$C13_POP
-# Plot this share
-choroLayer(
-  x = mtq, 
-  var = "emp_share", 
-  border = NA, 
-  method = 'quantile', 
-  nclass = 6, 
-  legend.values.rnd = 1, 
-  legend.pos = "topright", 
-  legend.title.txt = "Part des employés\ndans la population agée\nde 15 ans et plus" )
+# Compute the population density (inhab./km2) using sf::st_area()
+mtq$POPDENS <- as.numeric(1e6 * mtq$POP / st_area(mtq))
+# plot municipalities (only the backgroung color is plotted)
+plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue1", 
+     xlim = c(690574, 745940))
+# Plot the population density with custom breaks
+choroLayer(x = mtq, var = "MED",
+           breaks = c(min(mtq$MED), seq(13000, 21000, 2000), max(mtq$MED)),
+           col = carto.pal("green.pal", 6),border = "white", lwd = 0.5, 
+           legend.pos = "topright", legend.title.txt = "Median Income\n(euros)",
+           add = TRUE)
 # Plot discontinuities
 discLayer(
   x = mtq_bord, 
-  df = mtq,
-  var = "emp_share", 
-  col="darkred", 
-  nclass=3, 
-  method="quantile", 
-  threshold = 0.5, 
-  sizemin = 0.5, 
-  sizemax = 8, 
-  type = "abs", 
-  legend.values.rnd = 1,
-  legend.title.txt = "Discontinuités\n(différences absolues)",
-  legend.pos = "bottomleft", add=TRUE
+  df = mtq, 
+  var = "MED",
+  type = "rel", 
+  method = "geom", 
+  nclass = 3,
+  threshold = 0.4,
+  sizemin = 0.7, 
+  sizemax = 6, 
+  col = "red4",
+  legend.values.rnd = 1, 
+  legend.title.txt = "Relative\nDiscontinuities", 
+  legend.pos = "right",
+  add = TRUE
 )
-layoutLayer("Discontinuités - Part des employés",tabtitle=TRUE, 
-            author= "INSEE 2016", sources="", frame=FALSE, scale = 5)
+# Layout
+layoutLayer(title = "Wealth Disparities in Martinique, 2015", 
+            author =  paste0("cartography ", packageVersion("cartography")),
+            sources = "Sources: Insee and IGN, 2018",
+            frame = FALSE, scale = 5, tabtitle = TRUE,theme = "grey.pal")
+# north arrow
 north(pos = "topleft")
 ```
 
@@ -145,7 +150,7 @@ library(cartography)
 library(sp)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 # Plot dentsity of population 
-mtq$dens <- mtq$P13_POP / (st_area(mtq) / (1000 * 1000)) 
+mtq$dens <- mtq$POP / as.numeric(st_area(mtq) / (1000 * 1000)) 
 bks <- getBreaks(v = mtq$dens, method = "q6")
 cols <- carto.pal(pal1 = "taupe.pal", n1 = 6)
 choroLayer(
@@ -166,10 +171,10 @@ mygrid <- getGridLayer(
   x = mtq, 
   cellsize = 10000 * 10000, 
   type = "hexagonal", 
-  var = "P13_POP"
+  var = "POP"
 )
 ## conversion from square meter to square kilometers
-mygrid$densitykm <- mygrid$P13_POP / (mygrid$gridarea / (1000 * 1000)) 
+mygrid$densitykm <- mygrid$POP / (mygrid$gridarea / (1000 * 1000)) 
 choroLayer(
   x = mygrid, 
   var = "densitykm", 
@@ -422,7 +427,7 @@ library(cartography)
 library(cartogram)
 library(sf)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
-mtq_dorling <- cartogram_dorling(x = mtq, weight = "P13_POP", k = 12) 
+mtq_dorling <- cartogram_dorling(x = mtq, weight = "POP", k = 12) 
 plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
 labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
            halo = TRUE, r = .15)
@@ -457,7 +462,7 @@ library(cartography)
 library(cartogram)
 library(sf)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
-mtq_ncont <- cartogram_ncont(x = mtq, weight = "P13_POP", k = 1.5) 
+mtq_ncont <- cartogram_ncont(x = mtq, weight = "POP", k = 1.5) 
 plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
 plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
 layoutLayer("Population en Martinique - Cartogramme de Olson",tabtitle=TRUE, 
@@ -492,7 +497,7 @@ library(sf)
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 # transformation POLYGON => MULTIPOLYGON
 mtq <- st_cast(mtq, "MULTIPOLYGON")
-mtq_cont <- cartogram_cont(x = mtq, weight = "P13_POP", prepare = "none") 
+mtq_cont <- cartogram_cont(x = mtq, weight = "POP", prepare = "none") 
 plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
 layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
             author= "INSEE 2016", sources="", frame=FALSE, scale = NULL)
