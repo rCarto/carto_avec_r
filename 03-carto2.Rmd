@@ -61,7 +61,7 @@ La fonctions `getBorder()` du package `cartography` permet de construire une cou
 ```{r disc}
 library(sf)
 library(cartography)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 # Get borders
 mtq_bord <- getBorders(x = mtq)
 # Plot polygons
@@ -147,8 +147,7 @@ La fonction `getGridLayer()` du package `cartography` permet de construire ces g
 ```{r grid}
 library(sf)
 library(cartography)
-library(sp)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 # Plot dentsity of population 
 mtq$dens <- mtq$POP / as.numeric(st_area(mtq) / (1000 * 1000)) 
 bks <- getBreaks(v = mtq$dens, method = "q6")
@@ -234,10 +233,10 @@ library(raster)
 # Import des données
 mtq <- st_read("data/martinique.shp", quiet = TRUE)
 resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
-sigma = 1000
+sigma = 750
 res = 200
 # Define an observation window
-w <- as.owin(as(mtq, "Spatial"))
+w <- as.owin(as(st_union(st_buffer(mtq, 100)), "Spatial"))
 # sf to coords
 pts <- st_coordinates(resto)
 # Coords to ppp
@@ -246,6 +245,7 @@ p <- ppp(pts[,1], pts[,2], window=w)
 dens <- density.ppp(p, sigma = sigma, eps = res)
 # Image to raster (+ proj & km2)
 result <- raster(dens, crs = st_crs(resto)[[2]]) * 1000000
+result <- mask(result, mtq)
 # compute breaks
 bks <- unique(getBreaks(values(result), nclass = 8, method = "arith"))
 # Color ramp
@@ -314,14 +314,15 @@ library(raster)
 library(cartography)
 library(sf)
 library(SpatialPosition)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)# use WGS84 proj
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+# use WGS84 proj
 mtq_latlon <- st_transform(mtq, 4326)
 # import raster
 ras <- raster("data/srtm_24_10.tif")
 # crop on martinique area
 mtq_ras <- crop(ras, st_bbox(mtq_latlon)[c(1,3,2,4)])
 # aggregate the raster
-mtq_ras <- aggregate(mtq_ras, fact=4,fun=mean)
+mtq_ras <- aggregate(mtq_ras, fact=4, fun=mean)
 mtq_ras <- projectRaster(mtq_ras, crs=st_crs(mtq)$proj4string)
 # break values
 bv <- c(seq(0,1300,100),1339)
@@ -360,7 +361,7 @@ L'export des images n'est pas évident, il s'agit ici d'une simple capture d'éc
 library(sf)
 library(raster)
 library(rayshader)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 st_geometry(mtq) <- st_buffer(st_geometry(mtq), 5000)
 mtq_latlon <- st_transform(mtq, 4326)
 ras <- raster("data/srtm_24_10.tif")
@@ -426,7 +427,7 @@ Les tailles de cercles sont vraiment comparables.
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 mtq_dorling <- cartogram_dorling(x = mtq, weight = "POP", k = 12) 
 plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
 labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
@@ -461,7 +462,7 @@ La conservation de la forme des polygones est optimale.
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 mtq_ncont <- cartogram_ncont(x = mtq, weight = "POP", k = 1.5) 
 plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
 plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
@@ -494,7 +495,7 @@ C'est une “vraie carte de géographie” : la topologie et la contiguité sont
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 # transformation POLYGON => MULTIPOLYGON
 mtq <- st_cast(mtq, "MULTIPOLYGON")
 mtq_cont <- cartogram_cont(x = mtq, weight = "POP", prepare = "none") 
@@ -517,20 +518,16 @@ Mais les cartogrammes induisent une perte des **repères visuels** (difficile de
 Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] basé sur la librairie javascript Leaflet [@JS-Leaflet] pour créer des cartes interactives. La création de carte est assez aisée, la documentation est un peu dense. 
 
 **Utilisation simple**
-```{r interact1}
+```{r interact1, eval=FALSE}
 library(sf)
 library(mapview)
-mtq <- st_read("data/martinique.shp", quiet=TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
 mapview(resto) + mapview(mtq) 
 ```
 </br>
 **Utilisation personnalisée**
-```{r interact2}
-library(sf)
-library(mapview)
-mtq <- st_read("data/martinique.shp", quiet=TRUE)
-resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
+```{r interact2, eval=FALSE}
 mapview(
   resto, 
   map.types = "OpenStreetMap", 

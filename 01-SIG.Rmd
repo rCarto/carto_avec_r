@@ -187,10 +187,12 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 ### Agréger des polygones en fonction d'une variable
 
 ```{r aggreg2, nm=TRUE}
+
+
 library(dplyr)
-mtq_u2 <- mtq %>% 
-  group_by(STATUS) %>% 
-  summarize(POP = sum(POP))
+mtq_u2 <- aggregate(x = mtq[,c("POP", "CHOM", "ACT")], 
+                    by = list(STATUS = mtq$STATUS), 
+                    FUN = "sum")
 plot(mtq_u2["STATUS"], key.pos = NULL)
 ```
 
@@ -401,57 +403,29 @@ Le package `osmdata` [@R-osmdata] permet d'extraire des données vectorielles de
 ```{r, eval=FALSE}
 library(sf)
 library(osmdata)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read(dsn = "data/mtq.gpkg", quiet = TRUE)
 # Définition d'une bounding box
 q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
-# Extraction des resaturants
+# Extraction des restaurants
 res <- add_osm_feature(opq = q, key = 'amenity', value = "restaurant")
 res.sf <- osmdata_sf(res)
 res.sf.pts  <- res.sf$osm_points[!is.na(res.sf$osm_points$amenity),]
-res.sf.pol <- res.sf$osm_polygons
-st_geometry(res.sf.pol) <- st_centroid(st_geometry(res.sf.pol))
-# Extraction des fast food
-ff <- add_osm_feature(opq = q, key = 'amenity',value = "fast_food")
-ff.sf <- osmdata_sf(ff)
-ff.sf.pts  <- ff.sf$osm_points[!is.na(ff.sf$osm_points$amenity),]
-ff.sf.pol <- ff.sf$osm_polygons
-st_geometry(ff.sf.pol) <- st_centroid(st_geometry(ff.sf.pol))
-# Extraction des cafés
-caf <- add_osm_feature(opq = q, key = 'amenity', value = "cafe" )
-caf.sf <- osmdata_sf(caf)
-caf.sf.pts  <- caf.sf$osm_points[!is.na(caf.sf$osm_points$amenity),]
-caf.sf.pol <- caf.sf$osm_polygons
-st_geometry(caf.sf.pol) <- st_centroid(st_geometry(caf.sf.pol))
-# regroupement des 3 types d'établissement
-resto <- rbind(
-  res.sf.pts[, c("osm_id", "name")], res.sf.pol[, c("osm_id", "name")], 
-  ff.sf.pts[, c("osm_id", "name")], ff.sf.pol[, c("osm_id", "name")], 
-  caf.sf.pts[, c("osm_id", "name")], caf.sf.pol[, c("osm_id", "name")]
-)
-resto <- st_transform(resto, st_crs(mtq))
-
+resto <- st_transform(res.sf.pts, st_crs(mtq))
 # Affichage des restaurants
 plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
      bg = "lightblue1")
 plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 title("Répartition des restaurants")
-mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
+mtext(text = "INSEE, 2016 - OSM, 2019",side = 1, line = -1, cex = 0.8)
 ```
 
 ```{r, eval=TRUE, echo=FALSE, sm=TRUE}
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 resto <- st_read("data/resto.gpkg",quiet=TRUE)
 plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
      bg = "lightblue1")
 plot(st_geometry(resto), add=TRUE, pch=20, col = "#330A5FFF", cex = 0.5)
 title("Répartition des restaurants")
-mtext(text = "INSEE, 2016 - OSM, 2018",side = 1, line = -1, cex = 0.8)
+mtext(text = "INSEE, 2016 - OSM, 2019",side = 1, line = -1, cex = 0.8)
 ```
 
-
-<!-- ## Pour aller plus loin -->
-
-<!-- * liens vers d'autres ressources (blogs, github, liens) -->
-
-
-*

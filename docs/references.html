@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>References | Cartographie avec R</title>
-  <meta name="description" content="Matériel pour le cours de cartographie avec R">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta name="description" content="Matériel pour le cours de cartographie avec R" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="References | Cartographie avec R" />
   <meta property="og:type" content="book" />
@@ -22,17 +21,17 @@
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   
 
-<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout">
+<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout" />
 
 
-<meta name="date" content="2019-02-15">
+<meta name="date" content="2019-12-11" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="sessioninfo.html">
+<link rel="prev" href="sessioninfo.html"/>
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -41,6 +40,7 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -48,29 +48,16 @@
 
 
 
-<script src="libs/htmlwidgets-1.3/htmlwidgets.js"></script>
-<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
-<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.2/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.1.17/leaflet-providers.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.2/leaflet-providers-plugin.js"></script>
-<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
-<script src="libs/HomeButton-0.0.1/home-button.js"></script>
-<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
-<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
+
+
 
 
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -80,13 +67,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -151,62 +136,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1.1" data-path="chapitre1.html"><a href="chapitre1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a><ul>
 <li class="chapter" data-level="1.1.1" data-path="chapitre1.html"><a href="chapitre1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
 <li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-donnees"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-donnees"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
+<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-données"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
+<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-données"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-systemes-de-projections"><i class="fa fa-check"></i><b>1.2</b> Les systèmes de projections</a><ul>
+<li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-systèmes-de-projections"><i class="fa fa-check"></i><b>1.2</b> Les systèmes de projections</a><ul>
 <li class="chapter" data-level="1.2.1" data-path="chapitre1.html"><a href="chapitre1.html#consulter-la-projection-dun-objet"><i class="fa fa-check"></i><b>1.2.1</b> Consulter la projection d’un objet</a></li>
 <li class="chapter" data-level="1.2.2" data-path="chapitre1.html"><a href="chapitre1.html#modifier-la-projection-dun-objet"><i class="fa fa-check"></i><b>1.2.2</b> Modifier la projection d’un objet</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="chapitre1.html"><a href="chapitre1.html#operations-de-geotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#selection-par-attributs"><i class="fa fa-check"></i><b>1.3.1</b> Sélection par attributs</a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#selection-spatiale"><i class="fa fa-check"></i><b>1.3.2</b> Sélection spatiale</a></li>
+<li class="chapter" data-level="1.3" data-path="chapitre1.html"><a href="chapitre1.html#opérations-de-géotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#sélection-par-attributs"><i class="fa fa-check"></i><b>1.3.1</b> Sélection par attributs</a></li>
+<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#sélection-spatiale"><i class="fa fa-check"></i><b>1.3.2</b> Sélection spatiale</a></li>
 <li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.3</b> Extraire des centroides</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#creer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.4</b> Créer une matrice de distances</a></li>
-<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones"><i class="fa fa-check"></i><b>1.3.5</b> Agréger des polygones</a></li>
-<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#agreger-des-polygones-en-fonction-dune-variable"><i class="fa fa-check"></i><b>1.3.6</b> Agréger des polygones en fonction d’une variable</a></li>
+<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#créer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.4</b> Créer une matrice de distances</a></li>
+<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#agréger-des-polygones"><i class="fa fa-check"></i><b>1.3.5</b> Agréger des polygones</a></li>
+<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#agréger-des-polygones-en-fonction-dune-variable"><i class="fa fa-check"></i><b>1.3.6</b> Agréger des polygones en fonction d’une variable</a></li>
 <li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.7</b> Construire une zone tampon</a></li>
-<li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#realiser-une-intersection"><i class="fa fa-check"></i><b>1.3.8</b> Réaliser une intersection</a></li>
+<li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#réaliser-une-intersection"><i class="fa fa-check"></i><b>1.3.8</b> Réaliser une intersection</a></li>
 <li class="chapter" data-level="1.3.9" data-path="chapitre1.html"><a href="chapitre1.html#compter-des-points-dans-un-polygone"><i class="fa fa-check"></i><b>1.3.9</b> Compter des points dans un polygone</a></li>
 <li class="chapter" data-level="1.3.10" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.10</b> Construire des polygones de Voronoi</a></li>
 <li class="chapter" data-level="1.3.11" data-path="chapitre1.html"><a href="chapitre1.html#construction-dobjets-sf"><i class="fa fa-check"></i><b>1.3.11</b> Construction d’objets sf</a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#geocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a></li>
-<li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#importer-des-donnees-osm"><i class="fa fa-check"></i><b>1.5</b> Importer des données OSM</a></li>
+<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#géocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a></li>
+<li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#importer-des-données-osm"><i class="fa fa-check"></i><b>1.5</b> Importer des données OSM</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="chapitre2.html"><a href="chapitre2.html"><i class="fa fa-check"></i><b>2</b> Cartographie thématique</a><ul>
 <li class="chapter" data-level="2.1" data-path="chapitre2.html"><a href="chapitre2.html#le-package-cartography"><i class="fa fa-check"></i><b>2.1</b> Le package <code>cartography</code></a></li>
-<li class="chapter" data-level="2.2" data-path="chapitre2.html"><a href="chapitre2.html#representations-usuelles"><i class="fa fa-check"></i><b>2.2</b> Représentations usuelles</a><ul>
+<li class="chapter" data-level="2.2" data-path="chapitre2.html"><a href="chapitre2.html#représentations-usuelles"><i class="fa fa-check"></i><b>2.2</b> Représentations usuelles</a><ul>
 <li class="chapter" data-level="2.2.1" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-symboles-proportionnels"><i class="fa fa-check"></i><b>2.2.1</b> Carte de symboles proportionnels</a></li>
-<li class="chapter" data-level="2.2.2" data-path="chapitre2.html"><a href="chapitre2.html#carte-choroplethe"><i class="fa fa-check"></i><b>2.2.2</b> Carte choroplèthe</a></li>
+<li class="chapter" data-level="2.2.2" data-path="chapitre2.html"><a href="chapitre2.html#carte-choroplèthe"><i class="fa fa-check"></i><b>2.2.2</b> Carte choroplèthe</a></li>
 <li class="chapter" data-level="2.2.3" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-typologie"><i class="fa fa-check"></i><b>2.2.3</b> Carte de typologie</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="chapitre2.html"><a href="chapitre2.html#combinaisons-de-representations"><i class="fa fa-check"></i><b>2.3</b> Combinaisons de représentations</a><ul>
+<li class="chapter" data-level="2.3" data-path="chapitre2.html"><a href="chapitre2.html#combinaisons-de-représentations"><i class="fa fa-check"></i><b>2.3</b> Combinaisons de représentations</a><ul>
 <li class="chapter" data-level="2.3.1" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-stocks-et-de-ratios"><i class="fa fa-check"></i><b>2.3.1</b> Carte de stocks et de ratios</a></li>
 <li class="chapter" data-level="2.3.2" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-stocks-et-de-qualitative"><i class="fa fa-check"></i><b>2.3.2</b> Carte de stocks et de qualitative</a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="chapitre2.html"><a href="chapitre2.html#elements-dhabillage"><i class="fa fa-check"></i><b>2.4</b> Éléments d’habillage</a><ul>
+<li class="chapter" data-level="2.4" data-path="chapitre2.html"><a href="chapitre2.html#mise-en-page"><i class="fa fa-check"></i><b>2.4</b> Mise en page</a><ul>
 <li class="chapter" data-level="2.4.1" data-path="chapitre2.html"><a href="chapitre2.html#habillage-complet"><i class="fa fa-check"></i><b>2.4.1</b> Habillage complet</a></li>
-<li class="chapter" data-level="2.4.2" data-path="chapitre2.html"><a href="chapitre2.html#fleche-dorientation"><i class="fa fa-check"></i><b>2.4.2</b> Flèche d’orientation</a></li>
-<li class="chapter" data-level="2.4.3" data-path="chapitre2.html"><a href="chapitre2.html#echelle"><i class="fa fa-check"></i><b>2.4.3</b> Échelle</a></li>
-<li class="chapter" data-level="2.4.4" data-path="chapitre2.html"><a href="chapitre2.html#etiquettes"><i class="fa fa-check"></i><b>2.4.4</b> Étiquettes</a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#mise-en-page"><i class="fa fa-check"></i><b>2.5</b> Mise en page</a><ul>
-<li class="chapter" data-level="2.5.1" data-path="chapitre2.html"><a href="chapitre2.html#ajuster-les-marges-dune-figure"><i class="fa fa-check"></i><b>2.5.1</b> Ajuster les marges d’une figure</a></li>
-<li class="chapter" data-level="2.5.2" data-path="chapitre2.html"><a href="chapitre2.html#centrer-la-carte-sur-une-region"><i class="fa fa-check"></i><b>2.5.2</b> Centrer la carte sur une région</a></li>
-<li class="chapter" data-level="2.5.3" data-path="chapitre2.html"><a href="chapitre2.html#afficher-plusieurs-cartes-sur-la-meme-figure"><i class="fa fa-check"></i><b>2.5.3</b> Afficher plusieurs cartes sur la même figure</a></li>
-<li class="chapter" data-level="2.5.4" data-path="chapitre2.html"><a href="chapitre2.html#obtenir-un-ratio-de-figure-adapte"><i class="fa fa-check"></i><b>2.5.4</b> Obtenir un ratio de figure adapté</a></li>
-<li class="chapter" data-level="2.5.5" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-une-image-sur-une-carte"><i class="fa fa-check"></i><b>2.5.5</b> Ajouter une image sur une carte</a></li>
-<li class="chapter" data-level="2.5.6" data-path="chapitre2.html"><a href="chapitre2.html#placer-precisement-un-element-sur-la-carte"><i class="fa fa-check"></i><b>2.5.6</b> Placer précisément un élément sur la carte</a></li>
-<li class="chapter" data-level="2.5.7" data-path="chapitre2.html"><a href="chapitre2.html#utiliser-un-fond-de-carte-osm"><i class="fa fa-check"></i><b>2.5.7</b> Utiliser un fond de carte OSM</a></li>
-<li class="chapter" data-level="2.5.8" data-path="chapitre2.html"><a href="chapitre2.html#creer-un-effet-crayonne"><i class="fa fa-check"></i><b>2.5.8</b> Créer un effet crayonné</a></li>
-<li class="chapter" data-level="2.5.9" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-un-ombrage-a-une-couche"><i class="fa fa-check"></i><b>2.5.9</b> Ajouter un ombrage à une couche</a></li>
-<li class="chapter" data-level="2.5.10" data-path="chapitre2.html"><a href="chapitre2.html#creation-de-cartons"><i class="fa fa-check"></i><b>2.5.10</b> Création de cartons</a></li>
+<li class="chapter" data-level="2.4.2" data-path="chapitre2.html"><a href="chapitre2.html#flèche-dorientation"><i class="fa fa-check"></i><b>2.4.2</b> Flèche d’orientation</a></li>
+<li class="chapter" data-level="2.4.3" data-path="chapitre2.html"><a href="chapitre2.html#échelle"><i class="fa fa-check"></i><b>2.4.3</b> Échelle</a></li>
+<li class="chapter" data-level="2.4.4" data-path="chapitre2.html"><a href="chapitre2.html#étiquettes"><i class="fa fa-check"></i><b>2.4.4</b> Étiquettes</a></li>
+<li class="chapter" data-level="2.4.5" data-path="chapitre2.html"><a href="chapitre2.html#ajuster-les-marges-dune-figure"><i class="fa fa-check"></i><b>2.4.5</b> Ajuster les marges d’une figure</a></li>
+<li class="chapter" data-level="2.4.6" data-path="chapitre2.html"><a href="chapitre2.html#centrer-la-carte-sur-une-région"><i class="fa fa-check"></i><b>2.4.6</b> Centrer la carte sur une région</a></li>
+<li class="chapter" data-level="2.4.7" data-path="chapitre2.html"><a href="chapitre2.html#afficher-plusieurs-cartes-sur-la-même-figure"><i class="fa fa-check"></i><b>2.4.7</b> Afficher plusieurs cartes sur la même figure</a></li>
+<li class="chapter" data-level="2.4.8" data-path="chapitre2.html"><a href="chapitre2.html#obtenir-un-ratio-de-figure-adapté"><i class="fa fa-check"></i><b>2.4.8</b> Obtenir un ratio de figure adapté</a></li>
+<li class="chapter" data-level="2.4.9" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-une-image-sur-une-carte"><i class="fa fa-check"></i><b>2.4.9</b> Ajouter une image sur une carte</a></li>
+<li class="chapter" data-level="2.4.10" data-path="chapitre2.html"><a href="chapitre2.html#placer-précisément-un-élément-sur-la-carte"><i class="fa fa-check"></i><b>2.4.10</b> Placer précisément un élément sur la carte</a></li>
+<li class="chapter" data-level="2.4.11" data-path="chapitre2.html"><a href="chapitre2.html#utiliser-un-fond-de-carte-osm"><i class="fa fa-check"></i><b>2.4.11</b> Utiliser un fond de carte OSM</a></li>
+<li class="chapter" data-level="2.4.12" data-path="chapitre2.html"><a href="chapitre2.html#créer-un-effet-crayonné"><i class="fa fa-check"></i><b>2.4.12</b> Créer un effet crayonné</a></li>
+<li class="chapter" data-level="2.4.13" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-un-ombrage-à-une-couche"><i class="fa fa-check"></i><b>2.4.13</b> Ajouter un ombrage à une couche</a></li>
+<li class="chapter" data-level="2.4.14" data-path="chapitre2.html"><a href="chapitre2.html#création-de-cartons"><i class="fa fa-check"></i><b>2.4.14</b> Création de cartons</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="chapitre3.html"><a href="chapitre3.html"><i class="fa fa-check"></i><b>3</b> Cartographie thématique avancée</a><ul>
-<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuites"><i class="fa fa-check"></i><b>3.1</b> Les cartes de discontinuités</a></li>
-<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-regulieres"><i class="fa fa-check"></i><b>3.2</b> Les grilles régulières</a></li>
+<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuités"><i class="fa fa-check"></i><b>3.1</b> Les cartes de discontinuités</a></li>
+<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-régulières"><i class="fa fa-check"></i><b>3.2</b> Les grilles régulières</a></li>
 <li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.3</b> Le lissage spatial</a></li>
 <li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#cartes-en-3d"><i class="fa fa-check"></i><b>3.4</b> Cartes en 3D</a><ul>
 <li class="chapter" data-level="3.4.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.4.1</b> linemap</a></li>
@@ -251,7 +234,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Agafonkin, Vladimir. 2015. “Leaflet Javascript Libary.”</p>
 </div>
 <div>
-<p>Appelhans, Tim, Florian Detsch, Christoph Reudenbach, and Stefan Woellauer. 2018. <em>Mapview: Interactive Viewing of Spatial Data in R</em>. <a href="https://CRAN.R-project.org/package=mapview" class="uri">https://CRAN.R-project.org/package=mapview</a>.</p>
+<p>Appelhans, Tim, Florian Detsch, Christoph Reudenbach, and Stefan Woellauer. 2018. <em>Mapview: Interactive Viewing of Spatial Data in R</em>. <a href="https://CRAN.R-project.org/package=mapview">https://CRAN.R-project.org/package=mapview</a>.</p>
 </div>
 <div>
 <p>Bertin, Jacques. 1967. “Sémiologie Graphique: Les Diagrammes, Les Réseaux, Les Cartes, Les Réimpressions Des Éditions de L’Ecole Des Hautes Études En Sciences Sociales.” Paris: Mouton &amp; Gauthier-Villars.</p>
@@ -263,58 +246,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Cauvin, Colette, Francisco Escobar, and Aziz Serradj. 2013. <em>Thematic Cartography, Cartography and the Impact of the Quantitative Revolution</em>. Vol. 2. John Wiley &amp; Sons.</p>
 </div>
 <div>
-<p>Cheng, Joe, Bhaskar Karambelkar, and Yihui Xie. 2018. <em>Leaflet: Create Interactive Web Maps with the Javascript ’Leaflet’ Library</em>. <a href="https://CRAN.R-project.org/package=leaflet" class="uri">https://CRAN.R-project.org/package=leaflet</a>.</p>
+<p>Cheng, Joe, Bhaskar Karambelkar, and Yihui Xie. 2018. <em>Leaflet: Create Interactive Web Maps with the Javascript ’Leaflet’ Library</em>. <a href="https://CRAN.R-project.org/package=leaflet">https://CRAN.R-project.org/package=leaflet</a>.</p>
 </div>
 <div>
 <p>Dorling, Daniel. 1996. <em>Area Cartograms: Their Use and Creation, Concepts and Techniques in Modern Geography</em>. Vol. 59. CATMOG: Concepts and Techniques in Modern Geography. Institute of British Geographers.</p>
 </div>
 <div>
-<p>Dougenik, James A, Nicholas R Chrisman, and Duane R Niemeyer. 1985. “An Algorithm to Construct Continuous Area Cartograms.” <em>The Professional Geographer</em> 37 (1). Wiley Online Library:75–81.</p>
+<p>Dougenik, James A, Nicholas R Chrisman, and Duane R Niemeyer. 1985. “An Algorithm to Construct Continuous Area Cartograms.” <em>The Professional Geographer</em> 37 (1). Wiley Online Library: 75–81.</p>
 </div>
 <div>
-<p>Giraud, Timothée. 2017a. <em>Linemap: Line Maps</em>. <a href="https://CRAN.R-project.org/package=linemap" class="uri">https://CRAN.R-project.org/package=linemap</a>.</p>
+<p>Giraud, Timothée. 2017a. <em>Linemap: Line Maps</em>. <a href="https://CRAN.R-project.org/package=linemap">https://CRAN.R-project.org/package=linemap</a>.</p>
 </div>
 <div>
-<p>———. 2017b. <em>Photon: Geocode Locations with Photon Api</em>. <a href="https://github.com/rCarto/photon" class="uri">https://github.com/rCarto/photon</a>.</p>
+<p>———. 2017b. <em>Photon: Geocode Locations with Photon Api</em>. <a href="https://github.com/rCarto/photon">https://github.com/rCarto/photon</a>.</p>
 </div>
 <div>
-<p>Giraud, Timothée, and Nicolas Lambert. 2018a. <em>Cartography: Thematic Cartography</em>. <a href="https://github.com/riatelab/cartography/" class="uri">https://github.com/riatelab/cartography/</a>.</p>
+<p>Giraud, Timothée, and Nicolas Lambert. 2018a. <em>Cartography: Thematic Cartography</em>. <a href="https://github.com/riatelab/cartography/">https://github.com/riatelab/cartography/</a>.</p>
 </div>
 <div>
-<p>———. 2018b. <em>Mapinsetr: Create Map Insets</em>. <a href="https://github.com/riatelab/mapinsetr/" class="uri">https://github.com/riatelab/mapinsetr/</a>.</p>
+<p>———. 2018b. <em>Mapinsetr: Create Map Insets</em>. <a href="https://github.com/riatelab/mapinsetr/">https://github.com/riatelab/mapinsetr/</a>.</p>
 </div>
 <div>
-<p>Gombin, Joel, and Paul-Antoine Chevalier. 2017. <em>BanR: R Client for the Ban Api</em>. <a href="https://CRAN.R-project.org/package=banR" class="uri">https://CRAN.R-project.org/package=banR</a>.</p>
+<p>Gombin, Joel, and Paul-Antoine Chevalier. 2017. <em>BanR: R Client for the Ban Api</em>. <a href="https://CRAN.R-project.org/package=banR">https://CRAN.R-project.org/package=banR</a>.</p>
 </div>
 <div>
-<p>Jeworutzki, Sebastian. 2018. <em>Cartogram: Create Cartograms with R</em>. <a href="https://CRAN.R-project.org/package=cartogram" class="uri">https://CRAN.R-project.org/package=cartogram</a>.</p>
+<p>Jeworutzki, Sebastian. 2018. <em>Cartogram: Create Cartograms with R</em>. <a href="https://CRAN.R-project.org/package=cartogram">https://CRAN.R-project.org/package=cartogram</a>.</p>
 </div>
 <div>
-<p>Lambert, Nicolas. 2015. “Les Anamorphoses Cartographiques.” Blog. <em>Carnet Néocartographique</em>. <a href="https://neocarto.hypotheses.org/366" class="uri">https://neocarto.hypotheses.org/366</a>.</p>
+<p>Lambert, Nicolas. 2015. “Les Anamorphoses Cartographiques.” Blog. <em>Carnet Néocartographique</em>. <a href="https://neocarto.hypotheses.org/366">https://neocarto.hypotheses.org/366</a>.</p>
 </div>
 <div>
 <p>Lambert, Nicolas, and Christine Zanin. 2016. <em>Manuel de Cartographie: Principes, Méthodes, Applications</em>. Armand Colin.</p>
 </div>
 <div>
-<p>McCormick, Mark. 2017. “Carbon Atlas.” <em>The Guardian</em>, December. <a href="http://kelsocartography.com/blog/wp-content/uploads/2008/03/carbonatlas.pdf" class="uri">http://kelsocartography.com/blog/wp-content/uploads/2008/03/carbonatlas.pdf</a>.</p>
+<p>McCormick, Mark. 2017. “Carbon Atlas.” <em>The Guardian</em>, December. <a href="http://kelsocartography.com/blog/wp-content/uploads/2008/03/carbonatlas.pdf">http://kelsocartography.com/blog/wp-content/uploads/2008/03/carbonatlas.pdf</a>.</p>
 </div>
 <div>
-<p>Morgan-Wall, Tyler. 2018. <em>Rayshader: Create and Visualize Hillshaded Maps from Elevation Matrices</em>. <a href="https://CRAN.R-project.org/package=rayshader" class="uri">https://CRAN.R-project.org/package=rayshader</a>.</p>
+<p>Morgan-Wall, Tyler. 2018. <em>Rayshader: Create and Visualize Hillshaded Maps from Elevation Matrices</em>. <a href="https://CRAN.R-project.org/package=rayshader">https://CRAN.R-project.org/package=rayshader</a>.</p>
 </div>
 <div>
-<p>Olson, Judy M. 1976. “Noncontiguous Area Cartograms.” <em>The Professional Geographer</em> 28 (4). Wiley Online Library:371–80.</p>
+<p>Olson, Judy M. 1976. “Noncontiguous Area Cartograms.” <em>The Professional Geographer</em> 28 (4). Wiley Online Library: 371–80.</p>
 </div>
 <div>
-<p>Padgham, Mark, Bob Rudis, Robin Lovelace, and Maëlle Salmon. 2017. “Osmdata.” <em>The Journal of Open Source Software</em> 2 (14). The Open Journal. <a href="https://doi.org/10.21105/joss.00305" class="uri">https://doi.org/10.21105/joss.00305</a>.</p>
+<p>Padgham, Mark, Bob Rudis, Robin Lovelace, and Maëlle Salmon. 2017. “Osmdata.” <em>The Journal of Open Source Software</em> 2 (14). The Open Journal. <a href="https://doi.org/10.21105/joss.00305">https://doi.org/10.21105/joss.00305</a>.</p>
 </div>
 <div>
-<p>Paull, John, and Benjamin Hennig. 2016. “Atlas of Organics: Four Maps of the World of Organic Agriculture.” <em>Journal of Organics</em> 3 (1):25–32.</p>
+<p>Paull, John, and Benjamin Hennig. 2016. “Atlas of Organics: Four Maps of the World of Organic Agriculture.” <em>Journal of Organics</em> 3 (1): 25–32.</p>
 </div>
 <div>
-<p>Pebesma, Edzer. 2018a. <em>Sf: Simple Features for R</em>. <a href="https://CRAN.R-project.org/package=sf" class="uri">https://CRAN.R-project.org/package=sf</a>.</p>
+<p>Pebesma, Edzer. 2018a. <em>Sf: Simple Features for R</em>. <a href="https://CRAN.R-project.org/package=sf">https://CRAN.R-project.org/package=sf</a>.</p>
 </div>
 <div>
-<p>———. 2018b. “Simple Features for R: Standardized Support for Spatial Vector Data.” <em>The R Journal</em>. <a href="https://journal.r-project.org/archive/2018/RJ-2018-009/index.html" class="uri">https://journal.r-project.org/archive/2018/RJ-2018-009/index.html</a>.</p>
+<p>———. 2018b. “Simple Features for R: Standardized Support for Spatial Vector Data.” <em>The R Journal</em>. <a href="https://journal.r-project.org/archive/2018/RJ-2018-009/index.html">https://journal.r-project.org/archive/2018/RJ-2018-009/index.html</a>.</p>
 </div>
 <div>
 <p>Pumain, Denise, and Michèle Béguin. 2010. <em>La Représentation Des Données Géographiques: Statistique et Cartographie</em>. Armand Colin.</p>
@@ -338,11 +321,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -350,12 +335,12 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": {}
+"all": {},
+"google": false
 },
 "fontsettings": {
 "theme": "white",
@@ -367,6 +352,10 @@ gitbook.start({
 "text": null
 },
 "history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },

@@ -80,7 +80,7 @@ La fonction `propSymbolsLayer()` propose cette représentation, plusieurs symbol
 library(cartography)
 library(sf)
 # Import des données
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 # Communes
 plot(
   st_geometry(mtq), 
@@ -252,7 +252,7 @@ title("Population en Martinique")
 ```
 
 
-## Éléments d'habillage
+## Mise en page
 
 Pour être finalisée, une carte thématique doit contenir certains éléments aditionnels tels que : le titre, l'auteur, la source, l'échelle, l'orientation...
 
@@ -341,8 +341,6 @@ layoutLayer(title = "Communes", tabtitle = TRUE, author = "INSEE, 2016",
             sources ="", north =TRUE, frame = FALSE, scale = 5)
 ```
 
-
-## Mise en page
 
 ### Ajuster les marges d'une figure
 
@@ -576,25 +574,26 @@ La fonction `getTiles()` permet de télécharger des fonds de cartes OSM et la f
 
 ```{r osmcode, fig.width=6, fig.height=6, eval=FALSE}
 type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight")
+           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
 par(mar = c(0,0,0,0), mfrow = c(3,3))
 for (i in type){
   tilesLayer(getTiles(x = mtq, type = i, crop=TRUE))
   mtext(side = 3, line = -1.5, text = i, col="red")
 }
 ```
+
 ```{r osmbuild,eval=FALSE, echo=FALSE}
 type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight")
+           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
 for (i in type){
   saveRDS(getTiles(x = mtq, type = i, crop=TRUE),file = paste0("data/",i,".png"))
 }
 ```
 ```{r osmdisplay, fig.width=5, fig.height=6, echo=FALSE}
 type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight")
+           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
 par(mar = c(0,0,0,0), mfrow = c(3,3))
-i <- "osm"
+
 for (i in type){
   tilesLayer(readRDS(paste0("data/",i,".png")))
   mtext(side = 3, line = -1.5, text = i, col="red")
@@ -649,7 +648,7 @@ remotes::install_github("riatelab/mapinsetr")
 library(mapinsetr)
 library(cartography)
 library(sf)
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
+mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 resto <- st_read("data/resto.gpkg", quiet = TRUE)
 # Création d'un masque
 box_FDF <- create_mask(bb = c(706880, 1615030, 708650, 1616870), 
