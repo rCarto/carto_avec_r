@@ -1,0 +1,110 @@
+---
+title: "Cartographie thématique"
+author: "Timothée Giraud & Hugues Pecout"
+date: '`r Sys.Date()`'
+output: 
+  html_document: 
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 1
+    highlight: pygments
+    number_sections: yes
+    theme: sandstone
+---
+
+```{r setup, include=FALSE}
+
+knitr::knit_hooks$set(nm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,0,0))
+  } 
+})
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, nm=TRUE)
+```
+
+
+
+# Charger une couche géographique et des données statistiques
+
+* Charger la couche géographique des communes d'Occitanie
+(**data/Occitanie.gpkg**). Utilisez le package `sf` et la fonction `st_read()` 
+pour importer les données.
+* Vérifiez le système de projection avec `st_crs()` 
+* Charger les fichier de données **data/base_cc_comparateur.xls** fournie par 
+l'INSEE. Utilisez le package `readxl` et la fonction `read_excel()` pour 
+ouvrir la table de données correctement...
+
+
+```{r}
+library(sf)
+occ_raw <- st_read(dsn = "data/Occitanie.gpkg", stringsAsFactors = FALSE)
+st_crs(occ_raw)
+occ <- st_transform(x = occ_raw, crs = 2154)
+library(readxl)
+occ_df <- read_excel(path = "data/base_cc_comparateur.xls", sheet = 1, skip = 5) 
+
+head(occ_df)
+```
+
+
+# 2) CREATION D'UNE NOUVELLE COUCHE - SELECTION PAR ATTRIBUTS
+
+Créez un nouvel objet sf à partir d'une séléction par attribut
+ a) Séléctionnez toutes les communes d'une seule région
+b) Enregistrez votre séléction dans un nouvel objet
+ c) Afficher la nouvelle couche (st_geometry())
+
+ Pour connaitre la liste de tous les noms ou code de région --> unique()
+
+
+# 3) REALISER UNE JOINTURE - COUCHE GEO ET TABLE DE DONNEES
+
+ a) Joingnez la table de données insee avec la couche gégographique des communes 
+ de votre région séléctionnée. Utilisez la fonction merge()
+
+
+
+
+# 4) REALISATION DE CARTE THEMATIQUES 
+
+REALISEZ HUIT CARTES THEMATIQUES dans un projet RStudio, avec au moins :
+
+3 échelles différentes (échelle du pays, de la région, du département, de l'EPCI...)
+3 découpages territoriaux différents (les communes, les EPCI, les départements...)
+Exemple : 
+- Une carte des départements à l'échelle d'une région, 
+- Une carte des EPCI à l'échelle de la France, 
+ - Unne carte des communes à l'échelle d'un département...
+
+ 1 carte de localisation (avec carton de localisation si possible, label, legende...)
+ 1 carte quantitative absolue (stock)
+ 1 carte quantitative relative (ratio)
+ 1 carte quantitative combinant stock et ratio
+ 1 carte qualitative
+ 1 Anamorphose/cartogram
+ 1 ccarte interactive
+ 1 carte avec une grille 
+
+ 2 points par cartes
+ 4 points pour la qualité du code (code commenté, clair)
+
+ A rendre :
+   - un fichier nommé Prenom_NOM.R
+
+
+
+
+
+ Nous vous conseillons d'utiliser le package 'cartography' pour l'ensemble de 
+ vos réalisations. 
+ Néanmoins l'utilisation d'autres libraries sera une valeur ajoutée (ggplot2...)
+
+ A RENDRE POUR LE ? :
+ - 1 pgm R
+ - 1 document avec les 7 cartes produites
+
+ Exemple : Carte du taux de chômage et discontinuité par EPCI en Île de France
+ (échelle = une région, territoire = EPCI)
+

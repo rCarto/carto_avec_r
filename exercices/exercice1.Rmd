@@ -1,0 +1,212 @@
+---
+title: "Les données spatiales"
+author: "Timothée Giraud & Hugues Pecout"
+date: '`r Sys.Date()`'
+output: 
+  html_document: 
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 1
+    highlight: pygments
+    number_sections: yes
+    theme: sandstone
+---
+
+```{r setup, include=FALSE}
+
+knitr::knit_hooks$set(nm = function(before, options, envir){
+  if (before){
+    par(mar=c(0,0,0,0))
+  } 
+})
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE, nm=TRUE)
+```
+
+
+# Créer un projet RStudio
+
+Créez un projet avant de démarrer l'exercice.
+Il s'agit d'une bonne pratique qui vous facilitera la tâche.
+Cela améliore l'organisation et la portabilité de votre travail.
+
+
+# Télécharger la couche des géométries des communes d'Occitanie
+
+Une couche géographique des communes d'Occitanie au format **gpkg** est 
+disponible ici :  
+///insert link///  
+Téléchargez et décompressez la dans un dossier data placé dans votre projet.  
+
+Source : ADMIN EXPRESS COG édition 2019 (IGN, 
+http://professionnels.ign.fr/adminexpress)
+
+
+# Charger la couche géographique dans R
+
+* Créez un fichier **exo1.R** à la racine de votre projet. 
+* Chargez la couche géographique des communes d'Occitanie en utilisant 
+le package `sf` et la fonction `st_read()`. 
+* Vérifiez le système de projection avec `st_crs()`. S'agit-il de données 
+projetée ? Si ce n'est pas le cas, transformez la couche des communes dans la 
+projection française (Lambert 93) avec la fonction `st_transform()`. 
+
+```{r}
+library(sf)
+occ_raw <- st_read(dsn = "data/Occitanie.gpkg", stringsAsFactors = FALSE)
+st_crs(occ_raw)
+occ <- st_transform(x = occ_raw, crs = 2154)
+```
+
+
+# Création d'une nouvelle couche - Sélection par attributs
+
+* Séléctionnez toutes les communes de la Haute-Garonne. 
+* Enregistrez votre séléction dans un nouvel objet nommé **com31**
+* Afficher la nouvelle couche (en utilisant notament `st_geometry()`)
+
+Pour connaitre la liste de tous les noms ou code de région on peut utiliser la 
+fonction `unique()`. 
+
+```{r}
+unique(occ$INSEE_DEP)
+com31 <- occ[occ$INSEE_DEP == "31", ]
+plot(st_geometry(com31))
+```
+
+# Création d'une couche - Fusion d'entités géographiques
+
+* Fusionnez les communes de la région en un seul polygone (**reg76**), utilisez 
+la fonction `st_union ()`. 
+* Créez la couche géograpique des départements de la région (**dep76**), 
+utilisez la fonction `aggregate()` pour regrouper les polygones et calculer les 
+sommes des populations communales. 
+* Affichez les résultats (communes, départements et région)
+
+```{r}
+reg76 <- st_union(occ)
+dep76 <- aggregate(occ["POPULATION"], by = list(occ$INSEE_DEP), sum)
+plot(st_geometry(occ), col = "lightblue1", border = "white", lwd = .5)
+plot(st_geometry(dep76), col = NA, border = "lightblue2", lwd = 1, add = TRUE)
+plot(reg76, col = NA, border = "lightblue3", lwd = 2, add = TRUE)
+```
+
+# Création d'une nouvelle couche - Zone tampon
+
+* Créez une zone tampon d'une distance de 10 km autour des limites de la commune 
+de Toulouse (INSEE_COM = 31555) avec `st_buffer()`.
+
+```{r}
+toulouse <- com31[com31$INSEE_COM == "31555",]
+toulouse_buffer <- st_buffer(toulouse, 10000)
+plot(st_geometry(com31), lwd = .5)
+plot(st_geometry(toulouse), col = "darkblue", add = TRUE)
+plot(st_geometry(toulouse_buffer), col = NA, lwd = 3, border = "red", 
+     add = TRUE)
+
+```
+
+
+# Création d'une nouvelle couche - Sélection par localisation
+
+Déterminez quelles communes de la Haute-Garonne intersectent le buffer créé.
+
+* Utilisez la fonction `st_intersects()`. 
+* Inserez directement le resultat comme variable de l'objet **dep31**.
+
+```{r}
+inter <- st_intersects(x = com31, toulouse_buffer)
+com31$in_buffer <- sapply(X = inter, FUN = length)
+head(com31)
+```
+
+
+# Affichage de couches géographiques
+
+Affichez/superposez toutes les couches géographiques créees :
+
+* Les communes de la Haute-Garonne
+* Les communes intersectées par le buffer
+* Toulouse
+* Le buffer autour de toulouse
+* Les départements d'Occitanie
+* Les limites de l'Occitanie
+
+Jouez sur les styles pour les différencier... 
+
+```{r}
+plot(reg76, col = NA, border = "grey50", lwd = 2, bg = "lightyellow")
+plot(st_geometry(com31), col = "#aec8f2", border = "white", lwd = .5, 
+     add = TRUE)
+plot(st_geometry(com31[com31$in_buffer == TRUE, ]),col = "red", lwd = .5, 
+     border = "white", add = TRUE)
+plot(st_geometry(toulouse), col = "darkblue", border = "black", lwd = 1,
+     add = TRUE)
+plot(st_geometry(toulouse_buffer), col = NA, border = "black", lwd = 2, 
+     lty = 2, add = TRUE)
+plot(st_geometry(dep76), col = NA, border = "grey50", add = TRUE)
+```
+
+
+# Création d'une couche de point - A partir des longitudes et latitudes
+
+Créer un objet `sf` (points) contenant la localisation de la préfécture de 
+région.
+Vous pouvez récupérer la longitude et la latitude sur Google Map ou OSM
+Créer un point avec `st_points()`, puis un objet `sfc` avec avec `st_sfc()` et
+finalement un objet `sf` avec `st_sf()`
+
+
+```{r}
+# Sur OSM : https://www.openstreetmap.org/search?whereami=1&query=43.59825%2C1.45047#map=19/43.59825/1.45047
+# Position de la préfecture 43.59825, 1.45047
+library(sf)
+pref_pt <- st_point(c(1.45047, 43.59825))
+pref_sfc <- st_sfc(pref_pt, crs = (4326))
+pref <- st_sf(name = "Préfecture", geometry = pref_sfc)
+pref
+```
+
+
+# Calcul d'une matrice de distances
+
+Calculez une matrice de distance entre la préfecture et les centroïdes des
+communes du département Haute-Garonne. Ajouter cette distance dans une nouvelle 
+colonne **dist_pref** dans **com31**. Pour cela, utiliser les fonction 
+`st_centroid()` et `st_distance()`.
+N'oubliez pas de vérifier les projections utilisées avec `st_crs()`, au besoin
+modifiez les avec `st_transform()`.
+
+
+```{r}
+st_crs(pref)
+st_crs(com31)
+identical(st_crs(pref), st_crs(com31))
+pref <- st_transform(pref, st_crs(com31))
+identical(st_crs(pref), st_crs(com31))
+# Centroides des communes
+com31_centro <- st_centroid(st_geometry(com31))
+com31$dist_pref <- st_distance(com31_centro, pref)
+head(com31)
+```
+
+
+# Cartographier une variable avec `sf`
+
+Cartographiez distance de chaque commune du département à la préfecture avec la 
+fonction `plot()`
+
+
+```{r}
+# Le plus simple
+plot(com31["dist_pref"])
+# Avec un peu de paramétrage
+plot(com31["dist_pref"], main = "Distance à la préfecture (en mètres)", 
+     pal = hcl.colors(13,"Turku", rev = TRUE), border = NA,
+     key.pos = 1,key.width = .15, key.length = .75, graticule = TRUE,
+     reset = FALSE)
+plot(st_geometry(pref), pch = 20, col = "red", add = TRUE )
+```
+
+
