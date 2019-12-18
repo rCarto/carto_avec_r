@@ -247,14 +247,14 @@ dens <- density.ppp(p, sigma = sigma, eps = res)
 result <- raster(dens, crs = st_crs(resto)[[2]]) * 1000000
 result <- mask(result, mtq)
 # compute breaks
-bks <- unique(getBreaks(values(result), nclass = 8, method = "arith"))
+bks <- unique(getBreaks(values(result), nclass = 5, method = "arith"))
 # Color ramp
-cols <- mapview::mapviewGetOption("raster.palette")(10)[2:9]
+cols <- hcl.colors(10, "viridis")[2:7]
 # Plot the map
 plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
      bg = "lightblue1")
 plot(result, breaks = bks, col=cols, add = T,legend=F)
-plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "white")
+plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "red")
 legendChoro(
   pos = "topright",
   title.txt = "Densité de\nrestaurants\n(N./km2)",
@@ -299,7 +299,7 @@ text(x = bb[1], y = bb[4],adj = c(0,1),
      labels = "Répartition de la\npopulation\nen Occitanie",  
      col = "ivory4", font = 2,  cex = 1.8)
 # add sources
-mapsources <-"Timothée Giraud\nR 3.4.1, cartography 2.0.0, linemap 0.1.0\nDonnées carroyées à 1 kilomètre, INSEE 2010"
+mapsources <-"Timothée Giraud\nlinemap 0.1.0\nDonnées carroyées à 1 kilomètre, INSEE 2010"
 text(x = bb[3], y = bb[2],labels = mapsources,  
      col = "ivory4", font = 3, adj = c(1,0), cex = 0.6 )
 
@@ -313,7 +313,7 @@ Cette méthode [@Tanaka50] est utilisée pour améliorer la perception du relief
 library(raster)
 library(cartography)
 library(sf)
-library(SpatialPosition)
+library(tanaka)
 mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 # use WGS84 proj
 mtq_latlon <- st_transform(mtq, 4326)
@@ -325,26 +325,22 @@ mtq_ras <- crop(ras, st_bbox(mtq_latlon)[c(1,3,2,4)])
 mtq_ras <- aggregate(mtq_ras, fact=4, fun=mean)
 mtq_ras <- projectRaster(mtq_ras, crs=st_crs(mtq)$proj4string)
 # break values
-bv <- c(seq(0,1300,100),1339)
-# contour extraction
-mtq_cont <- rasterToContourPoly(r = mtq_ras, breaks = bv, 
-                                mask = as(mtq, "Spatial"))
+bks <- c(seq(0,1300,100),1302)
 # custom palette
-pal <- c("#5D9D52", "#8DBC80", "#B8D9A9", "#FDEBBE", "#F7E0AC", "#F2D69B", 
-         "#EDCC8A", "#E8C279", "#E2B563", "#DBA84C", "#D49B36", "#BA8428", 
-         "#9A6A1E", "#7B5114")
-# sp to sf
-k <- st_as_sf(mtq_cont)
-# order the sf
-k <- k[order(k$center),]
-plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue")
-for(i in 1:nrow(k)){
-  p <- st_geometry(k[i,])
-  plot(p + c(-50, 50), add=T, border = "#ffffff90",col = "#ffffff90")
-  plot(p + c(100, -100),  col = "#00000090", add=T, border = "#00000090")
-  plot(p, col = pal[i], border = "NA", add=T)  
-}
-legendChoro(pos = c(689000,1598000 ), breaks = bv, col = pal, nodata = F,
+cols <- c("#5D9D52", "#8DBC80", "#B8D9A9", "#FDEBBE", "#F7E0AC", "#F2D69B", 
+          "#EDCC8A", "#E8C279", "#E2B563", "#DBA84C", "#D49B36", "#BA8428", 
+          "#9A6A1E", "#7B5114")
+# map
+plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue1")
+tanaka(
+  x = mtq_ras,
+  breaks = bks,
+  col = cols, 
+  legend.pos = "NA", 
+  mask = mtq,
+  add = TRUE
+)
+legendChoro(pos = c(689000,1598000 ), breaks = bks, col = cols, nodata = F,
             title.txt = "Elevation\n(metres)", cex = 1)
 layoutLayer(title = "Martinique Relief", north = T,
             sources = 'T. Giraud, 2019', author = "SRTM, 2018", 
@@ -518,8 +514,9 @@ Mais les cartogrammes induisent une perte des **repères visuels** (difficile de
 Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] basé sur la librairie javascript Leaflet [@JS-Leaflet] pour créer des cartes interactives. La création de carte est assez aisée, la documentation est un peu dense. 
 
 **Utilisation simple**
-```{r interact1, eval=FALSE}
+```{r interact1, eval=TRUE, cache=FALSE}
 library(sf)
+library(leaflet.providers)
 library(mapview)
 mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
 resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
@@ -527,7 +524,7 @@ mapview(resto) + mapview(mtq)
 ```
 </br>
 **Utilisation personnalisée**
-```{r interact2, eval=FALSE}
+```{r interact2, eval=TRUE, cache = FALSE}
 mapview(
   resto, 
   map.types = "OpenStreetMap", 
@@ -552,7 +549,7 @@ mapview(
     lwd = 0.5, 
     layer.name = "Communes",
     homebutton = FALSE, 
-    popup = popupTable(mtq, 
+    popup = leafpop::popupTable(mtq, 
                        zcol = 1:4, 
                        row.numbers = FALSE, 
                        feature.id = FALSE)
