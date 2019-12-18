@@ -187,9 +187,6 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 ### Agréger des polygones en fonction d'une variable
 
 ```{r aggreg2, nm=TRUE}
-
-
-library(dplyr)
 mtq_u2 <- aggregate(x = mtq[,c("POP", "CHOM", "ACT")], 
                     by = list(STATUS = mtq$STATUS), 
                     FUN = "sum")
@@ -313,10 +310,15 @@ plot(ls_sf)
 
 Plusieurs packages permettent de géocoder des adresses.
 
-- `photon` [@R-photon]
+- `photon` [@R-photon], utilise l'API de [photon](http://photon.komoot.de/) qui 
+exploite les données d'OpenStreetMap. Ce package n'est pas sur le CRAN. Pour l'installer :
 
 ```{r, eval=FALSE}
-# remotes::install_github(repo = 'rCarto/photon')  
+library(remotes)
+install_github(repo = 'rCarto/photon')  
+```
+
+```{r, eval=FALSE}
 library(photon)
 address <- c("19 rue Michel Bakounine, 29600 Morlaix, France",
              "8 place Paul Ricoeur, 75013 Paris")
@@ -330,10 +332,18 @@ readRDS("data/place1.rds")
 
 ```
 
-- `nominatim` [@R-nominatim]
+- `nominatim` [@R-nominatim], utilise l'API de
+[nominatim](https://nominatim.openstreetmap.org/) qui exploite les données 
+d'OpenStreetMap. Ce package n'est pas sur le CRAN. Une clef d'API est nécessaire
+pour l'utiliser ([obtenir une clef chez Maquest](https://developer.mapquest.com)). 
+Pour l'installer :
 
 ```{r, eval=FALSE}
-# remotes::install_github("hrbrmstr/nominatim")
+library(remotes)
+install_github(repo = 'hrbrmstr/nominatim')  
+```
+
+```{r, eval=FALSE}
 library(nominatim)
 address <- c(URLencode("19 rue Michel Bakounine, 29600 Morlaix, France"),
              URLencode("8 place Paul Ricoeur, 75013 Paris"))
