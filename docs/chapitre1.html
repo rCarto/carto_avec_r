@@ -21,10 +21,9 @@
   <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
   
 
-<meta name="author" content="banner Timothée Giraud &amp; Hugues Pécout" />
+<meta name="author" content="Timothée Giraud &amp; Hugues Pecout" />
 
 
-<meta name="date" content="2019-12-16" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,6 +49,20 @@
 
 
 
+<script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.3/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
@@ -293,10 +306,10 @@ proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
 5 MULTIPOLYGON (((698805 1621...
 6 MULTIPOLYGON (((709840 1599...</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">plot</span>(mtq)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-2-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-4-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 <p><strong>Affichage de la géométrie</strong> uniquement.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-3-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-5-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="joindre-des-données" class="section level3">
 <h3><span class="header-section-number">1.1.4</span> Joindre des données</h3>
@@ -436,11 +449,10 @@ proj4string:    +proj=utm +zone=20 +datum=WGS84 +units=m +no_defs
 </div>
 <div id="agréger-des-polygones-en-fonction-dune-variable" class="section level3">
 <h3><span class="header-section-number">1.3.6</span> Agréger des polygones en fonction d’une variable</h3>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb29-2" data-line-number="2">mtq_u2 &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="dt">x =</span> mtq[,<span class="kw">c</span>(<span class="st">&quot;POP&quot;</span>, <span class="st">&quot;CHOM&quot;</span>, <span class="st">&quot;ACT&quot;</span>)], </a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">                    <span class="dt">by =</span> <span class="kw">list</span>(<span class="dt">STATUS =</span> mtq<span class="op">$</span>STATUS), </a>
-<a class="sourceLine" id="cb29-4" data-line-number="4">                    <span class="dt">FUN =</span> <span class="st">&quot;sum&quot;</span>)</a>
-<a class="sourceLine" id="cb29-5" data-line-number="5"><span class="kw">plot</span>(mtq_u2[<span class="st">&quot;STATUS&quot;</span>], <span class="dt">key.pos =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">mtq_u2 &lt;-<span class="st"> </span><span class="kw">aggregate</span>(<span class="dt">x =</span> mtq[,<span class="kw">c</span>(<span class="st">&quot;POP&quot;</span>, <span class="st">&quot;CHOM&quot;</span>, <span class="st">&quot;ACT&quot;</span>)], </a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">                    <span class="dt">by =</span> <span class="kw">list</span>(<span class="dt">STATUS =</span> mtq<span class="op">$</span>STATUS), </a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">                    <span class="dt">FUN =</span> <span class="st">&quot;sum&quot;</span>)</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4"><span class="kw">plot</span>(mtq_u2[<span class="st">&quot;STATUS&quot;</span>], <span class="dt">key.pos =</span> <span class="ot">NULL</span>)</a></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/aggreg2-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="construire-une-zone-tampon" class="section level3">
@@ -518,7 +530,7 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 2  2   B   20  1.9 POINT (3 4)
 3  3   A   30  4.0 POINT (2 1)</code></pre>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">plot</span>(pt_sf)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-4-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="polygon" class="section level4">
 <h4><span class="header-section-number">1.3.11.2</span> POLYGON</h4>
@@ -549,7 +561,7 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 2  2   B   20  1.9 POLYGON ((3 0, 4 0, 4 1, 3 ...
 3  3   A   30  4.0 POLYGON ((3 3, 4 2, 4 3, 3 3))</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw">plot</span>(pol_sf)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-5-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-7-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="linestring" class="section level4">
 <h4><span class="header-section-number">1.3.11.3</span> LINESTRING</h4>
@@ -580,7 +592,7 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 2  2   B   20  1.9 LINESTRING (3 0, 4 0, 4 1, ...
 3  3   A   30  4.0     LINESTRING (3 3, 4 2, 4 3)</code></pre>
 <div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">plot</span>(ls_sf)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-8-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -588,14 +600,16 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 <h2><span class="header-section-number">1.4</span> Géocodage d’adresses</h2>
 <p>Plusieurs packages permettent de géocoder des adresses.</p>
 <ul>
-<li><code>photon</code> <span class="citation">(Giraud <a href="#ref-R-photon">2017</a><a href="#ref-R-photon">b</a>)</span></li>
+<li><code>photon</code> <span class="citation">(Giraud <a href="#ref-R-photon">2017</a><a href="#ref-R-photon">b</a>)</span>, utilise l’API de <a href="http://photon.komoot.de/">photon</a> qui
+exploite les données d’OpenStreetMap. Ce package n’est pas sur le CRAN. Pour l’installer :</li>
 </ul>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="co"># remotes::install_github(repo = &#39;rCarto/photon&#39;)  </span></a>
-<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">library</span>(photon)</a>
-<a class="sourceLine" id="cb52-3" data-line-number="3">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>,</a>
-<a class="sourceLine" id="cb52-4" data-line-number="4">             <span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>)</a>
-<a class="sourceLine" id="cb52-5" data-line-number="5">place &lt;-<span class="st"> </span>photon<span class="op">::</span><span class="kw">geocode</span>(address, <span class="dt">limit =</span> <span class="dv">1</span>, <span class="dt">key =</span> <span class="st">&quot;place&quot;</span>, <span class="dt">lang =</span> <span class="st">&quot;fr&quot;</span>)</a>
-<a class="sourceLine" id="cb52-6" data-line-number="6">place</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">library</span>(remotes)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">install_github</span>(<span class="dt">repo =</span> <span class="st">&#39;rCarto/photon&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">library</span>(photon)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>,</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3">             <span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>)</a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">place &lt;-<span class="st"> </span>photon<span class="op">::</span><span class="kw">geocode</span>(address, <span class="dt">limit =</span> <span class="dv">1</span>, <span class="dt">key =</span> <span class="st">&quot;place&quot;</span>, <span class="dt">lang =</span> <span class="st">&quot;fr&quot;</span>)</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5">place</a></code></pre></div>
 <pre><code>                                        location     osm_id osm_type name housenumber
 1 19 rue Michel Bakounine, 29600 Morlaix, France 3241060871        N &lt;NA&gt;          19
 2              8 place Paul Ricoeur, 75013 Paris 2608793979        N &lt;NA&gt;           8
@@ -606,16 +620,21 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 1 48.59041 &lt;NA&gt;
 2 48.82670 &lt;NA&gt;</code></pre>
 <ul>
-<li><code>nominatim</code> <span class="citation">(Rudis <a href="#ref-R-nominatim">2019</a>)</span></li>
+<li><code>nominatim</code> <span class="citation">(Rudis <a href="#ref-R-nominatim">2019</a>)</span>, utilise l’API de
+<a href="https://nominatim.openstreetmap.org/">nominatim</a> qui exploite les données
+d’OpenStreetMap. Ce package n’est pas sur le CRAN. Une clef d’API est nécessaire
+pour l’utiliser (<a href="https://developer.mapquest.com">obtenir une clef chez Maquest</a>).
+Pour l’installer :</li>
 </ul>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="co"># remotes::install_github(&quot;hrbrmstr/nominatim&quot;)</span></a>
-<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="kw">library</span>(nominatim)</a>
-<a class="sourceLine" id="cb54-3" data-line-number="3">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">URLencode</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>),</a>
-<a class="sourceLine" id="cb54-4" data-line-number="4">             <span class="kw">URLencode</span>(<span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>))</a>
-<a class="sourceLine" id="cb54-5" data-line-number="5">place &lt;-<span class="st"> </span><span class="kw">osm_geocode</span>(address, </a>
-<a class="sourceLine" id="cb54-6" data-line-number="6">                     <span class="dt">country_codes =</span> <span class="st">&quot;FR&quot;</span>, </a>
-<a class="sourceLine" id="cb54-7" data-line-number="7">                     <span class="dt">key =</span> <span class="st">&quot;UneClefMapQuestValide&quot;</span>)</a>
-<a class="sourceLine" id="cb54-8" data-line-number="8">place</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">library</span>(remotes)</a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw">install_github</span>(<span class="dt">repo =</span> <span class="st">&#39;hrbrmstr/nominatim&#39;</span>)  </a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">library</span>(nominatim)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">URLencode</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>),</a>
+<a class="sourceLine" id="cb56-3" data-line-number="3">             <span class="kw">URLencode</span>(<span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>))</a>
+<a class="sourceLine" id="cb56-4" data-line-number="4">place &lt;-<span class="st"> </span><span class="kw">osm_geocode</span>(address, </a>
+<a class="sourceLine" id="cb56-5" data-line-number="5">                     <span class="dt">country_codes =</span> <span class="st">&quot;FR&quot;</span>, </a>
+<a class="sourceLine" id="cb56-6" data-line-number="6">                     <span class="dt">key =</span> <span class="st">&quot;UneClefMapQuestValide&quot;</span>)</a>
+<a class="sourceLine" id="cb56-7" data-line-number="7">place</a></code></pre></div>
 <pre><code>  place_id
 1 44644129
 2 27209988
@@ -634,11 +653,11 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 <ul>
 <li><code>banR</code> <span class="citation">(Gombin and Chevalier <a href="#ref-R-banR">2017</a>)</span>, pour des adresses en France uniquement.</li>
 </ul>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">library</span>(banR)</a>
-<a class="sourceLine" id="cb56-2" data-line-number="2">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>,</a>
-<a class="sourceLine" id="cb56-3" data-line-number="3">             <span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>)</a>
-<a class="sourceLine" id="cb56-4" data-line-number="4">place &lt;-<span class="st"> </span><span class="kw">geocode_tbl</span>(<span class="dt">tbl =</span> <span class="kw">data.frame</span>(address), <span class="dt">adresse =</span> <span class="st">&quot;address&quot;</span>)</a>
-<a class="sourceLine" id="cb56-5" data-line-number="5">place</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">library</span>(banR)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">address &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;19 rue Michel Bakounine, 29600 Morlaix, France&quot;</span>,</a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">             <span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>)</a>
+<a class="sourceLine" id="cb58-4" data-line-number="4">place &lt;-<span class="st"> </span><span class="kw">geocode_tbl</span>(<span class="dt">tbl =</span> <span class="kw">data.frame</span>(address), <span class="dt">adresse =</span> <span class="st">&quot;address&quot;</span>)</a>
+<a class="sourceLine" id="cb58-5" data-line-number="5">place</a></code></pre></div>
 <pre><code># A tibble: 2 x 14
   address latitude longitude result_label result_score result_type result_id
   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    
@@ -648,35 +667,35 @@ proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #   result_street &lt;chr&gt;, result_postcode &lt;int&gt;, result_city &lt;chr&gt;, result_context &lt;chr&gt;,
 #   result_citycode &lt;chr&gt;</code></pre>
 <p><strong>Transformer les données en objet <code>sf</code></strong></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="kw">library</span>(cartography)</a>
-<a class="sourceLine" id="cb58-3" data-line-number="3">place_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(place, <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;longitude&quot;</span>, <span class="st">&quot;latitude&quot;</span>), <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
-<a class="sourceLine" id="cb58-4" data-line-number="4">osm_fr &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> place_sf, <span class="dt">zoom =</span> <span class="dv">7</span> )</a>
-<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="kw">tilesLayer</span>(osm_fr)</a>
-<a class="sourceLine" id="cb58-6" data-line-number="6"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(place_sf), <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="dv">4</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add=</span>T)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">library</span>(cartography)</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3">place_sf &lt;-<span class="st"> </span><span class="kw">st_as_sf</span>(place, <span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;longitude&quot;</span>, <span class="st">&quot;latitude&quot;</span>), <span class="dt">crs =</span> <span class="dv">4326</span>)</a>
+<a class="sourceLine" id="cb60-4" data-line-number="4">osm_fr &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> place_sf, <span class="dt">zoom =</span> <span class="dv">7</span> )</a>
+<a class="sourceLine" id="cb60-5" data-line-number="5"><span class="kw">tilesLayer</span>(osm_fr)</a>
+<a class="sourceLine" id="cb60-6" data-line-number="6"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(place_sf), <span class="dt">pch =</span> <span class="dv">20</span>, <span class="dt">cex =</span> <span class="dv">4</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add=</span>T)</a></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/adddisplay-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="importer-des-données-osm" class="section level2">
 <h2><span class="header-section-number">1.5</span> Importer des données OSM</h2>
 <p><a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap (OSM)</a> est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l’échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier.</p>
 <p>Le package <code>osmdata</code> <span class="citation">(Padgham et al. <a href="#ref-R-osmdata">2017</a>)</span> permet d’extraire des données vectorielles depuis OSM.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">library</span>(osmdata)</a>
-<a class="sourceLine" id="cb59-3" data-line-number="3">mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="dt">dsn =</span> <span class="st">&quot;data/mtq.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb59-4" data-line-number="4"><span class="co"># Définition d&#39;une bounding box</span></a>
-<a class="sourceLine" id="cb59-5" data-line-number="5">q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox=</span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(mtq,<span class="dv">4326</span>)))</a>
-<a class="sourceLine" id="cb59-6" data-line-number="6"><span class="co"># Extraction des restaurants</span></a>
-<a class="sourceLine" id="cb59-7" data-line-number="7">res &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, <span class="dt">value =</span> <span class="st">&quot;restaurant&quot;</span>)</a>
-<a class="sourceLine" id="cb59-8" data-line-number="8">res.sf &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(res)</a>
-<a class="sourceLine" id="cb59-9" data-line-number="9">res.sf.pts  &lt;-<span class="st"> </span>res.sf<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res.sf<span class="op">$</span>osm_points<span class="op">$</span>amenity),]</a>
-<a class="sourceLine" id="cb59-10" data-line-number="10">resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(res.sf.pts, <span class="kw">st_crs</span>(mtq))</a>
-<a class="sourceLine" id="cb59-11" data-line-number="11"><span class="co"># Affichage des restaurants</span></a>
-<a class="sourceLine" id="cb59-12" data-line-number="12"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </a>
-<a class="sourceLine" id="cb59-13" data-line-number="13">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb59-14" data-line-number="14"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb59-15" data-line-number="15"><span class="kw">title</span>(<span class="st">&quot;Répartition des restaurants&quot;</span>)</a>
-<a class="sourceLine" id="cb59-16" data-line-number="16"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;INSEE, 2016 - OSM, 2019&quot;</span>,<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">line =</span> <span class="dv">-1</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-14-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw">library</span>(osmdata)</a>
+<a class="sourceLine" id="cb61-3" data-line-number="3">mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="dt">dsn =</span> <span class="st">&quot;data/mtq.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb61-4" data-line-number="4"><span class="co"># Définition d&#39;une bounding box</span></a>
+<a class="sourceLine" id="cb61-5" data-line-number="5">q &lt;-<span class="st"> </span><span class="kw">opq</span>(<span class="dt">bbox=</span><span class="kw">st_bbox</span>(<span class="kw">st_transform</span>(mtq,<span class="dv">4326</span>)))</a>
+<a class="sourceLine" id="cb61-6" data-line-number="6"><span class="co"># Extraction des restaurants</span></a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">res &lt;-<span class="st"> </span><span class="kw">add_osm_feature</span>(<span class="dt">opq =</span> q, <span class="dt">key =</span> <span class="st">&#39;amenity&#39;</span>, <span class="dt">value =</span> <span class="st">&quot;restaurant&quot;</span>)</a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">res.sf &lt;-<span class="st"> </span><span class="kw">osmdata_sf</span>(res)</a>
+<a class="sourceLine" id="cb61-9" data-line-number="9">res.sf.pts  &lt;-<span class="st"> </span>res.sf<span class="op">$</span>osm_points[<span class="op">!</span><span class="kw">is.na</span>(res.sf<span class="op">$</span>osm_points<span class="op">$</span>amenity),]</a>
+<a class="sourceLine" id="cb61-10" data-line-number="10">resto &lt;-<span class="st"> </span><span class="kw">st_transform</span>(res.sf.pts, <span class="kw">st_crs</span>(mtq))</a>
+<a class="sourceLine" id="cb61-11" data-line-number="11"><span class="co"># Affichage des restaurants</span></a>
+<a class="sourceLine" id="cb61-12" data-line-number="12"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </a>
+<a class="sourceLine" id="cb61-13" data-line-number="13">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
+<a class="sourceLine" id="cb61-14" data-line-number="14"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb61-15" data-line-number="15"><span class="kw">title</span>(<span class="st">&quot;Répartition des restaurants&quot;</span>)</a>
+<a class="sourceLine" id="cb61-16" data-line-number="16"><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;INSEE, 2016 - OSM, 2019&quot;</span>,<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">line =</span> <span class="dv">-1</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</a></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-18-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>
