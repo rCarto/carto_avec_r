@@ -697,6 +697,7 @@ layoutLayer(title = "Carte finale avec carton",tabtitle=TRUE,
 ```
 
 
+## Exercices
 
-
+[Exercices de cartographie thématique](https://rcarto.github.io/carto_avec_r_exo/#2_cartographie_th%C3%A9matique)
 

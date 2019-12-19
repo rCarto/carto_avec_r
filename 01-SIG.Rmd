@@ -439,3 +439,12 @@ title("Répartition des restaurants")
 mtext(text = "INSEE, 2016 - OSM, 2019",side = 1, line = -1, cex = 0.8)
 ```
 
+
+## Exercices
+
+[Exercices de traitement de données spatiales](https://rcarto.github.io/carto_avec_r_exo/#1_traitement_de_donn%C3%A9es_spatiales)
+
+
+
+
+
