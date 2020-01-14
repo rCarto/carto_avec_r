@@ -187,8 +187,8 @@ plot(st_geometry(mtq_u), add=T, lwd=2, border = "red")
 ### Agréger des polygones en fonction d'une variable
 
 ```{r aggreg2, nm=TRUE}
-mtq_u2 <- aggregate(x = mtq[,c("POP", "CHOM", "ACT")], 
-                    by = list(STATUS = mtq$STATUS), 
+mtq_u2 <- aggregate(x = mtq[,c("POP", "CHOM", "ACT")],
+                    by = list(STATUS = mtq$STATUS),
                     FUN = "sum")
 plot(mtq_u2["STATUS"], key.pos = NULL)
 ```

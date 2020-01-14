@@ -273,15 +273,11 @@ Ce format est très pratique dans la mesure ou les données et les géométries 
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">st_write</span>(<span class="dt">obj =</span> mtq, <span class="dt">dsn =</span> <span class="st">&quot;data/mtq.gpkg&quot;</span>, <span class="dt">layer =</span> <span class="st">&quot;mtq&quot;</span>, <span class="dt">delete_layer =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>Deleting layer `mtq&#39; using driver `GPKG&#39;
 Updating layer `mtq&#39; to data source `data/mtq.gpkg&#39; using driver `GPKG&#39;
-features:       34
-fields:         7
-geometry type:  Multi Polygon</code></pre>
+Writing 34 features with 7 fields and geometry type Multi Polygon.</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">st_write</span>(<span class="dt">obj =</span> mtq, <span class="st">&quot;data/mtq.shp&quot;</span>, <span class="dt">delete_layer =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>Deleting layer `mtq&#39; using driver `ESRI Shapefile&#39;
 Writing layer `mtq&#39; to data source `data/mtq.shp&#39; using driver `ESRI Shapefile&#39;
-features:       34
-fields:         7
-geometry type:  Multi Polygon</code></pre>
+Writing 34 features with 7 fields and geometry type Multi Polygon.</code></pre>
 </div>
 <div id="affichage-de-données" class="section level3">
 <h3><span class="header-section-number">1.1.3</span> Affichage de données</h3>
@@ -660,14 +656,18 @@ Pour l’installer :</li>
 <a class="sourceLine" id="cb58-3" data-line-number="3">             <span class="st">&quot;8 place Paul Ricoeur, 75013 Paris&quot;</span>)</a>
 <a class="sourceLine" id="cb58-4" data-line-number="4">place &lt;-<span class="st"> </span><span class="kw">geocode_tbl</span>(<span class="dt">tbl =</span> <span class="kw">data.frame</span>(address), <span class="dt">adresse =</span> <span class="st">&quot;address&quot;</span>)</a>
 <a class="sourceLine" id="cb58-5" data-line-number="5">place</a></code></pre></div>
-<pre><code># A tibble: 2 x 14
-  address latitude longitude result_label result_score result_type result_id
-  &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;    
-1 19 rue…     48.6     -3.82 19 Rue Mich…         0.78 housenumber ADRNIVX_…
-2 8 plac…     48.8      2.38 8 Place Pau…         0.93 housenumber ADRNIVX_…
-# … with 7 more variables: result_housenumber &lt;int&gt;, result_name &lt;chr&gt;,
-#   result_street &lt;chr&gt;, result_postcode &lt;int&gt;, result_city &lt;chr&gt;, result_context &lt;chr&gt;,
-#   result_citycode &lt;chr&gt;</code></pre>
+<pre><code>                                         address latitude longitude
+1 19 rue Michel Bakounine, 29600 Morlaix, France 48.59042 -3.816429
+2              8 place Paul Ricoeur, 75013 Paris 48.82673  2.382450
+                           result_label result_score result_type                result_id
+1 19 Rue Michel Bakounine 29600 Morlaix         0.78 housenumber ADRNIVX_0000000266085152
+2      8 Place Paul Ricoeur 75013 Paris         0.93 housenumber ADRNIVX_0000000331930326
+  result_housenumber          result_name result_street result_postcode result_city
+1                 19 Rue Michel Bakounine          &lt;NA&gt;           29600     Morlaix
+2                  8   Place Paul Ricoeur          &lt;NA&gt;           75013       Paris
+            result_context result_citycode
+1  29, Finistère, Bretagne           29151
+2 75, Paris, Île-de-France           75113</code></pre>
 <p><strong>Transformer les données en objet <code>sf</code></strong></p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
 <a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">library</span>(cartography)</a>

@@ -248,14 +248,9 @@ Platform: x86_64-pc-linux-gnu (64-bit)
 Running under: Debian GNU/Linux 10 (buster)
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
-LAPACK: /usr/lib/x86_64-linux-gnu/libopenblasp-r0.3.5.so
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.8.0
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.8.0
 
-Random number generation:
- RNG:     Mersenne-Twister 
- Normal:  Inversion 
- Sample:  Rounding 
- 
 locale:
  [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C               LC_TIME=fr_FR.UTF-8       
  [4] LC_COLLATE=fr_FR.UTF-8     LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
@@ -266,38 +261,37 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] tanaka_0.1.1          mapview_2.7.0         cartogram_0.2.0      
- [4] SpatialPosition_2.0.0 linemap_0.1.0         raster_3.0-7         
- [7] maptools_0.9-9        spatstat_1.62-2       rpart_4.1-15         
-[10] nlme_3.1-143          spatstat.data_1.4-0   sp_1.3-2             
-[13] mapinsetr_0.3.0       png_0.1-7             cartography_2.2.1.1  
-[16] dplyr_0.8.3           sf_0.8-0              knitr_1.26           
+ [1] mapview_2.7.0           leaflet.providers_1.9.0 cartogram_0.2.0        
+ [4] tanaka_0.1.1            linemap_0.1.0           raster_3.0-7           
+ [7] maptools_0.9-9          sp_1.3-2                spatstat_1.62-2        
+[10] rpart_4.1-15            nlme_3.1-143            spatstat.data_1.4-0    
+[13] mapinsetr_0.3.0         png_0.1-7               cartography_2.2.1.1    
+[16] sf_0.8-0                knitr_1.26             
 
 loaded via a namespace (and not attached):
- [1] viridisLite_0.3.0     splines_3.6.2         shiny_1.4.0          
- [4] assertthat_0.2.1      stats4_3.6.2          yaml_2.2.0           
- [7] backports_1.1.5       pillar_1.4.2          lattice_0.20-38      
-[10] glue_1.3.1            digest_0.6.23         promises_1.1.0       
+ [1] jsonlite_1.6          viridisLite_0.3.0     splines_3.6.2        
+ [4] shiny_1.4.0           stats4_3.6.2          yaml_2.2.0           
+ [7] gdtools_0.2.1         lattice_0.20-38       uuid_0.1-2           
+[10] digest_0.6.23         RColorBrewer_1.1-2    promises_1.1.0       
 [13] polyclip_1.10-0       colorspace_1.4-1      htmltools_0.4.0      
-[16] httpuv_1.5.2          Matrix_1.2-18         pkgconfig_2.0.3      
-[19] bookdown_0.16         purrr_0.3.3           xtable_1.8-4         
-[22] webshot_0.5.2         scales_1.1.0          tensor_1.5           
-[25] satellite_1.0.2       later_1.0.0           spatstat.utils_1.15-0
-[28] tibble_2.1.3          mgcv_1.8-31           cli_2.0.0            
-[31] packcircles_0.3.3     magrittr_1.5          crayon_1.3.4         
-[34] mime_0.7              deldir_0.1-23         evaluate_0.14        
-[37] fansi_0.4.0           lwgeom_0.1-7          foreign_0.8-72       
-[40] class_7.3-15          tools_3.6.2           lifecycle_0.1.0      
-[43] stringr_1.4.0         munsell_0.5.0         isoband_0.2.0        
-[46] compiler_3.6.2        e1071_1.7-3           rlang_0.4.2          
-[49] classInt_0.4-2        units_0.6-5           grid_3.6.2           
-[52] rstudioapi_0.10       htmlwidgets_1.5.1     goftest_1.2-2        
-[55] crosstalk_1.0.0       base64enc_0.1-3       rmarkdown_2.0        
+[16] httpuv_1.5.2          Matrix_1.2-18         bookdown_0.16        
+[19] xtable_1.8-4          scales_1.1.0          webshot_0.5.2        
+[22] brew_1.0-6            svglite_1.2.2         tensor_1.5           
+[25] jpeg_0.1-8.1          satellite_1.0.2       later_1.0.0          
+[28] spatstat.utils_1.15-0 mgcv_1.8-31           packcircles_0.3.3    
+[31] magrittr_1.5          mime_0.8              deldir_0.1-23        
+[34] evaluate_0.14         lwgeom_0.1-7          foreign_0.8-72       
+[37] class_7.3-15          tools_3.6.2           lifecycle_0.1.0      
+[40] stringr_1.4.0         munsell_0.5.0         isoband_0.2.0        
+[43] compiler_3.6.2        e1071_1.7-3           systemfonts_0.1.1    
+[46] rlang_0.4.2           classInt_0.4-2        units_0.6-5          
+[49] grid_3.6.2            leafpop_0.0.5         rstudioapi_0.10      
+[52] htmlwidgets_1.5.1     goftest_1.2-2         crosstalk_1.0.0      
+[55] leafem_0.0.1          base64enc_0.1-3       rmarkdown_2.0        
 [58] codetools_0.2-16      abind_1.4-5           DBI_1.1.0            
-[61] R6_2.4.1              zeallot_0.1.0         utf8_1.1.4           
-[64] fastmap_1.0.1         rgeos_0.5-2           KernSmooth_2.23-16   
-[67] stringi_1.4.3         Rcpp_1.0.3            vctrs_0.2.0          
-[70] leaflet_2.0.3         tidyselect_0.2.5      xfun_0.11            </code></pre>
+[61] R6_2.4.1              rgdal_1.4-8           fastmap_1.0.1        
+[64] rgeos_0.5-2           KernSmooth_2.23-16    stringi_1.4.3        
+[67] Rcpp_1.0.3            leaflet_2.0.3         xfun_0.11            </code></pre>
 
 </div>
             </section>
