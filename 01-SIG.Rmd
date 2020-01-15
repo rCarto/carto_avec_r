@@ -68,17 +68,29 @@ Ce format est très pratique dans la mesure ou les données et les géométries 
 
 ### Import / Export
 
-Les fonctions `st_read()` et `st_write()` permettent d'importer et d'exporter de nombreux types de fichiers.
-
+Les fonctions `st_read()` et `st_write()` permettent d'importer et d'exporter de nombreux types de fichiers.  
+Les lignes suivantes importent le fichier shapefile de la martinique situé dans un dossier **data**.
 ```{r import}
 library(sf)
 mtq <- st_read("data/martinique.shp", quiet=TRUE)
 ```
 
+Les lignes suivantes exportent l'objet **mtq** dans un dossier **data** aux formats geopackage et shapefile.   
 ```{r export}
 st_write(obj = mtq, dsn = "data/mtq.gpkg", layer = "mtq", delete_layer = TRUE)
 st_write(obj = mtq, "data/mtq.shp", delete_layer = TRUE)
 ```
+
+Pour importer le jeu de données proposé dans le package `cartography`, il faut installer le package puis utiliser le code suivant :
+
+```{r import2, eval = FALSE}
+install.packages("cartography")
+```
+```{r import3}
+library(sf)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), quiet = TRUE)
+```
+
 
 ### Affichage de données
 
@@ -413,7 +425,9 @@ Le package `osmdata` [@R-osmdata] permet d'extraire des données vectorielles de
 ```{r, eval=FALSE}
 library(sf)
 library(osmdata)
-mtq <- st_read(dsn = "data/mtq.gpkg", quiet = TRUE)
+library(sf)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 # Définition d'une bounding box
 q <- opq(bbox=st_bbox(st_transform(mtq,4326)))
 # Extraction des restaurants
@@ -430,7 +444,8 @@ mtext(text = "INSEE, 2016 - OSM, 2019",side = 1, line = -1, cex = 0.8)
 ```
 
 ```{r, eval=TRUE, echo=FALSE, sm=TRUE}
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 resto <- st_read("data/resto.gpkg",quiet=TRUE)
 plot(st_geometry(mtq), col="darkseagreen3", border="darkseagreen4",  
      bg = "lightblue1")

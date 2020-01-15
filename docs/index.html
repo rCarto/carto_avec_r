@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
 <head>
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Cartographie avec R</title>
   <meta name="description" content="Matériel pour le cours de cartographie avec R" />
-  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Cartographie avec R" />
   <meta property="og:type" content="book" />
@@ -244,11 +244,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Cartographie avec R</h1>
 <p class="author"><em>Timothée Giraud<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> &amp; Hugues Pecout<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></em></p>
-<p class="date"><em>09 janvier 2020</em></p>
+<p class="date"><em>15 janvier 2020</em></p>
 </div>
 <div id="introduction" class="section level1 unnumbered">
 <h1>Introduction</h1>
 <p><img src="img/banner.png" width="700" /></p>
+<p><strong>Objectifs</strong></p>
+<ul>
+<li>Savoir créer et manipuler des données spatiales</li>
+<li>Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie</li>
+<li>Connaitre des modes de représentation plus complexes</li>
+</ul>
 <p>Ce document se compose de trois parties permettant d’appréhender la création de cartes thématiques avec R.</p>
 <ul>
 <li><a href="chapitre1.html#chapitre1">Les données spatiales</a></li>
@@ -256,18 +262,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
 <li><a href="chapitre3.html#chapitre3">Cartographie thématique avancée</a></li>
 </ul>
-<p>Voici les packages dédiés à l’import, la manipulation, la transformation et l’affichage de données spatiales utilisés dans ce document :</p>
+<p><strong>Packages et données</strong><br />
+Voici les packages dédiés à l’import, la manipulation, la transformation et l’affichage de données spatiales utilisés dans ce document :</p>
 <ul>
 <li>Depuis le CRAN : <code>banR, cartogram, cartography, linemap, maptools, mapview,  nominatim, osmdata, png, raster, rayshader, sf, spatstat, tanaka</code>.</li>
 <li>Depuis GitHub : <code>mapinsetr, nominatim, photon</code>. Il faut utiliser le package
 <code>remotes</code> pour les installer</li>
 </ul>
-<p><strong>Objectifs</strong></p>
-<ul>
-<li>Savoir créer et manipuler des données spatiales</li>
-<li>Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie</li>
-<li>Connaitre des modes de représentation plus complexes</li>
-</ul>
+<p>La plupart des exemples du document utilisent un jeu de données du package <code>cartography</code>.
+Il s’agit des communes du département de la Martinique. Pour l’importer :</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>), <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p></br>
 <img src="img/by-nc-sa.png" alt="Creative Commons License" /><br />
 La version en ligne de ce document est sous licence <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a>.</p>

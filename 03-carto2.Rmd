@@ -61,7 +61,8 @@ La fonctions `getBorder()` du package `cartography` permet de construire une cou
 ```{r disc}
 library(sf)
 library(cartography)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 # Get borders
 mtq_bord <- getBorders(x = mtq)
 # Plot polygons
@@ -147,7 +148,8 @@ La fonction `getGridLayer()` du package `cartography` permet de construire ces g
 ```{r grid}
 library(sf)
 library(cartography)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 # Plot dentsity of population 
 mtq$dens <- mtq$POP / as.numeric(st_area(mtq) / (1000 * 1000)) 
 bks <- getBreaks(v = mtq$dens, method = "q6")
@@ -231,41 +233,41 @@ library(spatstat)
 library(maptools)
 library(raster)
 # Import des données
-mtq <- st_read("data/martinique.shp", quiet = TRUE)
-resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
-sigma = 750
-res = 200
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
+# resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
+sigma = 4000
+res = 250
 # Define an observation window
 w <- as.owin(as(st_union(st_buffer(mtq, 100)), "Spatial"))
 # sf to coords
-pts <- st_coordinates(resto)
+pts <- st_coordinates(st_centroid(st_geometry(mtq)))
 # Coords to ppp
-p <- ppp(pts[,1], pts[,2], window=w)
+p <- ppp(pts[,1], pts[,2], window = w, marks = mtq$POP)
 # Compute KDE
-dens <- density.ppp(p, sigma = sigma, eps = res)
+dens <- density.ppp(p, weights = p$marks, sigma = sigma, eps = res)
 # Image to raster (+ proj & km2)
-result <- raster(dens, crs = st_crs(resto)[[2]]) * 1000000
+result <- raster(dens, crs = st_crs(mtq)[[2]]) * 1000000
 result <- mask(result, mtq)
 # compute breaks
-bks <- unique(getBreaks(values(result), nclass = 5, method = "arith"))
+bks <- unique(getBreaks(values(result), nclass = 10, method = "q6"))
 # Color ramp
-cols <- hcl.colors(10, "viridis")[2:7]
+cols <- hcl.colors(10, "viridis")[2:8]
 # Plot the map
-plot(st_geometry(mtq), col = "lightblue4", border = "lightblue3", 
-     bg = "lightblue1")
+plot(st_geometry(mtq), col = NA, border = NA, bg = "lightblue1")
 plot(result, breaks = bks, col=cols, add = T,legend=F)
-plot(resto$geom, add=T, pch = 20, cex = 0.01, col = "red")
+plot(st_union(st_geometry(mtq)), add = T, lwd = 1.5, border = "lightblue1")
 legendChoro(
   pos = "topright",
-  title.txt = "Densité de\nrestaurants\n(N./km2)",
+  title.txt = "Densité de\npopulation\n(hab./km2)",
   breaks = bks, 
   nodata = FALSE,
-  values.rnd = 1,
+  values.rnd = -1,
   col = cols
 )
-layoutLayer(title = "Répartition des restaurants",tabtitle=TRUE,
-            author= "INSEE, 2016 - OSM, 2018", sources="", 
-            frame=FALSE, scale = 5)
+layoutLayer(title = "Densité de population", tabtitle = TRUE,
+            author = "INSEE, 2016", sources = "", 
+            frame = FALSE, scale = 5)
 north(pos = "topleft")
 
 ```
@@ -314,7 +316,8 @@ library(raster)
 library(cartography)
 library(sf)
 library(tanaka)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 # use WGS84 proj
 mtq_latlon <- st_transform(mtq, 4326)
 # import raster
@@ -357,7 +360,8 @@ L'export des images n'est pas évident, il s'agit ici d'une simple capture d'éc
 library(sf)
 library(raster)
 library(rayshader)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 st_geometry(mtq) <- st_buffer(st_geometry(mtq), 5000)
 mtq_latlon <- st_transform(mtq, 4326)
 ras <- raster("data/srtm_24_10.tif")
@@ -423,7 +427,8 @@ Les tailles de cercles sont vraiment comparables.
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 mtq_dorling <- cartogram_dorling(x = mtq, weight = "POP", k = 12) 
 plot(st_geometry(mtq_dorling), col = "#940000", border= "white", bg = "lightblue")
 labelLayer(x = mtq_dorling, txt = "LIBGEO", overlap = FALSE, show.lines = FALSE, 
@@ -458,7 +463,8 @@ La conservation de la forme des polygones est optimale.
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 mtq_ncont <- cartogram_ncont(x = mtq, weight = "POP", k = 1.5) 
 plot(st_geometry(mtq), col = NA, border = "white", lwd = 0.5, bg = "lightblue")
 plot(st_geometry(mtq_ncont), col = "#940000", border= "white", add=TRUE)
@@ -491,9 +497,8 @@ C'est une “vraie carte de géographie” : la topologie et la contiguité sont
 library(cartography)
 library(cartogram)
 library(sf)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
-# transformation POLYGON => MULTIPOLYGON
-mtq <- st_cast(mtq, "MULTIPOLYGON")
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 mtq_cont <- cartogram_cont(x = mtq, weight = "POP", prepare = "none") 
 plot(st_geometry(mtq_cont), col = "#940000", border= "white", bg = "lightblue")
 layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE, 
@@ -518,7 +523,8 @@ Le package `mapview` [@R-mapview] utilise le package `leaflet` [@R-leaflet] bas�
 library(sf)
 library(leaflet.providers)
 library(mapview)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 resto <- st_read(dsn = "data/resto.gpkg", quiet = TRUE)
 mapview(resto) + mapview(mtq) 
 ```

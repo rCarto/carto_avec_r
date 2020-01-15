@@ -80,7 +80,8 @@ La fonction `propSymbolsLayer()` propose cette représentation, plusieurs symbol
 library(cartography)
 library(sf)
 # Import des données
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 # Communes
 plot(
   st_geometry(mtq), 
@@ -573,31 +574,34 @@ text(x = 694019, y = 1615161,
 La fonction `getTiles()` permet de télécharger des fonds de cartes OSM et la fonction `tilesLayer()` permet de les afficher. 
 
 ```{r osmcode, fig.width=6, fig.height=6, eval=FALSE}
-type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
-par(mar = c(0,0,0,0), mfrow = c(3,3))
-for (i in type){
-  tilesLayer(getTiles(x = mtq, type = i, crop=TRUE))
-  mtext(side = 3, line = -1.5, text = i, col="red")
-}
+osm_tiles <- getTiles(x = mtq, zoom = 10, crop = TRUE)
+par(mar = c(0,0,0,0))
+tilesLayer(osm_tiles)
+mtext(
+  side = 1, 
+  line = -1, 
+  cex = .7,
+  text = "© OpenStreetMap contributors.\n Tiles style under CC BY-SA, www.openstreetmap.org/copyright.",
+  col="red"
+)
+
 ```
 
 ```{r osmbuild,eval=FALSE, echo=FALSE}
-type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
-for (i in type){
-  saveRDS(getTiles(x = mtq, type = i, crop=TRUE),file = paste0("data/",i,".png"))
-}
+saveRDS(osm_tiles <- getTiles(x = mtq, crop = TRUE, zoom = 10), 
+        file = "data/osm_tiles.png")
 ```
-```{r osmdisplay, fig.width=5, fig.height=6, echo=FALSE}
-type <- c( "osm", "hotstyle",  "hikebike", "osmgrayscale", "stamenbw",
-           "stamenwatercolor", "cartodark", "cartolight", "opentopomap")
-par(mar = c(0,0,0,0), mfrow = c(3,3))
 
-for (i in type){
-  tilesLayer(readRDS(paste0("data/",i,".png")))
-  mtext(side = 3, line = -1.5, text = i, col="red")
-}
+```{r osmdisplay, echo=FALSE}
+par(mar = c(0,0,0,0))
+tilesLayer(readRDS("data/osm_tiles.png"))
+mtext(
+  side = 1, cex = .7,
+  line = -1, 
+  text = "© OpenStreetMap contributors.\n Tiles style under CC BY-SA, www.openstreetmap.org/copyright.",
+  col="red"
+)
+
 ```
 
 
@@ -648,7 +652,8 @@ remotes::install_github("riatelab/mapinsetr")
 library(mapinsetr)
 library(cartography)
 library(sf)
-mtq <- st_read("data/mtq.gpkg", quiet = TRUE)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), 
+               quiet = TRUE)
 resto <- st_read("data/resto.gpkg", quiet = TRUE)
 # Création d'un masque
 box_FDF <- create_mask(bb = c(706880, 1615030, 708650, 1616870), 

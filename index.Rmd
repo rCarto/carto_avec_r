@@ -26,26 +26,43 @@ knitr::include_graphics("img/banner.png")
 knitr::include_graphics("img/banner.png")
 ```
 
+
+**Objectifs**
+
+* Savoir créer et manipuler des données spatiales
+* Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie
+* Connaitre des modes de représentation plus complexes  
+
+
+
+
 Ce document se compose de trois parties permettant d'appréhender la création de cartes thématiques avec R. 
 
 - [Les données spatiales](#chapitre1) 
 - [Cartographie thématique](#chapitre2)   
 - [Cartographie thématique avancée](#chapitre3)  
 
+
+
+**Packages et données**  
 Voici les packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales utilisés dans ce document : 
 
 * Depuis le CRAN : `banR, cartogram, cartography, linemap, maptools, mapview, 
   nominatim, osmdata, png, raster, rayshader, sf, spatstat, tanaka`.
 * Depuis GitHub : `mapinsetr, nominatim, photon`. Il faut utiliser le package 
-`remotes` pour les installer
+`remotes` pour les installer  
+
+La plupart des exemples du document utilisent un jeu de données du package `cartography`. 
+Il s'agit des communes du département de la Martinique. Pour l'importer :  
+```{r, eval = FALSE}
+library(sf)
+mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), quiet = TRUE)
+```
 
 
 
-**Objectifs**
 
-* Savoir créer et manipuler des données spatiales
-* Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie
-* Connaitre des modes de représentation plus complexes
+
 
 </br>
 ![Creative Commons License](img/by-nc-sa.png)  
