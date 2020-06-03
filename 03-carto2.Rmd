@@ -351,7 +351,10 @@ layoutLayer(title = "Martinique Relief", north = T,
             tabtitle = T, coltitle = "black")
 ```
 
-Voir aussi : [The tanaka package](https://rgeomatic.hypotheses.org/1758)
+
+```{block2, type = 'linky'}
+[The tanaka package](https://rgeomatic.hypotheses.org/1758)
+```
 
 
 ### Rayshader
@@ -402,7 +405,17 @@ On s’efforce de **garder l’arrangement général** des mailles ou la silhoue
 - Les cartogrammes non contigus [@Olson76]
 - Les cartogrammes contigus [@Dougenik85]
 
-Vous trouverez un cours complet sur les anamorphoses ici : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15].
+
+```{block2, type='linky'}
+Un cours complet sur les anamorphoses : [Les anamorphoses cartographiques](https://neocarto.hypotheses.org/366){target="_blank"} [@Lambert15].
+```
+
+
+```{block2, type='linky'}
+[Faire des cartogrammes avec R](https://rgeomatic.hypotheses.org/1361)
+```
+
+
 
 Pour réaliser les cartogrammes nous utilisons le package `cartogram` [@R-cartogram].
 
@@ -515,9 +528,6 @@ layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE,
 Les cartogrammes sont des représentations cartographiques perçues comme **innovante** (bien que la methode date de 40 ans). Ces images très généralisées rendent bien compte des **quantités** et des **gradiants**. Ce sont de vraies images de **communication** qui **provoquent**, suscitent **l’intérêt**, véhiculent un **message** fort, **interpellent**.  
 
 Mais les cartogrammes induisent une perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte), demandent un **effort de lecture** qui peut être important et ne permettent pas de **gérer des données manquantes**.   
-
-
-Voir aussi : [Faire des cartogrammes avec R](https://rgeomatic.hypotheses.org/1361)
 
 
 ## Cartographie interactive

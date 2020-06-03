@@ -6,10 +6,9 @@ bookdown::gitbook:
         <li><a href="./">Cartographie avec R</a></li>
       after: |
         <li><a href="https://github.com/rCarto/carto_avec_r" target="blank">Contribuer</a></li>
-    download: ["pdf"]
     sharing:
       facebook: no
-      twitter: no
+      twitter: yes
       google: no
       linkedin: no
       weibo: no
@@ -17,10 +16,3 @@ bookdown::gitbook:
       vk: no
       github: yes
       all: []
-bookdown::pdf_book:
-  includes:
-    in_header: preamble.tex
-  latex_engine: xelatex
-  citation_package: natbib
-  keep_tex: yes
-bookdown::epub_book: default

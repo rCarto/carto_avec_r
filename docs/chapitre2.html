@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 2 Cartographie thématique | Cartographie avec R</title>
-  <meta name="description" content="Matériel pour le cours de cartographie avec R" />
+  <meta name="description" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Matériel pour le cours de cartographie avec R" />
+  <meta property="og:description" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   <meta name="github-repo" content="rCarto/carto_avec_r" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   
-  <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
+  <meta name="twitter:description" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   
 
 <meta name="author" content="Timothée Giraud &amp; Hugues Pecout" />
@@ -557,7 +557,7 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <span id="cb83-27"><a href="chapitre2.html#cb83-27"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb83-28"><a href="chapitre2.html#cb83-28"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
 <span id="cb83-29"><a href="chapitre2.html#cb83-29"></a>)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-21-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-23-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ul>
 <li>Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l’on souhaite afficher.</li>
 </ul>
@@ -592,7 +592,7 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <span id="cb84-29"><a href="chapitre2.html#cb84-29"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb84-30"><a href="chapitre2.html#cb84-30"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
 <span id="cb84-31"><a href="chapitre2.html#cb84-31"></a>)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-24-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ul>
 <li>Utiliser les paramètres <code>xlim</code> et <code>ylim</code> de la fonction <code>plot()</code> aves les valeurs fournies par la fonction <code>st_bbox()</code></li>
 </ul>
@@ -623,7 +623,7 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <span id="cb85-25"><a href="chapitre2.html#cb85-25"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
 <span id="cb85-26"><a href="chapitre2.html#cb85-26"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
 <span id="cb85-27"><a href="chapitre2.html#cb85-27"></a>)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-23-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-25-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="afficher-plusieurs-cartes-sur-la-même-figure" class="section level3">
 <h3><span class="header-section-number">2.4.7</span> Afficher plusieurs cartes sur la même figure</h3>
@@ -728,9 +728,13 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <span id="cb94-3"><a href="chapitre2.html#cb94-3"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">694019</span>, <span class="dt">y =</span> <span class="dv">1615161</span>, </span>
 <span id="cb94-4"><a href="chapitre2.html#cb94-4"></a>     <span class="dt">labels =</span> <span class="st">&quot;MER</span><span class="ch">\n</span><span class="st">DES</span><span class="ch">\n</span><span class="st">CARAÏBES&quot;</span>, </span>
 <span id="cb94-5"><a href="chapitre2.html#cb94-5"></a>     <span class="dt">col =</span> <span class="st">&quot;#e3f1f9&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">srt=</span><span class="dv">20</span>)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-27-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-29-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><code>locator()</code>peut être utilisée sur la plupart des graphiques (pas ceux produits avec <code>ggplot2</code>).</p>
-<p>Voir aussi : <a href="https://rgeomatic.hypotheses.org/1837">How to interactively position legends and layout elements on a map with cartography</a></p>
+
+<div class="linky">
+<a href="https://rgeomatic.hypotheses.org/1837">How to interactively position legends and layout elements on a map with cartography</a>
+</div>
+
 </div>
 <div id="utiliser-un-fond-de-carte-osm" class="section level3">
 <h3><span class="header-section-number">2.4.11</span> Utiliser un fond de carte OSM</h3>
@@ -768,7 +772,11 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <span id="cb96-17"><a href="chapitre2.html#cb96-17"></a>            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span>
 <span id="cb96-18"><a href="chapitre2.html#cb96-18"></a><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pencil-1.png" width="384" style="display: block; margin: auto;" /></p>
-<p>Voir aussi : <a href="https://rgeomatic.hypotheses.org/1333">Colored Pencil Maps with R</a></p>
+
+<div class="linky">
+<a href="https://rgeomatic.hypotheses.org/1333">Colored Pencil Maps with R</a>
+</div>
+
 </div>
 <div id="ajouter-un-ombrage-à-une-couche" class="section level3">
 <h3><span class="header-section-number">2.4.13</span> Ajouter un ombrage à une couche</h3>
@@ -893,7 +901,7 @@ gitbook.start({
 "sharing": {
 "github": true,
 "facebook": false,
-"twitter": false,
+"twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
@@ -918,7 +926,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Cartographie_avec_R.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

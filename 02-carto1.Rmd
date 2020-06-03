@@ -619,8 +619,10 @@ text(x = 694019, y = 1615161,
 
 `locator()`peut être utilisée sur la plupart des graphiques (pas ceux produits avec `ggplot2`). 
 
-Voir aussi : [How to interactively position legends and layout elements on a map with cartography](https://rgeomatic.hypotheses.org/1837)
 
+```{block2, type='linky'}
+[How to interactively position legends and layout elements on a map with cartography](https://rgeomatic.hypotheses.org/1837)
+```
 
 
 
@@ -683,7 +685,11 @@ layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
 north(pos = "topleft")
 ```
 
-Voir aussi : [Colored Pencil Maps with R](https://rgeomatic.hypotheses.org/1333)
+
+
+```{block2, type='linky'}
+[Colored Pencil Maps with R](https://rgeomatic.hypotheses.org/1333)
+```
 
 
 ### Ajouter un ombrage à une couche

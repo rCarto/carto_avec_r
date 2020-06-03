@@ -5,20 +5,20 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 1 Les données spatiales | Cartographie avec R</title>
-  <meta name="description" content="Matériel pour le cours de cartographie avec R" />
+  <meta name="description" content="Chapitre 1 Les données spatiales | Cartographie avec R" />
   <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 1 Les données spatiales | Cartographie avec R" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="Matériel pour le cours de cartographie avec R" />
+  <meta property="og:description" content="Chapitre 1 Les données spatiales | Cartographie avec R" />
   <meta name="github-repo" content="rCarto/carto_avec_r" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapitre 1 Les données spatiales | Cartographie avec R" />
   
-  <meta name="twitter:description" content="Matériel pour le cours de cartographie avec R" />
+  <meta name="twitter:description" content="Chapitre 1 Les données spatiales | Cartographie avec R" />
   
 
 <meta name="author" content="Timothée Giraud &amp; Hugues Pecout" />
@@ -246,7 +246,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="chapitre1" class="section level1">
 <h1><span class="header-section-number">Chapitre 1</span> Les données spatiales</h1>
-<p>Il est possible d’importer, de manipuler, de traiter, d’afficher et d’exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponibles dans R grace au package <code>sf</code>. Il devient alors possible d’utiliser R comme un SIG.</p>
+<p>Il est possible d’importer, de manipuler, de traiter, d’afficher et d’exporter des données spatiales avec R. La grande majorité des opérations de géotraitement sont disponibles dans R grâce au package <code>sf</code>. Il devient alors possible d’utiliser R comme un SIG.</p>
 <div id="le-package-sf" class="section level2">
 <h2><span class="header-section-number">1.1</span> Le package <code>sf</code></h2>
 <p><strong>Historique</strong><br />
@@ -254,14 +254,19 @@ Historiquement, trois packages permettent d’importer, de manipuler et de trans
 <ul>
 <li>Le package <code>rgdal</code> qui est une interface entre R et les librairies GDAL (<a href="http://www.gdal.org/" target="_blank">Geospatial Data Abstraction Library</a>) et <a href="https://github.com/OSGeo/proj.4" target="_blank">PROJ4</a> permet d’importer et d’exporter les données spatiales (les shapefiles par exemple) et aussi de gérer les projections cartographiques<br />
 </li>
-<li>Le package <code>sp</code> fournit des classes et methodes pour les données spatiales dans R. Il permet afficher des fond de cartes, d’inspecter une table attributaire etc.<br />
+<li>Le package <code>sp</code> fournit des classes et méthodes pour les données spatiales dans R. Il permet afficher des fond de cartes, d’inspecter une table attributaire etc.<br />
 </li>
-<li>Le package <code>rgeos</code> donne accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/" target="_blank">Geometry Engine - Open Source</a>) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, aggrégations spatiales, zones tampons, intersections etc.</li>
+<li>Le package <code>rgeos</code> donne accès à la librairie d’opérations spatiales GEOS (<a href="http://trac.osgeo.org/geos/" target="_blank">Geometry Engine - Open Source</a>) et rend donc disponible les opérations SIG classiques : calcul de surface ou de périmètre, calcul de distances, agrégations spatiales, zones tampons, intersections etc.</li>
 </ul>
 <p><strong>La suite</strong><br />
 Le package <code>sf</code> (<span class="citation">(Pebesma <a href="#ref-R-sf" role="doc-biblioref">2018</a><a href="#ref-R-sf" role="doc-biblioref">a</a>)</span>, <span class="citation">(Pebesma <a href="#ref-Pebesma18" role="doc-biblioref">2018</a><a href="#ref-Pebesma18" role="doc-biblioref">b</a>)</span>) a été publié fin 2016 par Edzer Pebesma (également auteur de <code>sp</code>). Son objectif est de combiner les fonctionnalités de <code>sp</code>, <code>rgeos</code> et <code>rgdal</code> dans un package unique plus ergonomique.
 Ce package propose des objets plus simples (suivant le standard <a href="https://en.wikipedia.org/wiki/Simple_Features"><em>simple feature</em></a>) dont la manipulation est plus aisée. Une attention particulière a été portée à la compatibilité du package avec la syntaxe <em>pipe</em> et les opérateurs du <code>tidyverse</code>.</p>
 <p>Aujourd’hui, les principaux développements dans l’écosystème spatial de R se détachent progressivement des 3 anciens (<code>sp</code>, <code>rgdal</code>, <code>rgeos</code>) pour se reposer sur <code>sf</code>.</p>
+
+<div class="linky">
+<a href="https://r-spatial.github.io/sf/articles/">Site web du package <code>sf</code></a>
+</div>
+
 <div id="format-des-objets-spatiaux-sf" class="section level3">
 <h3><span class="header-section-number">1.1.1</span> Format des objets spatiaux <code>sf</code></h3>
 <p><img src="img/sf.png" width="562" style="display: block; margin: auto;" /></p>
@@ -312,10 +317,10 @@ CRS:            32620
 5 MULTIPOLYGON (((698805 1621...
 6 MULTIPOLYGON (((709840 1599...</code></pre>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="chapitre1.html#cb11-1"></a><span class="kw">plot</span>(mtq)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-5-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 <p><strong>Affichage de la géométrie</strong> uniquement.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="chapitre1.html#cb12-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq))</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-6-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-7-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="joindre-des-données" class="section level3">
 <h3><span class="header-section-number">1.1.4</span> Joindre des données</h3>
@@ -552,7 +557,7 @@ CRS:            EPSG:4326
 2  2   B   20  1.9 POINT (3 4)
 3  3   A   30  4.0 POINT (2 1)</code></pre>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="chapitre1.html#cb44-1"></a><span class="kw">plot</span>(pt_sf)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-7-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-8-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="polygon" class="section level4">
 <h4><span class="header-section-number">1.3.11.2</span> POLYGON</h4>
@@ -581,7 +586,7 @@ CRS:            EPSG:4326
 2  2   B   20  1.9 POLYGON ((3 0, 4 0, 4 1, 3 ...
 3  3   A   30  4.0 POLYGON ((3 3, 4 2, 4 3, 3 3))</code></pre>
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="chapitre1.html#cb49-1"></a><span class="kw">plot</span>(pol_sf)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-8-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-9-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="linestring" class="section level4">
 <h4><span class="header-section-number">1.3.11.3</span> LINESTRING</h4>
@@ -610,7 +615,7 @@ CRS:            EPSG:4326
 2  2   B   20  1.9 LINESTRING (3 0, 4 0, 4 1, ...
 3  3   A   30  4.0     LINESTRING (3 3, 4 2, 4 3)</code></pre>
 <div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="chapitre1.html#cb54-1"></a><span class="kw">plot</span>(ls_sf)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-9-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-10-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -701,6 +706,11 @@ Pour l’installer :</li>
 <h2><span class="header-section-number">1.5</span> Importer des données OSM</h2>
 <p><a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap (OSM)</a> est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l’échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier.</p>
 <p>Le package <code>osmdata</code> <span class="citation">(Padgham et al. <a href="#ref-R-osmdata" role="doc-biblioref">2017</a>)</span> permet d’extraire des données vectorielles depuis OSM.</p>
+
+<div class="linky">
+<a href="https://docs.ropensci.org/osmdata/index.html">Site web du package <code>osmdata</code></a>
+</div>
+
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="chapitre1.html#cb64-1"></a><span class="kw">library</span>(sf)</span>
 <span id="cb64-2"><a href="chapitre1.html#cb64-2"></a><span class="kw">library</span>(osmdata)</span>
 <span id="cb64-3"><a href="chapitre1.html#cb64-3"></a><span class="kw">library</span>(sf)</span>
@@ -719,7 +729,7 @@ Pour l’installer :</li>
 <span id="cb64-16"><a href="chapitre1.html#cb64-16"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</span>
 <span id="cb64-17"><a href="chapitre1.html#cb64-17"></a><span class="kw">title</span>(<span class="st">&quot;Répartition des restaurants&quot;</span>)</span>
 <span id="cb64-18"><a href="chapitre1.html#cb64-18"></a><span class="kw">mtext</span>(<span class="dt">text =</span> <span class="st">&quot;INSEE, 2016 - OSM, 2019&quot;</span>,<span class="dt">side =</span> <span class="dv">1</span>, <span class="dt">line =</span> <span class="dv">-1</span>, <span class="dt">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-19-1.png" width="460.8" style="display: block; margin: auto;" /></p>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-21-1.png" width="460.8" style="display: block; margin: auto;" /></p>
 </div>
 <div id="exercices" class="section level2">
 <h2><span class="header-section-number">1.6</span> Exercices</h2>
@@ -772,7 +782,7 @@ gitbook.start({
 "sharing": {
 "github": true,
 "facebook": false,
-"twitter": false,
+"twitter": true,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
@@ -797,7 +807,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Cartographie_avec_R.pdf"],
+"download": null,
 "toc": {
 "collapse": "subsection"
 }

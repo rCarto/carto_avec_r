@@ -5,7 +5,7 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 bibliography:
 - book.bib
 - packages.bib
-description: Matériel pour le cours de cartographie avec R
+description: Cartographie avec R
 documentclass: book
 link-citations: yes
 site: bookdown::bookdown_site
@@ -35,7 +35,6 @@ knitr::include_graphics("img/banner.png")
 
 
 
-
 Ce document se compose de trois parties permettant d'appréhender la création de cartes thématiques avec R. 
 
 - [Les données spatiales](#chapitre1) 
@@ -48,7 +47,7 @@ Ce document se compose de trois parties permettant d'appréhender la création d
 Voici les packages dédiés à l'import, la manipulation, la transformation et l'affichage de données spatiales utilisés dans ce document : 
 
 * Depuis le CRAN : `banR, cartogram, cartography, linemap, maptools, mapview, 
-  nominatim, osmdata, png, raster, rayshader, sf, spatstat, tanaka`.
+osmdata, png, raster, rayshader, sf, spatstat, tanaka`.
 * Depuis GitHub : `mapinsetr, nominatim, photon`. Il faut utiliser le package 
 `remotes` pour les installer  
 
@@ -62,6 +61,10 @@ mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), quiet = TRUE
 
 
 
+</br>
+Vous pouvez nous envoyer vos remarques et suggestions en [postant une *issue*](https://github.com/rCarto/carto_avec_r/issues) sur le [*repo* GitHub](https://github.com/rCarto/carto_avec_r) de ce document. 
+
+
 
 
 </br>
@@ -69,7 +72,7 @@ mtq <- st_read(system.file("gpkg/mtq.gpkg", package="cartography"), quiet = TRUE
 La version en ligne de ce document est sous licence [Creative Commons Attribution-NonCommercial-ShareAlike 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/). 
 
 
-[^1]: UMS RIATE, CNRS
-[^2]: FR CIST, CNRS
+[^1]: Université de Paris, UMS RIATE, CNRS, F-75013 Paris, France
+[^2]: FR CIST, CNRS, F-75013 Paris, France
 
 
