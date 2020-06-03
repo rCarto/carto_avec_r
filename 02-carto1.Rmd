@@ -43,7 +43,9 @@ knit_hooks$set(dm = function(before, options, envir){
 
 
 Nous ne détaillerons pas ici les règles de la cartographie thématique.
-Le lecteur pourra se référer à divers ouvrages de référence : @Bertin67, @Beguin10, @Lambert16
+Le lecteur pourra se référer à divers ouvrages de référence : @Bertin67, @Beguin10, @Lambert16.  
+Plusieurs packages peuvent être utilisés pour réaliser des cartes thématique. Le package `ggplot2` [@Wickham16] par exemple permet d'afficher des objets spatiaux et de réaliser des cartes thématiques simples. Le package `tmap` [@Tennekes18] est dédié à la création de cartes thématiques, il utilise une syntaxe proche de celle de `ggplot2` (enchaînement d'instructions combinées avec le signe '+'). La documentation et les tutoriels pour utiliser ces deux packages sont facilement accessibles sur le web.   
+Dans ce chapitre nous utiliserons principalement le package `cartography` [@R-cartography] dont les fonctionnalités sont assez complètes et qui est mieux maitrisé pas les auteurs du manuel.
 
 
 
@@ -51,7 +53,7 @@ Le lecteur pourra se référer à divers ouvrages de référence : @Bertin67, @B
 
 <img src="img/logo.png" align="right" alt="" width="120" />
 
-Le package `cartography` [@R-cartography] permet de créer et d'intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques telles que les cartes de symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
+Le package `cartography` permet de créer et d'intégrer des cartes thématiques dans sa chaîne de traitements avec R. Il permet des représentations cartographiques telles que les cartes de symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.
 
 Pour utiliser ce package plusieurs sources peuvent être consultées :
 
@@ -291,7 +293,7 @@ layoutLayer(
 
 ### Flèche d'orientation
 
-La fonction `north()` permet de mieux choisir la position et l'aspect de la flêche d'orientation. 
+La fonction `north()` permet de mieux choisir la position et l'aspect de la flèche d'orientation. 
 
 ```{r north}
 plot(st_geometry(mtq), col = "#D1914D", border = "white")
@@ -300,6 +302,20 @@ layoutLayer(title = "Martinique", sources = "IGN",
             author = "Giraud & Pécout, 2019", frame = FALSE, scale = 5,
             coltitle = "#D1914D",tabtitle = TRUE, postitle = "right")
 ```
+
+Par défaut, la flèche d'orientation pointe vers le haut de la figure. Il est possible, avec l'argument `x`, d'utiliser une couche de référence pour indiquer le nord géographique. 
+
+```{r north2}
+mtq_proj <- st_transform(mtq, 2154)
+plot(st_geometry(mtq_proj), col = "#D1914D", border = "white")
+north(pos = "topright", col = "#D1914D", x = mtq_proj)
+layoutLayer(title = "Martinique", sources = "IGN", 
+            author = "Giraud & Pécout, 2019", frame = FALSE, scale = 5,
+            coltitle = "#D1914D",tabtitle = TRUE, postitle = "left")
+```
+
+
+
 
 ### Échelle
 
@@ -342,6 +358,9 @@ layoutLayer(title = "Communes", tabtitle = TRUE, author = "INSEE, 2016",
             sources ="", north =TRUE, frame = FALSE, scale = 5)
 ```
 
+L'argument `halo = TRUE` permet d'afficher un leger halo autour des étiquettes et l'argument `overlap = FALSE` permet de créer des étiquettes ne se recouvrant pas.  
+
+
 
 ### Ajuster les marges d'une figure
 
@@ -360,6 +379,41 @@ plot(st_geometry(mtq), main="Marges paramétrées")
 
 ### Centrer la carte sur une région
 Plusieurs solutions sont possible : 
+
+* La fonction `ghostLayer()` permet de centrer une carte sur un objet `sf` particulier.
+```{r}
+carbet <- mtq[mtq$LIBGEO=="Le Carbet",]
+# centrage sur la couche cible "invisible"
+ghostLayer(
+  x = carbet,
+  bg = "#A6CAE0"
+)
+# affichage des communes
+plot(
+  st_geometry(mtq), 
+  col = "darkseagreen1", 
+  border = "darkseagreen4", 
+  add=TRUE
+)
+# affichage de la couche d'intérêt
+plot(
+  st_geometry(carbet), 
+  col = "darkseagreen3", 
+  border = "darkseagreen4", 
+  lwd = 2, 
+  add=TRUE
+)
+layoutLayer(
+  title = "Le Carbet", 
+  sources = "",
+  author = "",
+  scale = 1,
+  tabtitle = TRUE,
+  frame=FALSE
+)
+```
+
+
 
 * Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l'on souhaite afficher. 
 ```{r}
@@ -521,7 +575,7 @@ dev.off()
 L'emprise de cette carte est exactement celle de l'île. 
 
 ### Ajouter une image sur une carte 
-Cela peut être utile pour ajouter un logo un pictogramme. La fonction `readPNG()` du package `png` permet l'ajout d'images sur une figure.
+Cela peut être utile pour ajouter un logo, un pictogramme. La fonction `readPNG()` du package `png` permet l'ajout d'images sur une figure.
 
 ```{r logo}
 library(png)
@@ -565,6 +619,7 @@ text(x = 694019, y = 1615161,
 
 `locator()`peut être utilisée sur la plupart des graphiques (pas ceux produits avec `ggplot2`). 
 
+Voir aussi : [How to interactively position legends and layout elements on a map with cartography](https://rgeomatic.hypotheses.org/1837)
 
 
 
@@ -627,6 +682,9 @@ layoutLayer(title = "Statut Administratif",tabtitle=TRUE,
             frame=FALSE, scale = 5)
 north(pos = "topleft")
 ```
+
+Voir aussi : [Colored Pencil Maps with R](https://rgeomatic.hypotheses.org/1333)
+
 
 ### Ajouter un ombrage à une couche
 ```{r shadow}

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>References | Cartographie avec R</title>
   <meta name="description" content="Matériel pour le cours de cartographie avec R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="References | Cartographie avec R" />
   <meta property="og:type" content="book" />
@@ -62,13 +62,14 @@
 <link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
 <script src="libs/HomeButton-0.0.1/home-button.js"></script>
 <script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -77,14 +78,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -93,9 +96,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -267,13 +270,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Dorling, Daniel. 1996. <em>Area Cartograms: Their Use and Creation, Concepts and Techniques in Modern Geography</em>. Vol. 59. CATMOG: Concepts and Techniques in Modern Geography. Institute of British Geographers.</p>
 </div>
 <div>
-<p>Dougenik, James A, Nicholas R Chrisman, and Duane R Niemeyer. 1985. “An Algorithm to Construct Continuous Area Cartograms.” <em>The Professional Geographer</em> 37 (1). Wiley Online Library: 75–81.</p>
+<p>Dougenik, James A, Nicholas R Chrisman, and Duane R Niemeyer. 1985. “An Algorithm to Construct Continuous Area Cartograms.” <em>The Professional Geographer</em> 37 (1): 75–81.</p>
 </div>
 <div>
 <p>Giraud, Timothée. 2017a. <em>Linemap: Line Maps</em>. <a href="https://CRAN.R-project.org/package=linemap">https://CRAN.R-project.org/package=linemap</a>.</p>
 </div>
 <div>
 <p>———. 2017b. <em>Photon: Geocode Locations with Photon Api</em>. <a href="https://github.com/rCarto/photon">https://github.com/rCarto/photon</a>.</p>
+</div>
+<div>
+<p>———. 2020. <em>Tanaka: Design Shaded Contour Lines (or Tanaka) Maps</em>. <a href="https://CRAN.R-project.org/package=tanaka">https://CRAN.R-project.org/package=tanaka</a>.</p>
 </div>
 <div>
 <p>Giraud, Timothée, and Nicolas Lambert. 2018a. <em>Cartography: Thematic Cartography</em>. <a href="https://github.com/riatelab/cartography/">https://github.com/riatelab/cartography/</a>.</p>
@@ -300,10 +306,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Morgan-Wall, Tyler. 2018. <em>Rayshader: Create and Visualize Hillshaded Maps from Elevation Matrices</em>. <a href="https://CRAN.R-project.org/package=rayshader">https://CRAN.R-project.org/package=rayshader</a>.</p>
 </div>
 <div>
-<p>Olson, Judy M. 1976. “Noncontiguous Area Cartograms.” <em>The Professional Geographer</em> 28 (4). Wiley Online Library: 371–80.</p>
+<p>Olson, Judy M. 1976. “Noncontiguous Area Cartograms.” <em>The Professional Geographer</em> 28 (4): 371–80.</p>
 </div>
 <div>
-<p>Padgham, Mark, Bob Rudis, Robin Lovelace, and Maëlle Salmon. 2017. “Osmdata.” <em>The Journal of Open Source Software</em> 2 (14). The Open Journal. <a href="https://doi.org/10.21105/joss.00305">https://doi.org/10.21105/joss.00305</a>.</p>
+<p>Padgham, Mark, Bob Rudis, Robin Lovelace, and Maëlle Salmon. 2017. “Osmdata.” <em>The Journal of Open Source Software</em> 2 (14). <a href="https://doi.org/10.21105/joss.00305">https://doi.org/10.21105/joss.00305</a>.</p>
 </div>
 <div>
 <p>Paull, John, and Benjamin Hennig. 2016. “Atlas of Organics: Four Maps of the World of Organic Agriculture.” <em>Journal of Organics</em> 3 (1): 25–32.</p>
@@ -322,6 +328,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>Tanaka, Kitiro. 1950. “The Relief Contour Method of Representing Topography on Maps.” <em>The Geographical Review</em> xl (3).</p>
+</div>
+<div>
+<p>Tennekes, Martijn. 2018. “tmap: Thematic Maps in R.” <em>Journal of Statistical Software</em> 84 (6): 1–39. <a href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>.</p>
+</div>
+<div>
+<p>Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.</p>
 </div>
 </div>
 </div>

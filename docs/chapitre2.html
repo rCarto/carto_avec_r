@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapitre 2 Cartographie thématique | Cartographie avec R</title>
   <meta name="description" content="Matériel pour le cours de cartographie avec R" />
-  <meta name="generator" content="bookdown 0.17 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.19 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapitre 2 Cartographie thématique | Cartographie avec R" />
   <meta property="og:type" content="book" />
@@ -62,13 +62,14 @@
 <link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
 <script src="libs/HomeButton-0.0.1/home-button.js"></script>
 <script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
 <link href="libs/PopupTable-0.0.1/popup.css" rel="stylesheet" />
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -77,14 +78,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -93,9 +96,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -244,11 +247,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="chapitre2" class="section level1">
 <h1><span class="header-section-number">Chapitre 2</span> Cartographie thématique</h1>
 <p>Nous ne détaillerons pas ici les règles de la cartographie thématique.
-Le lecteur pourra se référer à divers ouvrages de référence : <span class="citation">Bertin (<a href="#ref-Bertin67">1967</a>)</span>, <span class="citation">Pumain and Béguin (<a href="#ref-Beguin10">2010</a>)</span>, <span class="citation">Lambert and Zanin (<a href="#ref-Lambert16">2016</a>)</span></p>
+Le lecteur pourra se référer à divers ouvrages de référence : <span class="citation">Bertin (<a href="#ref-Bertin67" role="doc-biblioref">1967</a>)</span>, <span class="citation">Pumain and Béguin (<a href="#ref-Beguin10" role="doc-biblioref">2010</a>)</span>, <span class="citation">Lambert and Zanin (<a href="#ref-Lambert16" role="doc-biblioref">2016</a>)</span>.<br />
+Plusieurs packages peuvent être utilisés pour réaliser des cartes thématique. Le package <code>ggplot2</code> <span class="citation">(Wickham <a href="#ref-Wickham16" role="doc-biblioref">2016</a>)</span> par exemple permet d’afficher des objets spatiaux et de réaliser des cartes thématiques simples. Le package <code>tmap</code> <span class="citation">(Tennekes <a href="#ref-Tennekes18" role="doc-biblioref">2018</a>)</span> est dédié à la création de cartes thématiques, il utilise une syntaxe proche de celle de <code>ggplot2</code> (enchaînement d’instructions combinées avec le signe ‘+’). La documentation et les tutoriels pour utiliser ces deux packages sont facilement accessibles sur le web.<br />
+Dans ce chapitre nous utiliserons principalement le package <code>cartography</code> <span class="citation">(Giraud and Lambert <a href="#ref-R-cartography" role="doc-biblioref">2018</a><a href="#ref-R-cartography" role="doc-biblioref">a</a>)</span> dont les fonctionnalités sont assez complètes et qui est mieux maitrisé pas les auteurs du manuel.</p>
 <div id="le-package-cartography" class="section level2">
 <h2><span class="header-section-number">2.1</span> Le package <code>cartography</code></h2>
 <p><img src="img/logo.png" align="right" alt="" width="120" /></p>
-<p>Le package <code>cartography</code> <span class="citation">(Giraud and Lambert <a href="#ref-R-cartography">2018</a><a href="#ref-R-cartography">a</a>)</span> permet de créer et d’intégrer des cartes thématiques dans sa chaîne de traitements en R. Il permet des représentations cartographiques telles que les cartes de symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.</p>
+<p>Le package <code>cartography</code> permet de créer et d’intégrer des cartes thématiques dans sa chaîne de traitements avec R. Il permet des représentations cartographiques telles que les cartes de symboles proportionnels, des cartes choroplèthes, des typologies, des cartes de flux ou des cartes de discontinuités. Il offre également des fonctions qui permettent d’améliorer la réalisation de la carte, comme des palettes de couleur, des éléments d’habillage (échelle, flèche du nord, titre, légende…), d’y rattacher des labels ou d’accéder à des APIs cartographiques.</p>
 <p>Pour utiliser ce package plusieurs sources peuvent être consultées :</p>
 <ul>
 <li>La documentation du package accessible <a href="http://riatelab.github.io/cartography/docs/" target="_blank">sur internet</a> ou directement dans R (<code>?cartography</code>),</li>
@@ -266,26 +271,26 @@ En général l’argument <code>x</code> est utilisé par un objet <code>sf</cod
 <h3><span class="header-section-number">2.2.1</span> Carte de symboles proportionnels</h3>
 <p>Les cartes de symboles proportionnels sont utilisées pour représenter les variables de stocks (variables quantitatives absolues, la somme et la moyenne ont un sens).
 La fonction <code>propSymbolsLayer()</code> propose cette représentation, plusieurs symboles sont disponibles : cercles, carrés et barres.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="kw">library</span>(cartography)</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="co"># Import des données</span></a>
-<a class="sourceLine" id="cb65-4" data-line-number="4">mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>), </a>
-<a class="sourceLine" id="cb65-5" data-line-number="5">               <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="co"># Communes</span></a>
-<a class="sourceLine" id="cb65-7" data-line-number="7"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb65-8" data-line-number="8">  <span class="kw">st_geometry</span>(mtq), </a>
-<a class="sourceLine" id="cb65-9" data-line-number="9">  <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, </a>
-<a class="sourceLine" id="cb65-10" data-line-number="10">  <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </a>
-<a class="sourceLine" id="cb65-11" data-line-number="11">  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></a>
-<a class="sourceLine" id="cb65-12" data-line-number="12">)</a>
-<a class="sourceLine" id="cb65-13" data-line-number="13"><span class="co"># Symboles proportionnels</span></a>
-<a class="sourceLine" id="cb65-14" data-line-number="14"><span class="kw">propSymbolsLayer</span>(</a>
-<a class="sourceLine" id="cb65-15" data-line-number="15">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb65-16" data-line-number="16">  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </a>
-<a class="sourceLine" id="cb65-17" data-line-number="17">  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Population totale</span><span class="ch">\n</span><span class="st">(2015)&quot;</span></a>
-<a class="sourceLine" id="cb65-18" data-line-number="18">)</a>
-<a class="sourceLine" id="cb65-19" data-line-number="19"><span class="co"># Titre</span></a>
-<a class="sourceLine" id="cb65-20" data-line-number="20"><span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Population en Martinique&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="chapitre2.html#cb65-1"></a><span class="kw">library</span>(cartography)</span>
+<span id="cb65-2"><a href="chapitre2.html#cb65-2"></a><span class="kw">library</span>(sf)</span>
+<span id="cb65-3"><a href="chapitre2.html#cb65-3"></a><span class="co"># Import des données</span></span>
+<span id="cb65-4"><a href="chapitre2.html#cb65-4"></a>mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>), </span>
+<span id="cb65-5"><a href="chapitre2.html#cb65-5"></a>               <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb65-6"><a href="chapitre2.html#cb65-6"></a><span class="co"># Communes</span></span>
+<span id="cb65-7"><a href="chapitre2.html#cb65-7"></a><span class="kw">plot</span>(</span>
+<span id="cb65-8"><a href="chapitre2.html#cb65-8"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb65-9"><a href="chapitre2.html#cb65-9"></a>  <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, </span>
+<span id="cb65-10"><a href="chapitre2.html#cb65-10"></a>  <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </span>
+<span id="cb65-11"><a href="chapitre2.html#cb65-11"></a>  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></span>
+<span id="cb65-12"><a href="chapitre2.html#cb65-12"></a>)</span>
+<span id="cb65-13"><a href="chapitre2.html#cb65-13"></a><span class="co"># Symboles proportionnels</span></span>
+<span id="cb65-14"><a href="chapitre2.html#cb65-14"></a><span class="kw">propSymbolsLayer</span>(</span>
+<span id="cb65-15"><a href="chapitre2.html#cb65-15"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb65-16"><a href="chapitre2.html#cb65-16"></a>  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </span>
+<span id="cb65-17"><a href="chapitre2.html#cb65-17"></a>  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Population totale</span><span class="ch">\n</span><span class="st">(2015)&quot;</span></span>
+<span id="cb65-18"><a href="chapitre2.html#cb65-18"></a>)</span>
+<span id="cb65-19"><a href="chapitre2.html#cb65-19"></a><span class="co"># Titre</span></span>
+<span id="cb65-20"><a href="chapitre2.html#cb65-20"></a><span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Population en Martinique&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/propS-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="carte-choroplèthe" class="section level3">
@@ -298,49 +303,49 @@ La fonction <code>propSymbolsLayer()</code> propose cette représentation, plusi
 <li>choisir une palette de couleurs.</li>
 </ul>
 <p>La fonction <code>choroLayer()</code> permet de créer des cartes choroplètes . Les arguments <code>nclass</code>, <code>method</code> et <code>breaks</code> servent à paramétrer les discrétisations et la fonction <code>getBreaks()</code> permet de travailler sur les discrétisations en dehors de la fonction <code>choroLayer()</code>. De même, l’argument <code>col</code> est utilisé pour renseigner une palette de couleur mais plusieurs fonctions peuvent être utilisées pour paramétrer les palettes en dehors de la fonction (<code>carto.pal()</code>…).</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="co"># Densité de population (hab./km2) en utilisant la fonction sf::st_area()</span></a>
-<a class="sourceLine" id="cb66-2" data-line-number="2">mtq<span class="op">$</span>POPDENS &lt;-<span class="st"> </span><span class="fl">1e6</span> <span class="op">*</span><span class="st"> </span>mtq<span class="op">$</span>POP <span class="op">/</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">st_area</span>(mtq))</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3"><span class="kw">choroLayer</span>(</a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb66-5" data-line-number="5">  <span class="dt">var =</span> <span class="st">&quot;POPDENS&quot;</span>, </a>
-<a class="sourceLine" id="cb66-6" data-line-number="6">  <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">33</span>, <span class="dv">75</span>, <span class="dv">168</span>, <span class="dv">377</span>, <span class="dv">845</span>, <span class="dv">1895</span>),</a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#F1B1B4&quot;</span>, <span class="st">&quot;#E3898E&quot;</span>, <span class="st">&quot;#D35E63&quot;</span>, <span class="st">&quot;#BD2D33&quot;</span>, <span class="st">&quot;#7E1512&quot;</span>),</a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Densité de population</span><span class="ch">\n</span><span class="st">(habitants par km2)&quot;</span></a>
-<a class="sourceLine" id="cb66-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb66-10" data-line-number="10"><span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Distribution de la population en Martinique (2015)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="chapitre2.html#cb66-1"></a><span class="co"># Densité de population (hab./km2) en utilisant la fonction sf::st_area()</span></span>
+<span id="cb66-2"><a href="chapitre2.html#cb66-2"></a>mtq<span class="op">$</span>POPDENS &lt;-<span class="st"> </span><span class="fl">1e6</span> <span class="op">*</span><span class="st"> </span>mtq<span class="op">$</span>POP <span class="op">/</span><span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">st_area</span>(mtq))</span>
+<span id="cb66-3"><a href="chapitre2.html#cb66-3"></a><span class="kw">choroLayer</span>(</span>
+<span id="cb66-4"><a href="chapitre2.html#cb66-4"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb66-5"><a href="chapitre2.html#cb66-5"></a>  <span class="dt">var =</span> <span class="st">&quot;POPDENS&quot;</span>, </span>
+<span id="cb66-6"><a href="chapitre2.html#cb66-6"></a>  <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="dv">33</span>, <span class="dv">75</span>, <span class="dv">168</span>, <span class="dv">377</span>, <span class="dv">845</span>, <span class="dv">1895</span>),</span>
+<span id="cb66-7"><a href="chapitre2.html#cb66-7"></a>  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;#F1B1B4&quot;</span>, <span class="st">&quot;#E3898E&quot;</span>, <span class="st">&quot;#D35E63&quot;</span>, <span class="st">&quot;#BD2D33&quot;</span>, <span class="st">&quot;#7E1512&quot;</span>),</span>
+<span id="cb66-8"><a href="chapitre2.html#cb66-8"></a>  <span class="dt">legend.title.txt =</span> <span class="st">&quot;Densité de population</span><span class="ch">\n</span><span class="st">(habitants par km2)&quot;</span></span>
+<span id="cb66-9"><a href="chapitre2.html#cb66-9"></a>)</span>
+<span id="cb66-10"><a href="chapitre2.html#cb66-10"></a><span class="kw">title</span>(<span class="dt">main =</span> <span class="st">&quot;Distribution de la population en Martinique (2015)&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/choro-1.png" width="384" style="display: block; margin: auto;" /></p>
 <div id="discretisation" class="section level4">
 <h4><span class="header-section-number">2.2.2.1</span> Discrétisations</h4>
 <p>La fonction <code>getBreaks()</code> met à disposition les méthodes de discrétisations de variables classique : quantiles, moyenn/écart-type, amplitudes égales, moyennes emboitées, Fisher-Jenks, géométrique …</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">var &lt;-<span class="st"> </span>mtq<span class="op">$</span>POPDENS</a>
-<a class="sourceLine" id="cb67-2" data-line-number="2">moy &lt;-<span class="st"> </span><span class="kw">mean</span>(var)</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3">med &lt;-<span class="st"> </span><span class="kw">median</span>(var)</a>
-<a class="sourceLine" id="cb67-4" data-line-number="4">std &lt;-<span class="st"> </span><span class="kw">sd</span>(var)</a>
-<a class="sourceLine" id="cb67-5" data-line-number="5">breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">nclass =</span> <span class="dv">5</span>, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>)</a>
-<a class="sourceLine" id="cb67-6" data-line-number="6"><span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;quantiles&quot;</span>,</a>
-<a class="sourceLine" id="cb67-7" data-line-number="7">     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span>, <span class="st">&quot;green.pal&quot;</span>, <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb67-8" data-line-number="8"><span class="kw">rug</span>(var)</a>
-<a class="sourceLine" id="cb67-9" data-line-number="9"><span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="chapitre2.html#cb67-1"></a>var &lt;-<span class="st"> </span>mtq<span class="op">$</span>POPDENS</span>
+<span id="cb67-2"><a href="chapitre2.html#cb67-2"></a>moy &lt;-<span class="st"> </span><span class="kw">mean</span>(var)</span>
+<span id="cb67-3"><a href="chapitre2.html#cb67-3"></a>med &lt;-<span class="st"> </span><span class="kw">median</span>(var)</span>
+<span id="cb67-4"><a href="chapitre2.html#cb67-4"></a>std &lt;-<span class="st"> </span><span class="kw">sd</span>(var)</span>
+<span id="cb67-5"><a href="chapitre2.html#cb67-5"></a>breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">nclass =</span> <span class="dv">5</span>, <span class="dt">method =</span> <span class="st">&quot;quantile&quot;</span>)</span>
+<span id="cb67-6"><a href="chapitre2.html#cb67-6"></a><span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;quantiles&quot;</span>,</span>
+<span id="cb67-7"><a href="chapitre2.html#cb67-7"></a>     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">3</span>, <span class="st">&quot;green.pal&quot;</span>, <span class="dv">3</span>))</span>
+<span id="cb67-8"><a href="chapitre2.html#cb67-8"></a><span class="kw">rug</span>(var)</span>
+<span id="cb67-9"><a href="chapitre2.html#cb67-9"></a><span class="kw">abline</span>(<span class="dt">v =</span> med, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/discr2-1.png" width="480" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">nclass=</span><span class="dv">5</span>, <span class="dt">method =</span> <span class="st">&quot;geom&quot;</span>)</a>
-<a class="sourceLine" id="cb68-2" data-line-number="2"><span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;progression géométrique&quot;</span>,</a>
-<a class="sourceLine" id="cb68-3" data-line-number="3">     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">6</span>))</a>
-<a class="sourceLine" id="cb68-4" data-line-number="4"><span class="kw">rug</span>(var)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="chapitre2.html#cb68-1"></a>breaks &lt;-<span class="st"> </span><span class="kw">getBreaks</span>(<span class="dt">v =</span> var, <span class="dt">nclass=</span><span class="dv">5</span>, <span class="dt">method =</span> <span class="st">&quot;geom&quot;</span>)</span>
+<span id="cb68-2"><a href="chapitre2.html#cb68-2"></a><span class="kw">hist</span>(var, <span class="dt">probability =</span> <span class="ot">TRUE</span>, <span class="dt">breaks =</span> breaks, <span class="dt">main=</span><span class="st">&quot;progression géométrique&quot;</span>,</span>
+<span id="cb68-3"><a href="chapitre2.html#cb68-3"></a>     <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>,<span class="dv">6</span>))</span>
+<span id="cb68-4"><a href="chapitre2.html#cb68-4"></a><span class="kw">rug</span>(var)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/discr3-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="palettes" class="section level4">
 <h4><span class="header-section-number">2.2.2.2</span> Palettes de couleurs</h4>
 <p>La fonction <code>display.carto.all()</code> permet d’afficher toutes palettes de couleurs disponibles dans <code>cartography</code>.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="kw">display.carto.all</span>(<span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="chapitre2.html#cb69-1"></a><span class="kw">display.carto.all</span>(<span class="dv">20</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pa-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La fonction <code>display.carto.pal()</code> permet de détailler une palette de couleurs.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">display.carto.pal</span>(<span class="st">&quot;turquoise.pal&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="chapitre2.html#cb70-1"></a><span class="kw">display.carto.pal</span>(<span class="st">&quot;turquoise.pal&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pal1-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>La fonction <code>carto.pal()</code> permet de construire une palette de couleur.
 Il est possible de créer des palettes associant 2 couleurs.</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">mypal &lt;-<span class="st"> </span><span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">5</span>, <span class="dt">pal2 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n2 =</span> <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb71-2" data-line-number="2"><span class="kw">image</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">1</span>, <span class="kw">as.matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">col=</span>mypal, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>, </a>
-<a class="sourceLine" id="cb71-3" data-line-number="3">      <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="chapitre2.html#cb71-1"></a>mypal &lt;-<span class="st"> </span><span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;wine.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">5</span>, <span class="dt">pal2 =</span> <span class="st">&quot;green.pal&quot;</span>, <span class="dt">n2 =</span> <span class="dv">4</span>)</span>
+<span id="cb71-2"><a href="chapitre2.html#cb71-2"></a><span class="kw">image</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">1</span>, <span class="kw">as.matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">col=</span>mypal, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">xaxt =</span> <span class="st">&quot;n&quot;</span>, </span>
+<span id="cb71-3"><a href="chapitre2.html#cb71-3"></a>      <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>,<span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pal2-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -348,18 +353,18 @@ Il est possible de créer des palettes associant 2 couleurs.</p>
 <h3><span class="header-section-number">2.2.3</span> Carte de typologie</h3>
 <p>Les cartes de typologies sont utilisées pour représenter les variables qualitatives.
 La fonction <code>typoLayer()</code> propose cette représentation. L’argument <code>legend.values.order</code> sert à ordonner les modalités dans la légende.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">typoLayer</span>(</a>
-<a class="sourceLine" id="cb72-2" data-line-number="2">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb72-3" data-line-number="3">  <span class="dt">var=</span><span class="st">&quot;STATUS&quot;</span>,</a>
-<a class="sourceLine" id="cb72-4" data-line-number="4">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>), </a>
-<a class="sourceLine" id="cb72-5" data-line-number="5">  <span class="dt">lwd =</span> <span class="fl">.7</span>,</a>
-<a class="sourceLine" id="cb72-6" data-line-number="6">  <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</a>
-<a class="sourceLine" id="cb72-7" data-line-number="7">                          <span class="st">&quot;Sub-prefecture&quot;</span>, </a>
-<a class="sourceLine" id="cb72-8" data-line-number="8">                          <span class="st">&quot;Simple municipality&quot;</span>),</a>
-<a class="sourceLine" id="cb72-9" data-line-number="9">  <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb72-10" data-line-number="10">  <span class="dt">legend.title.txt =</span> <span class="st">&quot;&quot;</span></a>
-<a class="sourceLine" id="cb72-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb72-12" data-line-number="12"><span class="kw">title</span>(<span class="st">&quot;Statut Administratif&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="chapitre2.html#cb72-1"></a><span class="kw">typoLayer</span>(</span>
+<span id="cb72-2"><a href="chapitre2.html#cb72-2"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb72-3"><a href="chapitre2.html#cb72-3"></a>  <span class="dt">var=</span><span class="st">&quot;STATUS&quot;</span>,</span>
+<span id="cb72-4"><a href="chapitre2.html#cb72-4"></a>  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>), </span>
+<span id="cb72-5"><a href="chapitre2.html#cb72-5"></a>  <span class="dt">lwd =</span> <span class="fl">.7</span>,</span>
+<span id="cb72-6"><a href="chapitre2.html#cb72-6"></a>  <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</span>
+<span id="cb72-7"><a href="chapitre2.html#cb72-7"></a>                          <span class="st">&quot;Sub-prefecture&quot;</span>, </span>
+<span id="cb72-8"><a href="chapitre2.html#cb72-8"></a>                          <span class="st">&quot;Simple municipality&quot;</span>),</span>
+<span id="cb72-9"><a href="chapitre2.html#cb72-9"></a>  <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,</span>
+<span id="cb72-10"><a href="chapitre2.html#cb72-10"></a>  <span class="dt">legend.title.txt =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb72-11"><a href="chapitre2.html#cb72-11"></a>)</span>
+<span id="cb72-12"><a href="chapitre2.html#cb72-12"></a><span class="kw">title</span>(<span class="st">&quot;Statut Administratif&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/typolo-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -369,53 +374,53 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 <div id="carte-de-stocks-et-de-ratios" class="section level3">
 <h3><span class="header-section-number">2.3.1</span> Carte de stocks et de ratios</h3>
 <p>La fonction <code>propSymbolsChoroLayer()</code> représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d’une variable et dont la couleur repose sur la discrétisation d’une seconde variable. La fonction utilise les arguments des fonctions <code>propSymbolsLayer()</code> et <code>choroLayer()</code>.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb73-2" data-line-number="2">  <span class="kw">st_geometry</span>(mtq), </a>
-<a class="sourceLine" id="cb73-3" data-line-number="3">  <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, </a>
-<a class="sourceLine" id="cb73-4" data-line-number="4">  <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </a>
-<a class="sourceLine" id="cb73-5" data-line-number="5">  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></a>
-<a class="sourceLine" id="cb73-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb73-7" data-line-number="7"><span class="kw">propSymbolsChoroLayer</span>(</a>
-<a class="sourceLine" id="cb73-8" data-line-number="8">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb73-9" data-line-number="9">  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </a>
-<a class="sourceLine" id="cb73-10" data-line-number="10">  <span class="dt">border =</span> <span class="st">&quot;grey50&quot;</span>,</a>
-<a class="sourceLine" id="cb73-11" data-line-number="11">  <span class="dt">lwd =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb73-12" data-line-number="12">  <span class="dt">legend.var.pos =</span> <span class="st">&quot;topright&quot;</span>, </a>
-<a class="sourceLine" id="cb73-13" data-line-number="13">  <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Population&quot;</span>,</a>
-<a class="sourceLine" id="cb73-14" data-line-number="14">  <span class="dt">var2 =</span> <span class="st">&quot;MED&quot;</span>,</a>
-<a class="sourceLine" id="cb73-15" data-line-number="15">  <span class="dt">method =</span> <span class="st">&quot;equal&quot;</span>, </a>
-<a class="sourceLine" id="cb73-16" data-line-number="16">  <span class="dt">nclass =</span> <span class="dv">4</span>, </a>
-<a class="sourceLine" id="cb73-17" data-line-number="17">  <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;sand.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>),</a>
-<a class="sourceLine" id="cb73-18" data-line-number="18">  <span class="dt">legend.var2.values.rnd =</span> <span class="dv">-2</span>,</a>
-<a class="sourceLine" id="cb73-19" data-line-number="19">  <span class="dt">legend.var2.pos =</span> <span class="st">&quot;left&quot;</span>, </a>
-<a class="sourceLine" id="cb73-20" data-line-number="20">  <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Revenu</span><span class="ch">\n</span><span class="st">médian</span><span class="ch">\n</span><span class="st">(en euros)&quot;</span></a>
-<a class="sourceLine" id="cb73-21" data-line-number="21">) </a>
-<a class="sourceLine" id="cb73-22" data-line-number="22"><span class="kw">title</span>(<span class="st">&quot;Population et richesse en Martinique, 2015&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="chapitre2.html#cb73-1"></a><span class="kw">plot</span>(</span>
+<span id="cb73-2"><a href="chapitre2.html#cb73-2"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb73-3"><a href="chapitre2.html#cb73-3"></a>  <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, </span>
+<span id="cb73-4"><a href="chapitre2.html#cb73-4"></a>  <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </span>
+<span id="cb73-5"><a href="chapitre2.html#cb73-5"></a>  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></span>
+<span id="cb73-6"><a href="chapitre2.html#cb73-6"></a>)</span>
+<span id="cb73-7"><a href="chapitre2.html#cb73-7"></a><span class="kw">propSymbolsChoroLayer</span>(</span>
+<span id="cb73-8"><a href="chapitre2.html#cb73-8"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb73-9"><a href="chapitre2.html#cb73-9"></a>  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </span>
+<span id="cb73-10"><a href="chapitre2.html#cb73-10"></a>  <span class="dt">border =</span> <span class="st">&quot;grey50&quot;</span>,</span>
+<span id="cb73-11"><a href="chapitre2.html#cb73-11"></a>  <span class="dt">lwd =</span> <span class="dv">1</span>,</span>
+<span id="cb73-12"><a href="chapitre2.html#cb73-12"></a>  <span class="dt">legend.var.pos =</span> <span class="st">&quot;topright&quot;</span>, </span>
+<span id="cb73-13"><a href="chapitre2.html#cb73-13"></a>  <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Population&quot;</span>,</span>
+<span id="cb73-14"><a href="chapitre2.html#cb73-14"></a>  <span class="dt">var2 =</span> <span class="st">&quot;MED&quot;</span>,</span>
+<span id="cb73-15"><a href="chapitre2.html#cb73-15"></a>  <span class="dt">method =</span> <span class="st">&quot;equal&quot;</span>, </span>
+<span id="cb73-16"><a href="chapitre2.html#cb73-16"></a>  <span class="dt">nclass =</span> <span class="dv">4</span>, </span>
+<span id="cb73-17"><a href="chapitre2.html#cb73-17"></a>  <span class="dt">col =</span> <span class="kw">carto.pal</span>(<span class="dt">pal1 =</span> <span class="st">&quot;sand.pal&quot;</span>, <span class="dt">n1 =</span> <span class="dv">4</span>),</span>
+<span id="cb73-18"><a href="chapitre2.html#cb73-18"></a>  <span class="dt">legend.var2.values.rnd =</span> <span class="dv">-2</span>,</span>
+<span id="cb73-19"><a href="chapitre2.html#cb73-19"></a>  <span class="dt">legend.var2.pos =</span> <span class="st">&quot;left&quot;</span>, </span>
+<span id="cb73-20"><a href="chapitre2.html#cb73-20"></a>  <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Revenu</span><span class="ch">\n</span><span class="st">médian</span><span class="ch">\n</span><span class="st">(en euros)&quot;</span></span>
+<span id="cb73-21"><a href="chapitre2.html#cb73-21"></a>) </span>
+<span id="cb73-22"><a href="chapitre2.html#cb73-22"></a><span class="kw">title</span>(<span class="st">&quot;Population et richesse en Martinique, 2015&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/choroprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="carte-de-stocks-et-de-qualitative" class="section level3">
 <h3><span class="header-section-number">2.3.2</span> Carte de stocks et de qualitative</h3>
 <p>La fonction <code>propSymbolsTypoLayer()</code> représente des symboles proportionnels dont les surfaces sont proportionnelles aux valeurs d’une variable et dont la couleur représente les modalités d’une variable qualitative. La fonction utilise les arguments des fonctions <code>propSymbolsLayer()</code> et <code>typoLayer()</code>.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb74-2" data-line-number="2">  <span class="kw">st_geometry</span>(mtq), </a>
-<a class="sourceLine" id="cb74-3" data-line-number="3">  <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, </a>
-<a class="sourceLine" id="cb74-4" data-line-number="4">  <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </a>
-<a class="sourceLine" id="cb74-5" data-line-number="5">  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></a>
-<a class="sourceLine" id="cb74-6" data-line-number="6">)</a>
-<a class="sourceLine" id="cb74-7" data-line-number="7"><span class="kw">propSymbolsTypoLayer</span>(</a>
-<a class="sourceLine" id="cb74-8" data-line-number="8">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb74-9" data-line-number="9">  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </a>
-<a class="sourceLine" id="cb74-10" data-line-number="10">  <span class="dt">symbols =</span> <span class="st">&quot;circle&quot;</span>,</a>
-<a class="sourceLine" id="cb74-11" data-line-number="11">  <span class="dt">var2 =</span> <span class="st">&quot;STATUS&quot;</span>,</a>
-<a class="sourceLine" id="cb74-12" data-line-number="12">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>),</a>
-<a class="sourceLine" id="cb74-13" data-line-number="13">  <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,</a>
-<a class="sourceLine" id="cb74-14" data-line-number="14">  <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Population</span><span class="ch">\n</span><span class="st">(2015)&quot;</span>,</a>
-<a class="sourceLine" id="cb74-15" data-line-number="15">  <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Statut administratif&quot;</span>,</a>
-<a class="sourceLine" id="cb74-16" data-line-number="16">  <span class="dt">legend.var2.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</a>
-<a class="sourceLine" id="cb74-17" data-line-number="17">                          <span class="st">&quot;Sub-prefecture&quot;</span>, </a>
-<a class="sourceLine" id="cb74-18" data-line-number="18">                          <span class="st">&quot;Simple municipality&quot;</span>)</a>
-<a class="sourceLine" id="cb74-19" data-line-number="19">)</a>
-<a class="sourceLine" id="cb74-20" data-line-number="20"><span class="kw">title</span>(<span class="st">&quot;Population en Martinique&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="chapitre2.html#cb74-1"></a><span class="kw">plot</span>(</span>
+<span id="cb74-2"><a href="chapitre2.html#cb74-2"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb74-3"><a href="chapitre2.html#cb74-3"></a>  <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, </span>
+<span id="cb74-4"><a href="chapitre2.html#cb74-4"></a>  <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>,  </span>
+<span id="cb74-5"><a href="chapitre2.html#cb74-5"></a>  <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span></span>
+<span id="cb74-6"><a href="chapitre2.html#cb74-6"></a>)</span>
+<span id="cb74-7"><a href="chapitre2.html#cb74-7"></a><span class="kw">propSymbolsTypoLayer</span>(</span>
+<span id="cb74-8"><a href="chapitre2.html#cb74-8"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb74-9"><a href="chapitre2.html#cb74-9"></a>  <span class="dt">var =</span> <span class="st">&quot;POP&quot;</span>, </span>
+<span id="cb74-10"><a href="chapitre2.html#cb74-10"></a>  <span class="dt">symbols =</span> <span class="st">&quot;circle&quot;</span>,</span>
+<span id="cb74-11"><a href="chapitre2.html#cb74-11"></a>  <span class="dt">var2 =</span> <span class="st">&quot;STATUS&quot;</span>,</span>
+<span id="cb74-12"><a href="chapitre2.html#cb74-12"></a>  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>),</span>
+<span id="cb74-13"><a href="chapitre2.html#cb74-13"></a>  <span class="dt">legend.var.pos =</span> <span class="st">&quot;bottomleft&quot;</span>,</span>
+<span id="cb74-14"><a href="chapitre2.html#cb74-14"></a>  <span class="dt">legend.var.title.txt =</span> <span class="st">&quot;Population</span><span class="ch">\n</span><span class="st">(2015)&quot;</span>,</span>
+<span id="cb74-15"><a href="chapitre2.html#cb74-15"></a>  <span class="dt">legend.var2.title.txt =</span> <span class="st">&quot;Statut administratif&quot;</span>,</span>
+<span id="cb74-16"><a href="chapitre2.html#cb74-16"></a>  <span class="dt">legend.var2.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</span>
+<span id="cb74-17"><a href="chapitre2.html#cb74-17"></a>                          <span class="st">&quot;Sub-prefecture&quot;</span>, </span>
+<span id="cb74-18"><a href="chapitre2.html#cb74-18"></a>                          <span class="st">&quot;Simple municipality&quot;</span>)</span>
+<span id="cb74-19"><a href="chapitre2.html#cb74-19"></a>)</span>
+<span id="cb74-20"><a href="chapitre2.html#cb74-20"></a><span class="kw">title</span>(<span class="st">&quot;Population en Martinique&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/typoprop-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -425,249 +430,291 @@ La fonction <code>typoLayer()</code> propose cette représentation. L’argument
 <div id="habillage-complet" class="section level3">
 <h3><span class="header-section-number">2.4.1</span> Habillage complet</h3>
 <p>La fonction <code>layoutLayer()</code> permet d’afficher tous ces éléments.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </a>
-<a class="sourceLine" id="cb75-2" data-line-number="2">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb75-3" data-line-number="3"><span class="kw">layoutLayer</span>(</a>
-<a class="sourceLine" id="cb75-4" data-line-number="4">  <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, </a>
-<a class="sourceLine" id="cb75-5" data-line-number="5">  <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </a>
-<a class="sourceLine" id="cb75-6" data-line-number="6">  <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>,</a>
-<a class="sourceLine" id="cb75-7" data-line-number="7">  <span class="dt">north =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb75-8" data-line-number="8">)</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="chapitre2.html#cb75-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </span>
+<span id="cb75-2"><a href="chapitre2.html#cb75-2"></a>     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</span>
+<span id="cb75-3"><a href="chapitre2.html#cb75-3"></a><span class="kw">layoutLayer</span>(</span>
+<span id="cb75-4"><a href="chapitre2.html#cb75-4"></a>  <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, </span>
+<span id="cb75-5"><a href="chapitre2.html#cb75-5"></a>  <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </span>
+<span id="cb75-6"><a href="chapitre2.html#cb75-6"></a>  <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>,</span>
+<span id="cb75-7"><a href="chapitre2.html#cb75-7"></a>  <span class="dt">north =</span> <span class="ot">TRUE</span></span>
+<span id="cb75-8"><a href="chapitre2.html#cb75-8"></a>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/layout1-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Plusieurs arguments permettent de paramétrer plus finement les éléments d’habillage pour aboutir à des cartes plus personnalisées (<code>tabtitle</code>, <code>col</code>, <code>coltitle</code>, <code>theme</code>…).</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </a>
-<a class="sourceLine" id="cb76-2" data-line-number="2">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb76-3" data-line-number="3"><span class="kw">layoutLayer</span>(</a>
-<a class="sourceLine" id="cb76-4" data-line-number="4">  <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, </a>
-<a class="sourceLine" id="cb76-5" data-line-number="5">  <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </a>
-<a class="sourceLine" id="cb76-6" data-line-number="6">  <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>,</a>
-<a class="sourceLine" id="cb76-7" data-line-number="7">  <span class="dt">north =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb76-8" data-line-number="8">  <span class="dt">scale =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb76-9" data-line-number="9">  <span class="dt">frame =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb76-10" data-line-number="10">  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb76-11" data-line-number="11">  <span class="dt">theme =</span> <span class="st">&quot;turquoise.pal&quot;</span></a>
-<a class="sourceLine" id="cb76-12" data-line-number="12">)</a></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="chapitre2.html#cb76-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </span>
+<span id="cb76-2"><a href="chapitre2.html#cb76-2"></a>     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</span>
+<span id="cb76-3"><a href="chapitre2.html#cb76-3"></a><span class="kw">layoutLayer</span>(</span>
+<span id="cb76-4"><a href="chapitre2.html#cb76-4"></a>  <span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, </span>
+<span id="cb76-5"><a href="chapitre2.html#cb76-5"></a>  <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </span>
+<span id="cb76-6"><a href="chapitre2.html#cb76-6"></a>  <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>,</span>
+<span id="cb76-7"><a href="chapitre2.html#cb76-7"></a>  <span class="dt">north =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb76-8"><a href="chapitre2.html#cb76-8"></a>  <span class="dt">scale =</span> <span class="dv">5</span>,</span>
+<span id="cb76-9"><a href="chapitre2.html#cb76-9"></a>  <span class="dt">frame =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb76-10"><a href="chapitre2.html#cb76-10"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb76-11"><a href="chapitre2.html#cb76-11"></a>  <span class="dt">theme =</span> <span class="st">&quot;turquoise.pal&quot;</span></span>
+<span id="cb76-12"><a href="chapitre2.html#cb76-12"></a>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/layout2-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="flèche-dorientation" class="section level3">
 <h3><span class="header-section-number">2.4.2</span> Flèche d’orientation</h3>
-<p>La fonction <code>north()</code> permet de mieux choisir la position et l’aspect de la flêche d’orientation.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>)</a>
-<a class="sourceLine" id="cb77-3" data-line-number="3"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </a>
-<a class="sourceLine" id="cb77-4" data-line-number="4">            <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb77-5" data-line-number="5">            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">postitle =</span> <span class="st">&quot;right&quot;</span>)</a></code></pre></div>
+<p>La fonction <code>north()</code> permet de mieux choisir la position et l’aspect de la flèche d’orientation.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="chapitre2.html#cb77-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb77-2"><a href="chapitre2.html#cb77-2"></a><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>)</span>
+<span id="cb77-3"><a href="chapitre2.html#cb77-3"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </span>
+<span id="cb77-4"><a href="chapitre2.html#cb77-4"></a>            <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>,</span>
+<span id="cb77-5"><a href="chapitre2.html#cb77-5"></a>            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">postitle =</span> <span class="st">&quot;right&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/north-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Par défaut, la flèche d’orientation pointe vers le haut de la figure. Il est possible, avec l’argument <code>x</code>, d’utiliser une couche de référence pour indiquer le nord géographique.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="chapitre2.html#cb78-1"></a>mtq_proj &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mtq, <span class="dv">2154</span>)</span>
+<span id="cb78-2"><a href="chapitre2.html#cb78-2"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq_proj), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb78-3"><a href="chapitre2.html#cb78-3"></a><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topright&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">x =</span> mtq_proj)</span>
+<span id="cb78-4"><a href="chapitre2.html#cb78-4"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </span>
+<span id="cb78-5"><a href="chapitre2.html#cb78-5"></a>            <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>,</span>
+<span id="cb78-6"><a href="chapitre2.html#cb78-6"></a>            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">postitle =</span> <span class="st">&quot;left&quot;</span>)</span></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/north2-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="échelle" class="section level3">
 <h3><span class="header-section-number">2.4.3</span> Échelle</h3>
 <p>La fonction <code>barscale()</code> permet de mieux choisir la position et l’aspect de l’échelle.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw">barscale</span>(</a>
-<a class="sourceLine" id="cb78-3" data-line-number="3">  <span class="dt">size =</span> <span class="dv">5</span>, </a>
-<a class="sourceLine" id="cb78-4" data-line-number="4">  <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb78-5" data-line-number="5">  <span class="dt">cex =</span> <span class="fl">1.2</span>, </a>
-<a class="sourceLine" id="cb78-6" data-line-number="6">  <span class="dt">pos =</span> <span class="kw">c</span>(<span class="fl">713712.6</span>,<span class="dv">1594777</span>)</a>
-<a class="sourceLine" id="cb78-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb78-8" data-line-number="8"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </a>
-<a class="sourceLine" id="cb78-9" data-line-number="9">            <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>,</a>
-<a class="sourceLine" id="cb78-10" data-line-number="10">            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="chapitre2.html#cb79-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb79-2"><a href="chapitre2.html#cb79-2"></a><span class="kw">barscale</span>(</span>
+<span id="cb79-3"><a href="chapitre2.html#cb79-3"></a>  <span class="dt">size =</span> <span class="dv">5</span>, </span>
+<span id="cb79-4"><a href="chapitre2.html#cb79-4"></a>  <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb79-5"><a href="chapitre2.html#cb79-5"></a>  <span class="dt">cex =</span> <span class="fl">1.2</span>, </span>
+<span id="cb79-6"><a href="chapitre2.html#cb79-6"></a>  <span class="dt">pos =</span> <span class="kw">c</span>(<span class="fl">713712.6</span>,<span class="dv">1594777</span>)</span>
+<span id="cb79-7"><a href="chapitre2.html#cb79-7"></a>)</span>
+<span id="cb79-8"><a href="chapitre2.html#cb79-8"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;IGN&quot;</span>, </span>
+<span id="cb79-9"><a href="chapitre2.html#cb79-9"></a>            <span class="dt">author =</span> <span class="st">&quot;Giraud &amp; Pécout, 2019&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>,</span>
+<span id="cb79-10"><a href="chapitre2.html#cb79-10"></a>            <span class="dt">coltitle =</span> <span class="st">&quot;#D1914D&quot;</span>,<span class="dt">tabtitle =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/scale-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="étiquettes" class="section level3">
 <h3><span class="header-section-number">2.4.4</span> Étiquettes</h3>
 <p>La fonction <code>labelLayer()</code> est dédiée à l’afichage d’étiquettes.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb79-2" data-line-number="2">     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb79-3" data-line-number="3"><span class="kw">labelLayer</span>(</a>
-<a class="sourceLine" id="cb79-4" data-line-number="4">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb79-5" data-line-number="5">  <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, </a>
-<a class="sourceLine" id="cb79-6" data-line-number="6">  <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, </a>
-<a class="sourceLine" id="cb79-7" data-line-number="7">  <span class="dt">cex =</span> <span class="fl">0.7</span>, </a>
-<a class="sourceLine" id="cb79-8" data-line-number="8">  <span class="dt">font =</span> <span class="dv">4</span>,</a>
-<a class="sourceLine" id="cb79-9" data-line-number="9">  <span class="dt">halo =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb79-10" data-line-number="10">  <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, </a>
-<a class="sourceLine" id="cb79-11" data-line-number="11">  <span class="dt">r =</span> <span class="fl">0.1</span>, </a>
-<a class="sourceLine" id="cb79-12" data-line-number="12">  <span class="dt">overlap =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb79-13" data-line-number="13">  <span class="dt">show.lines =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb79-14" data-line-number="14">)</a>
-<a class="sourceLine" id="cb79-15" data-line-number="15"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>, <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">author =</span> <span class="st">&quot;INSEE, 2016&quot;</span>, </a>
-<a class="sourceLine" id="cb79-16" data-line-number="16">            <span class="dt">sources =</span><span class="st">&quot;&quot;</span>, <span class="dt">north =</span><span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="chapitre2.html#cb80-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb80-2"><a href="chapitre2.html#cb80-2"></a>     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb80-3"><a href="chapitre2.html#cb80-3"></a><span class="kw">labelLayer</span>(</span>
+<span id="cb80-4"><a href="chapitre2.html#cb80-4"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb80-5"><a href="chapitre2.html#cb80-5"></a>  <span class="dt">txt =</span> <span class="st">&quot;LIBGEO&quot;</span>, </span>
+<span id="cb80-6"><a href="chapitre2.html#cb80-6"></a>  <span class="dt">col=</span> <span class="st">&quot;black&quot;</span>, </span>
+<span id="cb80-7"><a href="chapitre2.html#cb80-7"></a>  <span class="dt">cex =</span> <span class="fl">0.7</span>, </span>
+<span id="cb80-8"><a href="chapitre2.html#cb80-8"></a>  <span class="dt">font =</span> <span class="dv">4</span>,</span>
+<span id="cb80-9"><a href="chapitre2.html#cb80-9"></a>  <span class="dt">halo =</span> <span class="ot">TRUE</span>, </span>
+<span id="cb80-10"><a href="chapitre2.html#cb80-10"></a>  <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>, </span>
+<span id="cb80-11"><a href="chapitre2.html#cb80-11"></a>  <span class="dt">r =</span> <span class="fl">0.1</span>, </span>
+<span id="cb80-12"><a href="chapitre2.html#cb80-12"></a>  <span class="dt">overlap =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb80-13"><a href="chapitre2.html#cb80-13"></a>  <span class="dt">show.lines =</span> <span class="ot">FALSE</span></span>
+<span id="cb80-14"><a href="chapitre2.html#cb80-14"></a>)</span>
+<span id="cb80-15"><a href="chapitre2.html#cb80-15"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>, <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">author =</span> <span class="st">&quot;INSEE, 2016&quot;</span>, </span>
+<span id="cb80-16"><a href="chapitre2.html#cb80-16"></a>            <span class="dt">sources =</span><span class="st">&quot;&quot;</span>, <span class="dt">north =</span><span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/labs-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>L’argument <code>halo = TRUE</code> permet d’afficher un leger halo autour des étiquettes et l’argument <code>overlap = FALSE</code> permet de créer des étiquettes ne se recouvrant pas.</p>
 </div>
 <div id="ajuster-les-marges-dune-figure" class="section level3">
 <h3><span class="header-section-number">2.4.5</span> Ajuster les marges d’une figure</h3>
 <p>Pour modifier les marges d’une figure (carte ou autre) il faut utiliser la fonction <code>par()</code> qui défini certains paramètres graphiques des figures et son argument <code>mar</code>.
 La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et permet de réinitialiser les valeurs par défaut.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="co"># Modification de la couleur de fond des graphique</span></a>
-<a class="sourceLine" id="cb80-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">bg=</span><span class="st">&quot;grey90&quot;</span>)</a>
-<a class="sourceLine" id="cb80-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges par défaut&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="chapitre2.html#cb81-1"></a><span class="co"># Modification de la couleur de fond des graphique</span></span>
+<span id="cb81-2"><a href="chapitre2.html#cb81-2"></a><span class="kw">par</span>(<span class="dt">bg=</span><span class="st">&quot;grey90&quot;</span>)</span>
+<span id="cb81-3"><a href="chapitre2.html#cb81-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges par défaut&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/defmarg-1.png" width="384" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="co"># Modification des marges</span></a>
-<a class="sourceLine" id="cb81-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb81-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges paramétrées&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="chapitre2.html#cb82-1"></a><span class="co"># Modification des marges</span></span>
+<span id="cb82-2"><a href="chapitre2.html#cb82-2"></a><span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))</span>
+<span id="cb82-3"><a href="chapitre2.html#cb82-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">main=</span><span class="st">&quot;Marges paramétrées&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/defmarg-2.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="centrer-la-carte-sur-une-région" class="section level3">
 <h3><span class="header-section-number">2.4.6</span> Centrer la carte sur une région</h3>
 <p>Plusieurs solutions sont possible :</p>
 <ul>
+<li>La fonction <code>ghostLayer()</code> permet de centrer une carte sur un objet <code>sf</code> particulier.</li>
+</ul>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="chapitre2.html#cb83-1"></a>carbet &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Carbet&quot;</span>,]</span>
+<span id="cb83-2"><a href="chapitre2.html#cb83-2"></a><span class="co"># centrage sur la couche cible &quot;invisible&quot;</span></span>
+<span id="cb83-3"><a href="chapitre2.html#cb83-3"></a><span class="kw">ghostLayer</span>(</span>
+<span id="cb83-4"><a href="chapitre2.html#cb83-4"></a>  <span class="dt">x =</span> carbet,</span>
+<span id="cb83-5"><a href="chapitre2.html#cb83-5"></a>  <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span></span>
+<span id="cb83-6"><a href="chapitre2.html#cb83-6"></a>)</span>
+<span id="cb83-7"><a href="chapitre2.html#cb83-7"></a><span class="co"># affichage des communes</span></span>
+<span id="cb83-8"><a href="chapitre2.html#cb83-8"></a><span class="kw">plot</span>(</span>
+<span id="cb83-9"><a href="chapitre2.html#cb83-9"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb83-10"><a href="chapitre2.html#cb83-10"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, </span>
+<span id="cb83-11"><a href="chapitre2.html#cb83-11"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb83-12"><a href="chapitre2.html#cb83-12"></a>  <span class="dt">add=</span><span class="ot">TRUE</span></span>
+<span id="cb83-13"><a href="chapitre2.html#cb83-13"></a>)</span>
+<span id="cb83-14"><a href="chapitre2.html#cb83-14"></a><span class="co"># affichage de la couche d&#39;intérêt</span></span>
+<span id="cb83-15"><a href="chapitre2.html#cb83-15"></a><span class="kw">plot</span>(</span>
+<span id="cb83-16"><a href="chapitre2.html#cb83-16"></a>  <span class="kw">st_geometry</span>(carbet), </span>
+<span id="cb83-17"><a href="chapitre2.html#cb83-17"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, </span>
+<span id="cb83-18"><a href="chapitre2.html#cb83-18"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb83-19"><a href="chapitre2.html#cb83-19"></a>  <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb83-20"><a href="chapitre2.html#cb83-20"></a>  <span class="dt">add=</span><span class="ot">TRUE</span></span>
+<span id="cb83-21"><a href="chapitre2.html#cb83-21"></a>)</span>
+<span id="cb83-22"><a href="chapitre2.html#cb83-22"></a><span class="kw">layoutLayer</span>(</span>
+<span id="cb83-23"><a href="chapitre2.html#cb83-23"></a>  <span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, </span>
+<span id="cb83-24"><a href="chapitre2.html#cb83-24"></a>  <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb83-25"><a href="chapitre2.html#cb83-25"></a>  <span class="dt">author =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb83-26"><a href="chapitre2.html#cb83-26"></a>  <span class="dt">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb83-27"><a href="chapitre2.html#cb83-27"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb83-28"><a href="chapitre2.html#cb83-28"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
+<span id="cb83-29"><a href="chapitre2.html#cb83-29"></a>)</span></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-21-1.png" width="384" style="display: block; margin: auto;" /></p>
+<ul>
 <li>Afficher une couche de la zone de zoom sans couleur pour le fond et les bordures puis afficher les couches que l’on souhaite afficher.</li>
 </ul>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1">carbet &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Carbet&quot;</span>,]</a>
-<a class="sourceLine" id="cb82-2" data-line-number="2"><span class="co"># affichage de la couche de zoom &quot;invisible&quot;</span></a>
-<a class="sourceLine" id="cb82-3" data-line-number="3"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb82-4" data-line-number="4">  <span class="kw">st_geometry</span>(carbet), </a>
-<a class="sourceLine" id="cb82-5" data-line-number="5">  <span class="dt">col =</span> <span class="ot">NA</span>, </a>
-<a class="sourceLine" id="cb82-6" data-line-number="6">  <span class="dt">border =</span> <span class="ot">NA</span>,</a>
-<a class="sourceLine" id="cb82-7" data-line-number="7">  <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span></a>
-<a class="sourceLine" id="cb82-8" data-line-number="8">)</a>
-<a class="sourceLine" id="cb82-9" data-line-number="9"><span class="co"># affichage des communes</span></a>
-<a class="sourceLine" id="cb82-10" data-line-number="10"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb82-11" data-line-number="11">  <span class="kw">st_geometry</span>(mtq), </a>
-<a class="sourceLine" id="cb82-12" data-line-number="12">  <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, </a>
-<a class="sourceLine" id="cb82-13" data-line-number="13">  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb82-14" data-line-number="14">  <span class="dt">add=</span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb82-15" data-line-number="15">)</a>
-<a class="sourceLine" id="cb82-16" data-line-number="16"><span class="co"># affichage de la couche d&#39;intérêt</span></a>
-<a class="sourceLine" id="cb82-17" data-line-number="17"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb82-18" data-line-number="18">  <span class="kw">st_geometry</span>(carbet), </a>
-<a class="sourceLine" id="cb82-19" data-line-number="19">  <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, </a>
-<a class="sourceLine" id="cb82-20" data-line-number="20">  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb82-21" data-line-number="21">  <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb82-22" data-line-number="22">  <span class="dt">add=</span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb82-23" data-line-number="23">)</a>
-<a class="sourceLine" id="cb82-24" data-line-number="24"><span class="kw">layoutLayer</span>(</a>
-<a class="sourceLine" id="cb82-25" data-line-number="25">  <span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, </a>
-<a class="sourceLine" id="cb82-26" data-line-number="26">  <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb82-27" data-line-number="27">  <span class="dt">author =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb82-28" data-line-number="28">  <span class="dt">scale =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb82-29" data-line-number="29">  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb82-30" data-line-number="30">  <span class="dt">frame=</span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb82-31" data-line-number="31">)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-21-1.png" width="384" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="chapitre2.html#cb84-1"></a>carbet &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Carbet&quot;</span>,]</span>
+<span id="cb84-2"><a href="chapitre2.html#cb84-2"></a><span class="co"># affichage de la couche de zoom &quot;invisible&quot;</span></span>
+<span id="cb84-3"><a href="chapitre2.html#cb84-3"></a><span class="kw">plot</span>(</span>
+<span id="cb84-4"><a href="chapitre2.html#cb84-4"></a>  <span class="kw">st_geometry</span>(carbet), </span>
+<span id="cb84-5"><a href="chapitre2.html#cb84-5"></a>  <span class="dt">col =</span> <span class="ot">NA</span>, </span>
+<span id="cb84-6"><a href="chapitre2.html#cb84-6"></a>  <span class="dt">border =</span> <span class="ot">NA</span>,</span>
+<span id="cb84-7"><a href="chapitre2.html#cb84-7"></a>  <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span></span>
+<span id="cb84-8"><a href="chapitre2.html#cb84-8"></a>)</span>
+<span id="cb84-9"><a href="chapitre2.html#cb84-9"></a><span class="co"># affichage des communes</span></span>
+<span id="cb84-10"><a href="chapitre2.html#cb84-10"></a><span class="kw">plot</span>(</span>
+<span id="cb84-11"><a href="chapitre2.html#cb84-11"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb84-12"><a href="chapitre2.html#cb84-12"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, </span>
+<span id="cb84-13"><a href="chapitre2.html#cb84-13"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb84-14"><a href="chapitre2.html#cb84-14"></a>  <span class="dt">add=</span><span class="ot">TRUE</span></span>
+<span id="cb84-15"><a href="chapitre2.html#cb84-15"></a>)</span>
+<span id="cb84-16"><a href="chapitre2.html#cb84-16"></a><span class="co"># affichage de la couche d&#39;intérêt</span></span>
+<span id="cb84-17"><a href="chapitre2.html#cb84-17"></a><span class="kw">plot</span>(</span>
+<span id="cb84-18"><a href="chapitre2.html#cb84-18"></a>  <span class="kw">st_geometry</span>(carbet), </span>
+<span id="cb84-19"><a href="chapitre2.html#cb84-19"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, </span>
+<span id="cb84-20"><a href="chapitre2.html#cb84-20"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb84-21"><a href="chapitre2.html#cb84-21"></a>  <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb84-22"><a href="chapitre2.html#cb84-22"></a>  <span class="dt">add=</span><span class="ot">TRUE</span></span>
+<span id="cb84-23"><a href="chapitre2.html#cb84-23"></a>)</span>
+<span id="cb84-24"><a href="chapitre2.html#cb84-24"></a><span class="kw">layoutLayer</span>(</span>
+<span id="cb84-25"><a href="chapitre2.html#cb84-25"></a>  <span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, </span>
+<span id="cb84-26"><a href="chapitre2.html#cb84-26"></a>  <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb84-27"><a href="chapitre2.html#cb84-27"></a>  <span class="dt">author =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb84-28"><a href="chapitre2.html#cb84-28"></a>  <span class="dt">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb84-29"><a href="chapitre2.html#cb84-29"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb84-30"><a href="chapitre2.html#cb84-30"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
+<span id="cb84-31"><a href="chapitre2.html#cb84-31"></a>)</span></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /></p>
 <ul>
 <li>Utiliser les paramètres <code>xlim</code> et <code>ylim</code> de la fonction <code>plot()</code> aves les valeurs fournies par la fonction <code>st_bbox()</code></li>
 </ul>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">diams &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Diamant&quot;</span>,]</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2">diams_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(diams)</a>
-<a class="sourceLine" id="cb83-3" data-line-number="3"><span class="co"># affichage des communes</span></a>
-<a class="sourceLine" id="cb83-4" data-line-number="4"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb83-5" data-line-number="5">  <span class="kw">st_geometry</span>(mtq), </a>
-<a class="sourceLine" id="cb83-6" data-line-number="6">  <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, </a>
-<a class="sourceLine" id="cb83-7" data-line-number="7">  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb83-8" data-line-number="8">  <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], </a>
-<a class="sourceLine" id="cb83-9" data-line-number="9">  <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], </a>
-<a class="sourceLine" id="cb83-10" data-line-number="10">  <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span></a>
-<a class="sourceLine" id="cb83-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb83-12" data-line-number="12"><span class="co"># affichage de la couche d&#39;intérêt</span></a>
-<a class="sourceLine" id="cb83-13" data-line-number="13"><span class="kw">plot</span>(</a>
-<a class="sourceLine" id="cb83-14" data-line-number="14">  <span class="kw">st_geometry</span>(diams), </a>
-<a class="sourceLine" id="cb83-15" data-line-number="15">  <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, </a>
-<a class="sourceLine" id="cb83-16" data-line-number="16">  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb83-17" data-line-number="17">  <span class="dt">lwd =</span> <span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb83-18" data-line-number="18">  <span class="dt">add=</span><span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb83-19" data-line-number="19">)</a>
-<a class="sourceLine" id="cb83-20" data-line-number="20"><span class="kw">layoutLayer</span>(</a>
-<a class="sourceLine" id="cb83-21" data-line-number="21">  <span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, </a>
-<a class="sourceLine" id="cb83-22" data-line-number="22">  <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb83-23" data-line-number="23">  <span class="dt">author =</span> <span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb83-24" data-line-number="24">  <span class="dt">scale =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb83-25" data-line-number="25">  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb83-26" data-line-number="26">  <span class="dt">frame=</span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb83-27" data-line-number="27">)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-22-1.png" width="384" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="chapitre2.html#cb85-1"></a>diams &lt;-<span class="st"> </span>mtq[mtq<span class="op">$</span>LIBGEO<span class="op">==</span><span class="st">&quot;Le Diamant&quot;</span>,]</span>
+<span id="cb85-2"><a href="chapitre2.html#cb85-2"></a>diams_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(diams)</span>
+<span id="cb85-3"><a href="chapitre2.html#cb85-3"></a><span class="co"># affichage des communes</span></span>
+<span id="cb85-4"><a href="chapitre2.html#cb85-4"></a><span class="kw">plot</span>(</span>
+<span id="cb85-5"><a href="chapitre2.html#cb85-5"></a>  <span class="kw">st_geometry</span>(mtq), </span>
+<span id="cb85-6"><a href="chapitre2.html#cb85-6"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, </span>
+<span id="cb85-7"><a href="chapitre2.html#cb85-7"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb85-8"><a href="chapitre2.html#cb85-8"></a>  <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], </span>
+<span id="cb85-9"><a href="chapitre2.html#cb85-9"></a>  <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], </span>
+<span id="cb85-10"><a href="chapitre2.html#cb85-10"></a>  <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span></span>
+<span id="cb85-11"><a href="chapitre2.html#cb85-11"></a>)</span>
+<span id="cb85-12"><a href="chapitre2.html#cb85-12"></a><span class="co"># affichage de la couche d&#39;intérêt</span></span>
+<span id="cb85-13"><a href="chapitre2.html#cb85-13"></a><span class="kw">plot</span>(</span>
+<span id="cb85-14"><a href="chapitre2.html#cb85-14"></a>  <span class="kw">st_geometry</span>(diams), </span>
+<span id="cb85-15"><a href="chapitre2.html#cb85-15"></a>  <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, </span>
+<span id="cb85-16"><a href="chapitre2.html#cb85-16"></a>  <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb85-17"><a href="chapitre2.html#cb85-17"></a>  <span class="dt">lwd =</span> <span class="dv">2</span>, </span>
+<span id="cb85-18"><a href="chapitre2.html#cb85-18"></a>  <span class="dt">add=</span><span class="ot">TRUE</span></span>
+<span id="cb85-19"><a href="chapitre2.html#cb85-19"></a>)</span>
+<span id="cb85-20"><a href="chapitre2.html#cb85-20"></a><span class="kw">layoutLayer</span>(</span>
+<span id="cb85-21"><a href="chapitre2.html#cb85-21"></a>  <span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, </span>
+<span id="cb85-22"><a href="chapitre2.html#cb85-22"></a>  <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb85-23"><a href="chapitre2.html#cb85-23"></a>  <span class="dt">author =</span> <span class="st">&quot;&quot;</span>,</span>
+<span id="cb85-24"><a href="chapitre2.html#cb85-24"></a>  <span class="dt">scale =</span> <span class="dv">1</span>,</span>
+<span id="cb85-25"><a href="chapitre2.html#cb85-25"></a>  <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb85-26"><a href="chapitre2.html#cb85-26"></a>  <span class="dt">frame=</span><span class="ot">FALSE</span></span>
+<span id="cb85-27"><a href="chapitre2.html#cb85-27"></a>)</span></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-23-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="afficher-plusieurs-cartes-sur-la-même-figure" class="section level3">
 <h3><span class="header-section-number">2.4.7</span> Afficher plusieurs cartes sur la même figure</h3>
 <p>Il faut ici utiliser l’argument <code>mfrow</code> de la fonction <code>par()</code>. Le premier chiffre représente le nombre lignes et le deuxième le nombre de colonnes.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="co"># deux lignes et deux colonnes</span></a>
-<a class="sourceLine" id="cb84-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb84-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
-<a class="sourceLine" id="cb84-4" data-line-number="4"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb84-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;green&quot;</span>)</a>
-<a class="sourceLine" id="cb84-6" data-line-number="6"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;yellow&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="chapitre2.html#cb86-1"></a><span class="co"># deux lignes et deux colonnes</span></span>
+<span id="cb86-2"><a href="chapitre2.html#cb86-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb86-3"><a href="chapitre2.html#cb86-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb86-4"><a href="chapitre2.html#cb86-4"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb86-5"><a href="chapitre2.html#cb86-5"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;green&quot;</span>)</span>
+<span id="cb86-6"><a href="chapitre2.html#cb86-6"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;yellow&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow0-1.png" width="384" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co"># une ligne et deux colonnes</span></a>
-<a class="sourceLine" id="cb85-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,.<span class="dv">2</span>,<span class="fl">1.2</span>,.<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co"># 1ere carte</span></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4">carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)</a>
-<a class="sourceLine" id="cb85-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb85-6" data-line-number="6">     <span class="dt">xlim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb85-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(carbet), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb85-8" data-line-number="8">     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb85-9" data-line-number="9"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb85-10" data-line-number="10">            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb85-11" data-line-number="11"><span class="co"># 2eme carte </span></a>
-<a class="sourceLine" id="cb85-12" data-line-number="12"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb85-13" data-line-number="13">     <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb85-14" data-line-number="14"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb85-15" data-line-number="15">     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb85-16" data-line-number="16"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb85-17" data-line-number="17">            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="chapitre2.html#cb87-1"></a><span class="co"># une ligne et deux colonnes</span></span>
+<span id="cb87-2"><a href="chapitre2.html#cb87-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,.<span class="dv">2</span>,<span class="fl">1.2</span>,.<span class="dv">2</span>))</span>
+<span id="cb87-3"><a href="chapitre2.html#cb87-3"></a><span class="co"># 1ere carte</span></span>
+<span id="cb87-4"><a href="chapitre2.html#cb87-4"></a>carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)</span>
+<span id="cb87-5"><a href="chapitre2.html#cb87-5"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb87-6"><a href="chapitre2.html#cb87-6"></a>     <span class="dt">xlim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb87-7"><a href="chapitre2.html#cb87-7"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(carbet), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb87-8"><a href="chapitre2.html#cb87-8"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb87-9"><a href="chapitre2.html#cb87-9"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb87-10"><a href="chapitre2.html#cb87-10"></a>            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</span>
+<span id="cb87-11"><a href="chapitre2.html#cb87-11"></a><span class="co"># 2eme carte </span></span>
+<span id="cb87-12"><a href="chapitre2.html#cb87-12"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb87-13"><a href="chapitre2.html#cb87-13"></a>     <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb87-14"><a href="chapitre2.html#cb87-14"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb87-15"><a href="chapitre2.html#cb87-15"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb87-16"><a href="chapitre2.html#cb87-16"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb87-17"><a href="chapitre2.html#cb87-17"></a>            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow-1.png" width="384" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="co"># une ligne et deux colonnes</span></a>
-<a class="sourceLine" id="cb86-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.2</span>,<span class="dv">0</span>,<span class="fl">1.4</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb86-3" data-line-number="3"><span class="co"># 1ere carte</span></a>
-<a class="sourceLine" id="cb86-4" data-line-number="4">carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)</a>
-<a class="sourceLine" id="cb86-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb86-6" data-line-number="6">     <span class="dt">xlim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb86-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(carbet), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb86-8" data-line-number="8">     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb86-9" data-line-number="9"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb86-10" data-line-number="10">            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb86-11" data-line-number="11"><span class="co"># 2eme carte </span></a>
-<a class="sourceLine" id="cb86-12" data-line-number="12"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb86-13" data-line-number="13">     <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb86-14" data-line-number="14"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb86-15" data-line-number="15">     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb86-16" data-line-number="16"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb86-17" data-line-number="17">            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="chapitre2.html#cb88-1"></a><span class="co"># une ligne et deux colonnes</span></span>
+<span id="cb88-2"><a href="chapitre2.html#cb88-2"></a><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="fl">0.2</span>,<span class="dv">0</span>,<span class="fl">1.4</span>,<span class="dv">0</span>))</span>
+<span id="cb88-3"><a href="chapitre2.html#cb88-3"></a><span class="co"># 1ere carte</span></span>
+<span id="cb88-4"><a href="chapitre2.html#cb88-4"></a>carbet_bb &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(carbet)</span>
+<span id="cb88-5"><a href="chapitre2.html#cb88-5"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb88-6"><a href="chapitre2.html#cb88-6"></a>     <span class="dt">xlim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> carbet_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb88-7"><a href="chapitre2.html#cb88-7"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(carbet), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb88-8"><a href="chapitre2.html#cb88-8"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb88-9"><a href="chapitre2.html#cb88-9"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Carbet&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb88-10"><a href="chapitre2.html#cb88-10"></a>            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</span>
+<span id="cb88-11"><a href="chapitre2.html#cb88-11"></a><span class="co"># 2eme carte </span></span>
+<span id="cb88-12"><a href="chapitre2.html#cb88-12"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen1&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb88-13"><a href="chapitre2.html#cb88-13"></a>     <span class="dt">xlim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)], <span class="dt">ylim =</span> diams_bb[<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)], <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb88-14"><a href="chapitre2.html#cb88-14"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(diams), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb88-15"><a href="chapitre2.html#cb88-15"></a>     <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb88-16"><a href="chapitre2.html#cb88-16"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Le Diamant&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="dv">1</span>, </span>
+<span id="cb88-17"><a href="chapitre2.html#cb88-17"></a>            <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame=</span><span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/mfrow2-1.png" width="288" style="display: block; margin: auto;" /></p>
 </div>
 <div id="obtenir-un-ratio-de-figure-adapté" class="section level3">
 <h3><span class="header-section-number">2.4.8</span> Obtenir un ratio de figure adapté</h3>
 <p>Il est assez difficile d’exporter des figures (cartes ou autres) dont le ratio hauteur/largeur soit satisfaisant. Le ratio par défaut des figure au format png est de 1 (480x480 pixels) :</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique1.png&quot;</span>, <span class="dt">res =</span> <span class="dv">96</span>)</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)</a>
-<a class="sourceLine" id="cb87-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb87-4" data-line-number="4"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb87-5" data-line-number="5"><span class="kw">dev.off</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="chapitre2.html#cb89-1"></a><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique1.png&quot;</span>, <span class="dt">res =</span> <span class="dv">96</span>)</span>
+<span id="cb89-2"><a href="chapitre2.html#cb89-2"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)</span>
+<span id="cb89-3"><a href="chapitre2.html#cb89-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb89-4"><a href="chapitre2.html#cb89-4"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</span>
+<span id="cb89-5"><a href="chapitre2.html#cb89-5"></a><span class="kw">dev.off</span>()</span></code></pre></div>
 <p><img src="img/martinique1.png" /></p>
 <p>Sur cette carte beaucoup d’espace est perdu à l’est et à l’ouest de l’ile.</p>
 <p>La fonction <code>getFigDim()</code> de <code>cartography</code> permet de choisir un ratio hauteur/largeur correspondant à l’emprise d’un objet <code>sf</code> en prenant en compte une largeur (ou hauteur) fixée, les paramètres de marges et la résolution souhaitée.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw">getFigDim</span>(<span class="dt">x =</span> mtq, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">res =</span> <span class="dv">96</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="chapitre2.html#cb90-1"></a><span class="kw">getFigDim</span>(<span class="dt">x =</span> mtq, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">res =</span> <span class="dv">96</span>)</span></code></pre></div>
 <pre><code>[1] 480 585</code></pre>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">height =</span> <span class="dv">583</span>, <span class="dt">res =</span> <span class="dv">96</span>)</a>
-<a class="sourceLine" id="cb90-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)</a>
-<a class="sourceLine" id="cb90-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb90-4" data-line-number="4"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb90-5" data-line-number="5"><span class="kw">dev.off</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="chapitre2.html#cb92-1"></a><span class="kw">png</span>(<span class="dt">filename =</span> <span class="st">&quot;img/martinique2.png&quot;</span>, <span class="dt">width =</span> <span class="dv">480</span>, <span class="dt">height =</span> <span class="dv">583</span>, <span class="dt">res =</span> <span class="dv">96</span>)</span>
+<span id="cb92-2"><a href="chapitre2.html#cb92-2"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>), <span class="dt">bg =</span> <span class="st">&quot;grey90&quot;</span>)</span>
+<span id="cb92-3"><a href="chapitre2.html#cb92-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb92-4"><a href="chapitre2.html#cb92-4"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</span>
+<span id="cb92-5"><a href="chapitre2.html#cb92-5"></a><span class="kw">dev.off</span>()</span></code></pre></div>
 <p><img src="img/martinique2.png" /></p>
 <p>L’emprise de cette carte est exactement celle de l’île.</p>
 </div>
 <div id="ajouter-une-image-sur-une-carte" class="section level3">
 <h3><span class="header-section-number">2.4.9</span> Ajouter une image sur une carte</h3>
-<p>Cela peut être utile pour ajouter un logo un pictogramme. La fonction <code>readPNG()</code> du package <code>png</code> permet l’ajout d’images sur une figure.</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">library</span>(png)</a>
-<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="co"># import de l&#39;image</span></a>
-<a class="sourceLine" id="cb91-3" data-line-number="3">logo &lt;-<span class="st"> </span><span class="kw">readPNG</span>(<span class="st">&quot;img/mapmonster.png&quot;</span>)</a>
-<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="co"># dimension de l&#39;image en unité de la carte</span></a>
-<a class="sourceLine" id="cb91-5" data-line-number="5">pp &lt;-<span class="st"> </span><span class="kw">dim</span>(logo)[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="dv">16</span> </a>
-<a class="sourceLine" id="cb91-6" data-line-number="6"><span class="co"># Définition d&#39;un point d&#39;encrage de l&#39;image dans la figure, ici</span></a>
-<a class="sourceLine" id="cb91-7" data-line-number="7"><span class="co"># le coin inférieur gauche de la bounding box de la martique.</span></a>
-<a class="sourceLine" id="cb91-8" data-line-number="8">xy &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(mtq)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb91-9" data-line-number="9"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb91-10" data-line-number="10"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</a>
-<a class="sourceLine" id="cb91-11" data-line-number="11"><span class="kw">rasterImage</span>(</a>
-<a class="sourceLine" id="cb91-12" data-line-number="12">  <span class="dt">image   =</span> logo, </a>
-<a class="sourceLine" id="cb91-13" data-line-number="13">  <span class="dt">xleft   =</span> xy[<span class="dv">1</span>], </a>
-<a class="sourceLine" id="cb91-14" data-line-number="14">  <span class="dt">ybottom =</span> xy[<span class="dv">2</span>], </a>
-<a class="sourceLine" id="cb91-15" data-line-number="15">  <span class="dt">xright  =</span> xy[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>pp[<span class="dv">1</span>], </a>
-<a class="sourceLine" id="cb91-16" data-line-number="16">  <span class="dt">ytop    =</span> xy[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>pp[<span class="dv">2</span>]</a>
-<a class="sourceLine" id="cb91-17" data-line-number="17">) </a>
-<a class="sourceLine" id="cb91-18" data-line-number="18"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, </a>
-<a class="sourceLine" id="cb91-19" data-line-number="19">            <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</a></code></pre></div>
+<p>Cela peut être utile pour ajouter un logo, un pictogramme. La fonction <code>readPNG()</code> du package <code>png</code> permet l’ajout d’images sur une figure.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="chapitre2.html#cb93-1"></a><span class="kw">library</span>(png)</span>
+<span id="cb93-2"><a href="chapitre2.html#cb93-2"></a><span class="co"># import de l&#39;image</span></span>
+<span id="cb93-3"><a href="chapitre2.html#cb93-3"></a>logo &lt;-<span class="st"> </span><span class="kw">readPNG</span>(<span class="st">&quot;img/mapmonster.png&quot;</span>)</span>
+<span id="cb93-4"><a href="chapitre2.html#cb93-4"></a><span class="co"># dimension de l&#39;image en unité de la carte</span></span>
+<span id="cb93-5"><a href="chapitre2.html#cb93-5"></a>pp &lt;-<span class="st"> </span><span class="kw">dim</span>(logo)[<span class="dv">2</span><span class="op">:</span><span class="dv">1</span>] <span class="op">*</span><span class="st"> </span><span class="dv">16</span> </span>
+<span id="cb93-6"><a href="chapitre2.html#cb93-6"></a><span class="co"># Définition d&#39;un point d&#39;encrage de l&#39;image dans la figure, ici</span></span>
+<span id="cb93-7"><a href="chapitre2.html#cb93-7"></a><span class="co"># le coin inférieur gauche de la bounding box de la martique.</span></span>
+<span id="cb93-8"><a href="chapitre2.html#cb93-8"></a>xy &lt;-<span class="st"> </span><span class="kw">st_bbox</span>(mtq)[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span>
+<span id="cb93-9"><a href="chapitre2.html#cb93-9"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="fl">1.2</span>,<span class="dv">0</span>))</span>
+<span id="cb93-10"><a href="chapitre2.html#cb93-10"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;#D1914D&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;white&quot;</span>)</span>
+<span id="cb93-11"><a href="chapitre2.html#cb93-11"></a><span class="kw">rasterImage</span>(</span>
+<span id="cb93-12"><a href="chapitre2.html#cb93-12"></a>  <span class="dt">image   =</span> logo, </span>
+<span id="cb93-13"><a href="chapitre2.html#cb93-13"></a>  <span class="dt">xleft   =</span> xy[<span class="dv">1</span>], </span>
+<span id="cb93-14"><a href="chapitre2.html#cb93-14"></a>  <span class="dt">ybottom =</span> xy[<span class="dv">2</span>], </span>
+<span id="cb93-15"><a href="chapitre2.html#cb93-15"></a>  <span class="dt">xright  =</span> xy[<span class="dv">1</span>] <span class="op">+</span><span class="st"> </span>pp[<span class="dv">1</span>], </span>
+<span id="cb93-16"><a href="chapitre2.html#cb93-16"></a>  <span class="dt">ytop    =</span> xy[<span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>pp[<span class="dv">2</span>]</span>
+<span id="cb93-17"><a href="chapitre2.html#cb93-17"></a>) </span>
+<span id="cb93-18"><a href="chapitre2.html#cb93-18"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Martinique&quot;</span>, <span class="dt">tabtitle =</span> <span class="ot">TRUE</span>, <span class="dt">frame =</span> <span class="ot">FALSE</span>, </span>
+<span id="cb93-19"><a href="chapitre2.html#cb93-19"></a>            <span class="dt">sources =</span> <span class="st">&quot;&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;&quot;</span>, <span class="dt">scale =</span> <span class="ot">NULL</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/logo-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="placer-précisément-un-élément-sur-la-carte" class="section level3">
@@ -676,117 +723,119 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 <video width="800" controls="controls">
 <source src="img/locator.webm" type="video/webm" />
 </video>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </a>
-<a class="sourceLine" id="cb92-2" data-line-number="2">     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</a>
-<a class="sourceLine" id="cb92-3" data-line-number="3"><span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">694019</span>, <span class="dt">y =</span> <span class="dv">1615161</span>, </a>
-<a class="sourceLine" id="cb92-4" data-line-number="4">     <span class="dt">labels =</span> <span class="st">&quot;MER</span><span class="ch">\n</span><span class="st">DES</span><span class="ch">\n</span><span class="st">CARAÏBES&quot;</span>, </a>
-<a class="sourceLine" id="cb92-5" data-line-number="5">     <span class="dt">col =</span> <span class="st">&quot;#e3f1f9&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">srt=</span><span class="dv">20</span>)</a></code></pre></div>
-<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-26-1.png" width="384" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="chapitre2.html#cb94-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;darkseagreen4&quot;</span>, </span>
+<span id="cb94-2"><a href="chapitre2.html#cb94-2"></a>     <span class="dt">bg =</span> <span class="st">&quot;#A6CAE0&quot;</span>)</span>
+<span id="cb94-3"><a href="chapitre2.html#cb94-3"></a><span class="kw">text</span>(<span class="dt">x =</span> <span class="dv">694019</span>, <span class="dt">y =</span> <span class="dv">1615161</span>, </span>
+<span id="cb94-4"><a href="chapitre2.html#cb94-4"></a>     <span class="dt">labels =</span> <span class="st">&quot;MER</span><span class="ch">\n</span><span class="st">DES</span><span class="ch">\n</span><span class="st">CARAÏBES&quot;</span>, </span>
+<span id="cb94-5"><a href="chapitre2.html#cb94-5"></a>     <span class="dt">col =</span> <span class="st">&quot;#e3f1f9&quot;</span>, <span class="dt">font =</span> <span class="dv">3</span>, <span class="dt">srt=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="Cartographie_avec_R_files/figure-html/unnamed-chunk-27-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p><code>locator()</code>peut être utilisée sur la plupart des graphiques (pas ceux produits avec <code>ggplot2</code>).</p>
+<p>Voir aussi : <a href="https://rgeomatic.hypotheses.org/1837">How to interactively position legends and layout elements on a map with cartography</a></p>
 </div>
 <div id="utiliser-un-fond-de-carte-osm" class="section level3">
 <h3><span class="header-section-number">2.4.11</span> Utiliser un fond de carte OSM</h3>
 <p>La fonction <code>getTiles()</code> permet de télécharger des fonds de cartes OSM et la fonction <code>tilesLayer()</code> permet de les afficher.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">osm_tiles &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">zoom =</span> <span class="dv">10</span>, <span class="dt">crop =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="kw">tilesLayer</span>(osm_tiles)</a>
-<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="kw">mtext</span>(</a>
-<a class="sourceLine" id="cb93-5" data-line-number="5">  <span class="dt">side =</span> <span class="dv">1</span>, </a>
-<a class="sourceLine" id="cb93-6" data-line-number="6">  <span class="dt">line =</span> <span class="dv">-1</span>, </a>
-<a class="sourceLine" id="cb93-7" data-line-number="7">  <span class="dt">cex =</span> <span class="fl">.7</span>,</a>
-<a class="sourceLine" id="cb93-8" data-line-number="8">  <span class="dt">text =</span> <span class="st">&quot;© OpenStreetMap contributors.</span><span class="ch">\n</span><span class="st"> Tiles style under CC BY-SA, www.openstreetmap.org/copyright.&quot;</span>,</a>
-<a class="sourceLine" id="cb93-9" data-line-number="9">  <span class="dt">col=</span><span class="st">&quot;red&quot;</span></a>
-<a class="sourceLine" id="cb93-10" data-line-number="10">)</a></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="chapitre2.html#cb95-1"></a>osm_tiles &lt;-<span class="st"> </span><span class="kw">getTiles</span>(<span class="dt">x =</span> mtq, <span class="dt">zoom =</span> <span class="dv">10</span>, <span class="dt">crop =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb95-2"><a href="chapitre2.html#cb95-2"></a><span class="kw">par</span>(<span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb95-3"><a href="chapitre2.html#cb95-3"></a><span class="kw">tilesLayer</span>(osm_tiles)</span>
+<span id="cb95-4"><a href="chapitre2.html#cb95-4"></a><span class="kw">mtext</span>(</span>
+<span id="cb95-5"><a href="chapitre2.html#cb95-5"></a>  <span class="dt">side =</span> <span class="dv">1</span>, </span>
+<span id="cb95-6"><a href="chapitre2.html#cb95-6"></a>  <span class="dt">line =</span> <span class="dv">-1</span>, </span>
+<span id="cb95-7"><a href="chapitre2.html#cb95-7"></a>  <span class="dt">cex =</span> <span class="fl">.7</span>,</span>
+<span id="cb95-8"><a href="chapitre2.html#cb95-8"></a>  <span class="dt">text =</span> <span class="st">&quot;© OpenStreetMap contributors.</span><span class="ch">\n</span><span class="st"> Tiles style under CC BY-SA, www.openstreetmap.org/copyright.&quot;</span>,</span>
+<span id="cb95-9"><a href="chapitre2.html#cb95-9"></a>  <span class="dt">col=</span><span class="st">&quot;red&quot;</span></span>
+<span id="cb95-10"><a href="chapitre2.html#cb95-10"></a>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/osmdisplay-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="créer-un-effet-crayonné" class="section level3">
 <h3><span class="header-section-number">2.4.12</span> Créer un effet crayonné</h3>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb94-2" data-line-number="2">mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(<span class="dt">x =</span> mtq)</a>
-<a class="sourceLine" id="cb94-3" data-line-number="3"><span class="kw">typoLayer</span>(</a>
-<a class="sourceLine" id="cb94-4" data-line-number="4">  <span class="dt">x =</span> mtq_pencil, </a>
-<a class="sourceLine" id="cb94-5" data-line-number="5">  <span class="dt">var=</span><span class="st">&quot;STATUS&quot;</span>,  </a>
-<a class="sourceLine" id="cb94-6" data-line-number="6">  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>), </a>
-<a class="sourceLine" id="cb94-7" data-line-number="7">  <span class="dt">lwd =</span> <span class="fl">.7</span>,</a>
-<a class="sourceLine" id="cb94-8" data-line-number="8">  <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</a>
-<a class="sourceLine" id="cb94-9" data-line-number="9">                          <span class="st">&quot;Sub-prefecture&quot;</span>, </a>
-<a class="sourceLine" id="cb94-10" data-line-number="10">                          <span class="st">&quot;Simple municipality&quot;</span>),</a>
-<a class="sourceLine" id="cb94-11" data-line-number="11">  <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,</a>
-<a class="sourceLine" id="cb94-12" data-line-number="12">  <span class="dt">legend.title.txt =</span> <span class="st">&quot;&quot;</span></a>
-<a class="sourceLine" id="cb94-13" data-line-number="13">)</a>
-<a class="sourceLine" id="cb94-14" data-line-number="14"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">ldy=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb94-15" data-line-number="15"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Statut Administratif&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb94-16" data-line-number="16">            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, </a>
-<a class="sourceLine" id="cb94-17" data-line-number="17">            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb94-18" data-line-number="18"><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="chapitre2.html#cb96-1"></a><span class="kw">library</span>(sf)</span>
+<span id="cb96-2"><a href="chapitre2.html#cb96-2"></a>mtq_pencil &lt;-<span class="st"> </span><span class="kw">getPencilLayer</span>(<span class="dt">x =</span> mtq)</span>
+<span id="cb96-3"><a href="chapitre2.html#cb96-3"></a><span class="kw">typoLayer</span>(</span>
+<span id="cb96-4"><a href="chapitre2.html#cb96-4"></a>  <span class="dt">x =</span> mtq_pencil, </span>
+<span id="cb96-5"><a href="chapitre2.html#cb96-5"></a>  <span class="dt">var=</span><span class="st">&quot;STATUS&quot;</span>,  </span>
+<span id="cb96-6"><a href="chapitre2.html#cb96-6"></a>  <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;aquamarine4&quot;</span>, <span class="st">&quot;yellow3&quot;</span>,<span class="st">&quot;wheat&quot;</span>), </span>
+<span id="cb96-7"><a href="chapitre2.html#cb96-7"></a>  <span class="dt">lwd =</span> <span class="fl">.7</span>,</span>
+<span id="cb96-8"><a href="chapitre2.html#cb96-8"></a>  <span class="dt">legend.values.order =</span> <span class="kw">c</span>(<span class="st">&quot;Prefecture&quot;</span>,</span>
+<span id="cb96-9"><a href="chapitre2.html#cb96-9"></a>                          <span class="st">&quot;Sub-prefecture&quot;</span>, </span>
+<span id="cb96-10"><a href="chapitre2.html#cb96-10"></a>                          <span class="st">&quot;Simple municipality&quot;</span>),</span>
+<span id="cb96-11"><a href="chapitre2.html#cb96-11"></a>  <span class="dt">legend.pos =</span> <span class="st">&quot;topright&quot;</span>,</span>
+<span id="cb96-12"><a href="chapitre2.html#cb96-12"></a>  <span class="dt">legend.title.txt =</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb96-13"><a href="chapitre2.html#cb96-13"></a>)</span>
+<span id="cb96-14"><a href="chapitre2.html#cb96-14"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">ldy=</span><span class="dv">2</span>)</span>
+<span id="cb96-15"><a href="chapitre2.html#cb96-15"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Statut Administratif&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</span>
+<span id="cb96-16"><a href="chapitre2.html#cb96-16"></a>            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, </span>
+<span id="cb96-17"><a href="chapitre2.html#cb96-17"></a>            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span>
+<span id="cb96-18"><a href="chapitre2.html#cb96-18"></a><span class="kw">north</span>(<span class="dt">pos =</span> <span class="st">&quot;topleft&quot;</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/pencil-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Voir aussi : <a href="https://rgeomatic.hypotheses.org/1333">Colored Pencil Maps with R</a></p>
 </div>
 <div id="ajouter-un-ombrage-à-une-couche" class="section level3">
 <h3><span class="header-section-number">2.4.13</span> Ajouter un ombrage à une couche</h3>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">-500</span>), </a>
-<a class="sourceLine" id="cb95-2" data-line-number="2">     <span class="dt">col =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb95-3" data-line-number="3"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb95-5" data-line-number="5">            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </a>
-<a class="sourceLine" id="cb95-6" data-line-number="6">            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="chapitre2.html#cb97-1"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq) <span class="op">+</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">500</span>, <span class="dv">-500</span>), </span>
+<span id="cb97-2"><a href="chapitre2.html#cb97-2"></a>     <span class="dt">col =</span> <span class="st">&quot;grey50&quot;</span>, <span class="dt">border =</span> <span class="ot">NA</span>, <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</span>
+<span id="cb97-3"><a href="chapitre2.html#cb97-3"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col=</span><span class="st">&quot;darkseagreen3&quot;</span>, <span class="dt">border=</span><span class="st">&quot;darkseagreen4&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb97-4"><a href="chapitre2.html#cb97-4"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Communes&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</span>
+<span id="cb97-5"><a href="chapitre2.html#cb97-5"></a>            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </span>
+<span id="cb97-6"><a href="chapitre2.html#cb97-6"></a>            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/shadow-1.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 <div id="création-de-cartons" class="section level3">
 <h3><span class="header-section-number">2.4.14</span> Création de cartons</h3>
-<p>Le package <code>mapinsetr</code><span class="citation">(Giraud and Lambert <a href="#ref-R-mapinsetr">2018</a><a href="#ref-R-mapinsetr">b</a>)</span> est dédié à la crétion de cartons cartographiques. Il n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le package <code>remotes</code>.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;riatelab/mapinsetr&quot;</span>)</a></code></pre></div>
+<p>Le package <code>mapinsetr</code><span class="citation">(Giraud and Lambert <a href="#ref-R-mapinsetr" role="doc-biblioref">2018</a><a href="#ref-R-mapinsetr" role="doc-biblioref">b</a>)</span> est dédié à la crétion de cartons cartographiques. Il n’est pas sur le CRAN pour l’instant, mais on peut l’installer via le package <code>remotes</code>.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="chapitre2.html#cb98-1"></a>remotes<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;riatelab/mapinsetr&quot;</span>)</span></code></pre></div>
 <p><code>mapinsetr</code> permet de découper, redimensionner et déplacer une zone d’un fond de carte.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw">library</span>(mapinsetr)</a>
-<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="kw">library</span>(cartography)</a>
-<a class="sourceLine" id="cb97-3" data-line-number="3"><span class="kw">library</span>(sf)</a>
-<a class="sourceLine" id="cb97-4" data-line-number="4">mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>), </a>
-<a class="sourceLine" id="cb97-5" data-line-number="5">               <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb97-6" data-line-number="6">resto &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/resto.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb97-7" data-line-number="7"><span class="co"># Création d&#39;un masque</span></a>
-<a class="sourceLine" id="cb97-8" data-line-number="8">box_FDF &lt;-<span class="st"> </span><span class="kw">create_mask</span>(<span class="dt">bb =</span> <span class="kw">c</span>(<span class="dv">706880</span>, <span class="dv">1615030</span>, <span class="dv">708650</span>, <span class="dv">1616870</span>), </a>
-<a class="sourceLine" id="cb97-9" data-line-number="9">                       <span class="dt">prj =</span> <span class="kw">st_crs</span>(mtq))</a>
-<a class="sourceLine" id="cb97-10" data-line-number="10"><span class="co"># Découpage, déplacement et redimentionnement des couches sous le masque</span></a>
-<a class="sourceLine" id="cb97-11" data-line-number="11">zbox_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</a>
-<a class="sourceLine" id="cb97-12" data-line-number="12">  <span class="dt">x =</span> box_FDF, </a>
-<a class="sourceLine" id="cb97-13" data-line-number="13">  <span class="dt">mask =</span> box_FDF, </a>
-<a class="sourceLine" id="cb97-14" data-line-number="14">  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </a>
-<a class="sourceLine" id="cb97-15" data-line-number="15">  <span class="dt">k =</span> <span class="dv">7</span></a>
-<a class="sourceLine" id="cb97-16" data-line-number="16">)</a>
-<a class="sourceLine" id="cb97-17" data-line-number="17">zmtq_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</a>
-<a class="sourceLine" id="cb97-18" data-line-number="18">  <span class="dt">x =</span> mtq, </a>
-<a class="sourceLine" id="cb97-19" data-line-number="19">  <span class="dt">mask =</span> box_FDF, </a>
-<a class="sourceLine" id="cb97-20" data-line-number="20">  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </a>
-<a class="sourceLine" id="cb97-21" data-line-number="21">  <span class="dt">k =</span> <span class="dv">7</span></a>
-<a class="sourceLine" id="cb97-22" data-line-number="22">)</a>
-<a class="sourceLine" id="cb97-23" data-line-number="23">zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</a>
-<a class="sourceLine" id="cb97-24" data-line-number="24">  <span class="dt">x =</span> resto, </a>
-<a class="sourceLine" id="cb97-25" data-line-number="25">  <span class="dt">mask =</span> box_FDF, </a>
-<a class="sourceLine" id="cb97-26" data-line-number="26">  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </a>
-<a class="sourceLine" id="cb97-27" data-line-number="27">  <span class="dt">k =</span> <span class="dv">7</span></a>
-<a class="sourceLine" id="cb97-28" data-line-number="28">)</a>
-<a class="sourceLine" id="cb97-29" data-line-number="29"><span class="co"># Affichage de la carte et des couhes crées</span></a>
-<a class="sourceLine" id="cb97-30" data-line-number="30"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </a>
-<a class="sourceLine" id="cb97-31" data-line-number="31">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb97-32" data-line-number="32"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb97-33" data-line-number="33"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(box_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb97-34" data-line-number="34"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zmtq_FDF), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb97-35" data-line-number="35"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zresto_FDF), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb97-36" data-line-number="36"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zbox_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb97-37" data-line-number="37"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte initiale + couches créées&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb97-38" data-line-number="38">            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </a>
-<a class="sourceLine" id="cb97-39" data-line-number="39">            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="chapitre2.html#cb99-1"></a><span class="kw">library</span>(mapinsetr)</span>
+<span id="cb99-2"><a href="chapitre2.html#cb99-2"></a><span class="kw">library</span>(cartography)</span>
+<span id="cb99-3"><a href="chapitre2.html#cb99-3"></a><span class="kw">library</span>(sf)</span>
+<span id="cb99-4"><a href="chapitre2.html#cb99-4"></a>mtq &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="dt">package=</span><span class="st">&quot;cartography&quot;</span>), </span>
+<span id="cb99-5"><a href="chapitre2.html#cb99-5"></a>               <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb99-6"><a href="chapitre2.html#cb99-6"></a>resto &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&quot;data/resto.gpkg&quot;</span>, <span class="dt">quiet =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb99-7"><a href="chapitre2.html#cb99-7"></a><span class="co"># Création d&#39;un masque</span></span>
+<span id="cb99-8"><a href="chapitre2.html#cb99-8"></a>box_FDF &lt;-<span class="st"> </span><span class="kw">create_mask</span>(<span class="dt">bb =</span> <span class="kw">c</span>(<span class="dv">706880</span>, <span class="dv">1615030</span>, <span class="dv">708650</span>, <span class="dv">1616870</span>), </span>
+<span id="cb99-9"><a href="chapitre2.html#cb99-9"></a>                       <span class="dt">prj =</span> <span class="kw">st_crs</span>(mtq))</span>
+<span id="cb99-10"><a href="chapitre2.html#cb99-10"></a><span class="co"># Découpage, déplacement et redimentionnement des couches sous le masque</span></span>
+<span id="cb99-11"><a href="chapitre2.html#cb99-11"></a>zbox_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</span>
+<span id="cb99-12"><a href="chapitre2.html#cb99-12"></a>  <span class="dt">x =</span> box_FDF, </span>
+<span id="cb99-13"><a href="chapitre2.html#cb99-13"></a>  <span class="dt">mask =</span> box_FDF, </span>
+<span id="cb99-14"><a href="chapitre2.html#cb99-14"></a>  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </span>
+<span id="cb99-15"><a href="chapitre2.html#cb99-15"></a>  <span class="dt">k =</span> <span class="dv">7</span></span>
+<span id="cb99-16"><a href="chapitre2.html#cb99-16"></a>)</span>
+<span id="cb99-17"><a href="chapitre2.html#cb99-17"></a>zmtq_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</span>
+<span id="cb99-18"><a href="chapitre2.html#cb99-18"></a>  <span class="dt">x =</span> mtq, </span>
+<span id="cb99-19"><a href="chapitre2.html#cb99-19"></a>  <span class="dt">mask =</span> box_FDF, </span>
+<span id="cb99-20"><a href="chapitre2.html#cb99-20"></a>  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </span>
+<span id="cb99-21"><a href="chapitre2.html#cb99-21"></a>  <span class="dt">k =</span> <span class="dv">7</span></span>
+<span id="cb99-22"><a href="chapitre2.html#cb99-22"></a>)</span>
+<span id="cb99-23"><a href="chapitre2.html#cb99-23"></a>zresto_FDF &lt;-<span class="st"> </span><span class="kw">move_and_resize</span>(</span>
+<span id="cb99-24"><a href="chapitre2.html#cb99-24"></a>  <span class="dt">x =</span> resto, </span>
+<span id="cb99-25"><a href="chapitre2.html#cb99-25"></a>  <span class="dt">mask =</span> box_FDF, </span>
+<span id="cb99-26"><a href="chapitre2.html#cb99-26"></a>  <span class="dt">xy =</span> <span class="kw">c</span>(<span class="dv">689000</span>, <span class="dv">1603000</span>), </span>
+<span id="cb99-27"><a href="chapitre2.html#cb99-27"></a>  <span class="dt">k =</span> <span class="dv">7</span></span>
+<span id="cb99-28"><a href="chapitre2.html#cb99-28"></a>)</span>
+<span id="cb99-29"><a href="chapitre2.html#cb99-29"></a><span class="co"># Affichage de la carte et des couhes crées</span></span>
+<span id="cb99-30"><a href="chapitre2.html#cb99-30"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </span>
+<span id="cb99-31"><a href="chapitre2.html#cb99-31"></a>     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</span>
+<span id="cb99-32"><a href="chapitre2.html#cb99-32"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb99-33"><a href="chapitre2.html#cb99-33"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(box_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb99-34"><a href="chapitre2.html#cb99-34"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zmtq_FDF), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</span>
+<span id="cb99-35"><a href="chapitre2.html#cb99-35"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zresto_FDF), <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb99-36"><a href="chapitre2.html#cb99-36"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(zbox_FDF), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb99-37"><a href="chapitre2.html#cb99-37"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte initiale + couches créées&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</span>
+<span id="cb99-38"><a href="chapitre2.html#cb99-38"></a>            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </span>
+<span id="cb99-39"><a href="chapitre2.html#cb99-39"></a>            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-1.png" width="384" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># Création de couches unqiues comprenant le zoom</span></a>
-<a class="sourceLine" id="cb98-2" data-line-number="2">resto &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(resto, zresto_FDF))</a>
-<a class="sourceLine" id="cb98-3" data-line-number="3">mtq &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(mtq, zmtq_FDF))</a>
-<a class="sourceLine" id="cb98-4" data-line-number="4">box &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(box_FDF, zbox_FDF))</a>
-<a class="sourceLine" id="cb98-5" data-line-number="5"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </a>
-<a class="sourceLine" id="cb98-6" data-line-number="6">     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</a>
-<a class="sourceLine" id="cb98-7" data-line-number="7"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb98-8" data-line-number="8"><span class="kw">plot</span>(<span class="kw">st_geometry</span>(box), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb98-9" data-line-number="9"><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte finale avec carton&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb98-10" data-line-number="10">            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </a>
-<a class="sourceLine" id="cb98-11" data-line-number="11">            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="chapitre2.html#cb100-1"></a><span class="co"># Création de couches unqiues comprenant le zoom</span></span>
+<span id="cb100-2"><a href="chapitre2.html#cb100-2"></a>resto &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(resto, zresto_FDF))</span>
+<span id="cb100-3"><a href="chapitre2.html#cb100-3"></a>mtq &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(mtq, zmtq_FDF))</span>
+<span id="cb100-4"><a href="chapitre2.html#cb100-4"></a>box &lt;-<span class="st"> </span><span class="kw">inset_rbinder</span>(<span class="dt">l =</span> <span class="kw">list</span>(box_FDF, zbox_FDF))</span>
+<span id="cb100-5"><a href="chapitre2.html#cb100-5"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(mtq), <span class="dt">col =</span> <span class="st">&quot;lightblue4&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;lightblue3&quot;</span>, </span>
+<span id="cb100-6"><a href="chapitre2.html#cb100-6"></a>     <span class="dt">bg =</span> <span class="st">&quot;lightblue1&quot;</span>)</span>
+<span id="cb100-7"><a href="chapitre2.html#cb100-7"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(resto), <span class="dt">add=</span>T, <span class="dt">pch=</span><span class="dv">20</span>, <span class="dt">col =</span> <span class="st">&quot;#330A5FFF&quot;</span>, <span class="dt">cex =</span> <span class="fl">0.5</span>)</span>
+<span id="cb100-8"><a href="chapitre2.html#cb100-8"></a><span class="kw">plot</span>(<span class="kw">st_geometry</span>(box), <span class="dt">border =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">add =</span> T, <span class="dt">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb100-9"><a href="chapitre2.html#cb100-9"></a><span class="kw">layoutLayer</span>(<span class="dt">title =</span> <span class="st">&quot;Carte finale avec carton&quot;</span>,<span class="dt">tabtitle=</span><span class="ot">TRUE</span>,</span>
+<span id="cb100-10"><a href="chapitre2.html#cb100-10"></a>            <span class="dt">author=</span> <span class="st">&quot;INSEE, 2016&quot;</span>, <span class="dt">sources=</span><span class="st">&quot;&quot;</span>, <span class="dt">north=</span><span class="ot">TRUE</span>,  </span>
+<span id="cb100-11"><a href="chapitre2.html#cb100-11"></a>            <span class="dt">frame=</span><span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p><img src="Cartographie_avec_R_files/figure-html/inset1-2.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
 </div>
@@ -812,6 +861,12 @@ La fonction <code>dev.off()</code> efface tous les graphiques en mémoire et per
 </div>
 <div id="ref-Beguin10">
 <p>Pumain, Denise, and Michèle Béguin. 2010. <em>La Représentation Des Données Géographiques: Statistique et Cartographie</em>. Armand Colin.</p>
+</div>
+<div id="ref-Tennekes18">
+<p>Tennekes, Martijn. 2018. “tmap: Thematic Maps in R.” <em>Journal of Statistical Software</em> 84 (6): 1–39. <a href="https://doi.org/10.18637/jss.v084.i06">https://doi.org/10.18637/jss.v084.i06</a>.</p>
+</div>
+<div id="ref-Wickham16">
+<p>Wickham, Hadley. 2016. <em>Ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>.</p>
 </div>
 </div>
             </section>

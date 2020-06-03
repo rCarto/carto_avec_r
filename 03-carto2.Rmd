@@ -309,7 +309,7 @@ text(x = bb[3], y = bb[2],labels = mapsources,
 
 ### Relief Tanaka
 
-Cette méthode [@Tanaka50] est utilisée pour améliorer la perception du relief. 
+Nous utilisons le package `tanaka` [@Tanaka20] qui met à disposition une méthode [@Tanaka50] utilisée pour améliorer la perception du relief. 
 
 ```{r tanaka}
 library(raster)
@@ -350,6 +350,9 @@ layoutLayer(title = "Martinique Relief", north = T,
             col = "lightblue", 
             tabtitle = T, coltitle = "black")
 ```
+
+Voir aussi : [The tanaka package](https://rgeomatic.hypotheses.org/1758)
+
 
 ### Rayshader
 
@@ -512,6 +515,9 @@ layoutLayer("Population en Martinique - Cartogramme de Dougenik",tabtitle=TRUE,
 Les cartogrammes sont des représentations cartographiques perçues comme **innovante** (bien que la methode date de 40 ans). Ces images très généralisées rendent bien compte des **quantités** et des **gradiants**. Ce sont de vraies images de **communication** qui **provoquent**, suscitent **l’intérêt**, véhiculent un **message** fort, **interpellent**.  
 
 Mais les cartogrammes induisent une perte des **repères visuels** (difficile de retrouver son pays, ou sa région sur la carte), demandent un **effort de lecture** qui peut être important et ne permettent pas de **gérer des données manquantes**.   
+
+
+Voir aussi : [Faire des cartogrammes avec R](https://rgeomatic.hypotheses.org/1361)
 
 
 ## Cartographie interactive
