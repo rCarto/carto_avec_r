@@ -144,7 +144,9 @@ title("RGF93 / Lambert-93")
 Le site [Spatial Reference](http://spatialreference.org/){target="_blank"} met à disposition les références de très nombreux systèmes de projection. 
 
 
+### Exercice
 
+[Exercice 1.1 et 1.2](https://rcarto.github.io/carto_avec_r_exo/#11_Pr%C3%A9parer_son_environement_de_travail)
 
 ## Opérations de géotraitement
 
@@ -161,6 +163,9 @@ mtq[mtq$LIBGEO=="Fort-de-France", ]
 mtq[mtq$LIBGEO=="Fort-de-France", 1:4]
 
 ```
+
+
+
 
 
 ### Sélection spatiale
@@ -209,6 +214,7 @@ plot(mtq_u2["STATUS"], key.pos = NULL)
 
 
 
+
 ### Construire une zone tampon
 
 ```{r buffers, nm=TRUE}
@@ -217,6 +223,11 @@ plot(st_geometry(mtq), col="lightblue")
 plot(st_geometry(mtq_u), add=T, lwd=2)
 plot(st_geometry(mtq_b), add=T, lwd=2, border = "red")
 ```
+
+
+### Exercice
+
+[Exercice 1.4, 1.5, 1.6, 1.7](https://rcarto.github.io/carto_avec_r_exo/#14_Fusionner_des_entit%C3%A9s)
 
 
 ### Réaliser une intersection 
@@ -418,6 +429,12 @@ plot(st_geometry(place_sf), pch = 20, cex = 4, col = "red", add=T)
 ```
 
 
+
+### Exercice
+
+[Exercice 1.8, 1.9, 1.10](https://rcarto.github.io/carto_avec_r_exo/#18_Cr%C3%A9er_une_couche_de_points)
+
+
 ## Importer des données OSM
 
 [OpenStreetMap (OSM)](https://www.openstreetmap.org){target="_blank"} est un projet de cartographie participative qui a pour but de constituer une base de données géographiques libre à l'échelle mondiale. OpenStreetMap vous permet de voir, modifier et utiliser des données géographiques dans le Monde entier. 
@@ -462,11 +479,9 @@ title("Répartition des restaurants")
 mtext(text = "INSEE, 2016 - OSM, 2019",side = 1, line = -1, cex = 0.8)
 ```
 
+### Exercice
 
-## Exercices
-
-[Exercices de traitement de données spatiales](https://rcarto.github.io/carto_avec_r_exo/#1_traitement_de_donn%C3%A9es_spatiales)
-
+[Exercice 1.11](https://rcarto.github.io/carto_avec_r_exo/#18_Cr%C3%A9er_une_couche_de_points)
 
 
 

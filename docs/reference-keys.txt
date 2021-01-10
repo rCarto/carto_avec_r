@@ -7,6 +7,7 @@ joindre-des-données
 les-systèmes-de-projections
 consulter-la-projection-dun-objet
 modifier-la-projection-dun-objet
+exercice
 opérations-de-géotraitement
 sélection-par-attributs
 sélection-spatiale
@@ -15,6 +16,7 @@ créer-une-matrice-de-distances
 agréger-des-polygones
 agréger-des-polygones-en-fonction-dune-variable
 construire-une-zone-tampon
+exercice-1
 réaliser-une-intersection
 compter-des-points-dans-un-polygone
 construire-des-polygones-de-voronoi
@@ -23,8 +25,9 @@ points
 polygon
 linestring
 géocodage-dadresses
+exercice-2
 importer-des-données-osm
-exercices
+exercice-3
 chapitre2
 le-package-cartography
 représentations-usuelles
@@ -51,7 +54,7 @@ utiliser-un-fond-de-carte-osm
 créer-un-effet-crayonné
 ajouter-un-ombrage-à-une-couche
 création-de-cartons
-exercices-1
+exercices
 chapitre3
 les-cartes-de-discontinuités
 les-grilles-régulières
