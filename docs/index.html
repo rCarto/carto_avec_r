@@ -1,378 +1,157 @@
 <!DOCTYPE html>
-<html lang="" xml:lang="">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Cartographie avec R</title>
-  <meta name="description" content="Cartographie avec R" />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
 
-  <meta property="og:title" content="Cartographie avec R" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Cartographie avec R" />
-  <meta name="github-repo" content="rCarto/carto_avec_r" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Cartographie avec R" />
-  
-  <meta name="twitter:description" content="Cartographie avec R" />
-  
-
-<meta name="author" content="Timothée Giraud &amp; Hugues Pecout" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
-
-<link rel="next" href="chapitre1.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
-<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
-
-
-
-
-
-
-
-<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
-<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-1.3.1/leaflet.js"></script>
-<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-<script src="libs/proj4-2.6.2/proj4.min.js"></script>
-<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
-<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
-<script src="libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
-<script src="libs/FlatGeoBuf-3.3.3/fgb.js"></script>
-<script src="libs/FlatGeoBuf-3.3.3/flatgeobuf-geojson.min.js"></script>
-<script src="libs/chromajs-2.1.0/chroma.min.js"></script>
-<link id="resto-1-attachment" rel="attachment" href="libs/resto-0.0.1/resto_layer.fgb"/>
-<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
-<script src="libs/HomeButton-0.0.1/home-button.js"></script>
-<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
-<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
-<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
-<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
-<link id="mtq-1-attachment" rel="attachment" href="libs/mtq-0.0.1/mtq_layer.fgb"/>
-<link id="Restaurants-1-attachment" rel="attachment" href="libs/Restaurants-0.0.1/Restaurants_layer.fgb"/>
-<link id="Communes-1-attachment" rel="attachment" href="libs/Communes-0.0.1/Communes_layer.fgb"/>
-
-
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+<title>index</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
-<link rel="stylesheet" href="style.css" type="text/css" />
+
+<script src="index_files/libs/clipboard/clipboard.min.js"></script>
+<script src="index_files/libs/quarto-html/quarto.js"></script>
+<script src="index_files/libs/quarto-html/popper.min.js"></script>
+<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="index_files/libs/quarto-html/anchor.min.js"></script>
+<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
 </head>
 
-<body>
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
 
 
 
-  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+<p>Ce document est archivé.<br>
+Il est remplacé par les deux documents suivants :<br>
+- <a href="https://rcarto.github.io/geomatique_avec_r/">Géomatique avec R</a><br>
+- <a href="https://rcarto.github.io/cartographie_avec_r/">Cartographie avec R</a></p>
 
-    <div class="book-summary">
-      <nav role="navigation">
-
-<ul class="summary">
-<li><a href="./">Cartographie avec R</a></li>
-
-<li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
-<li class="chapter" data-level="1" data-path="chapitre1.html"><a href="chapitre1.html"><i class="fa fa-check"></i><b>1</b> Les données spatiales</a>
-<ul>
-<li class="chapter" data-level="1.1" data-path="chapitre1.html"><a href="chapitre1.html#le-package-sf"><i class="fa fa-check"></i><b>1.1</b> Le package <code>sf</code></a>
-<ul>
-<li class="chapter" data-level="1.1.1" data-path="chapitre1.html"><a href="chapitre1.html#format-des-objets-spatiaux-sf"><i class="fa fa-check"></i><b>1.1.1</b> Format des objets spatiaux <code>sf</code></a></li>
-<li class="chapter" data-level="1.1.2" data-path="chapitre1.html"><a href="chapitre1.html#import-export"><i class="fa fa-check"></i><b>1.1.2</b> Import / Export</a></li>
-<li class="chapter" data-level="1.1.3" data-path="chapitre1.html"><a href="chapitre1.html#affichage-de-données"><i class="fa fa-check"></i><b>1.1.3</b> Affichage de données</a></li>
-<li class="chapter" data-level="1.1.4" data-path="chapitre1.html"><a href="chapitre1.html#joindre-des-données"><i class="fa fa-check"></i><b>1.1.4</b> Joindre des données</a></li>
-</ul></li>
-<li class="chapter" data-level="1.2" data-path="chapitre1.html"><a href="chapitre1.html#les-systèmes-de-projections"><i class="fa fa-check"></i><b>1.2</b> Les systèmes de projections</a>
-<ul>
-<li class="chapter" data-level="1.2.1" data-path="chapitre1.html"><a href="chapitre1.html#consulter-la-projection-dun-objet"><i class="fa fa-check"></i><b>1.2.1</b> Consulter la projection d’un objet</a></li>
-<li class="chapter" data-level="1.2.2" data-path="chapitre1.html"><a href="chapitre1.html#modifier-la-projection-dun-objet"><i class="fa fa-check"></i><b>1.2.2</b> Modifier la projection d’un objet</a></li>
-<li class="chapter" data-level="1.2.3" data-path="chapitre1.html"><a href="chapitre1.html#exercice"><i class="fa fa-check"></i><b>1.2.3</b> Exercice</a></li>
-</ul></li>
-<li class="chapter" data-level="1.3" data-path="chapitre1.html"><a href="chapitre1.html#opérations-de-géotraitement"><i class="fa fa-check"></i><b>1.3</b> Opérations de géotraitement</a>
-<ul>
-<li class="chapter" data-level="1.3.1" data-path="chapitre1.html"><a href="chapitre1.html#sélection-par-attributs"><i class="fa fa-check"></i><b>1.3.1</b> Sélection par attributs</a></li>
-<li class="chapter" data-level="1.3.2" data-path="chapitre1.html"><a href="chapitre1.html#sélection-spatiale"><i class="fa fa-check"></i><b>1.3.2</b> Sélection spatiale</a></li>
-<li class="chapter" data-level="1.3.3" data-path="chapitre1.html"><a href="chapitre1.html#extraire-des-centroides"><i class="fa fa-check"></i><b>1.3.3</b> Extraire des centroides</a></li>
-<li class="chapter" data-level="1.3.4" data-path="chapitre1.html"><a href="chapitre1.html#créer-une-matrice-de-distances"><i class="fa fa-check"></i><b>1.3.4</b> Créer une matrice de distances</a></li>
-<li class="chapter" data-level="1.3.5" data-path="chapitre1.html"><a href="chapitre1.html#agréger-des-polygones"><i class="fa fa-check"></i><b>1.3.5</b> Agréger des polygones</a></li>
-<li class="chapter" data-level="1.3.6" data-path="chapitre1.html"><a href="chapitre1.html#agréger-des-polygones-en-fonction-dune-variable"><i class="fa fa-check"></i><b>1.3.6</b> Agréger des polygones en fonction d’une variable</a></li>
-<li class="chapter" data-level="1.3.7" data-path="chapitre1.html"><a href="chapitre1.html#construire-une-zone-tampon"><i class="fa fa-check"></i><b>1.3.7</b> Construire une zone tampon</a></li>
-<li class="chapter" data-level="1.3.8" data-path="chapitre1.html"><a href="chapitre1.html#exercice-1"><i class="fa fa-check"></i><b>1.3.8</b> Exercice</a></li>
-<li class="chapter" data-level="1.3.9" data-path="chapitre1.html"><a href="chapitre1.html#réaliser-une-intersection"><i class="fa fa-check"></i><b>1.3.9</b> Réaliser une intersection</a></li>
-<li class="chapter" data-level="1.3.10" data-path="chapitre1.html"><a href="chapitre1.html#compter-des-points-dans-un-polygone"><i class="fa fa-check"></i><b>1.3.10</b> Compter des points dans un polygone</a></li>
-<li class="chapter" data-level="1.3.11" data-path="chapitre1.html"><a href="chapitre1.html#construire-des-polygones-de-voronoi"><i class="fa fa-check"></i><b>1.3.11</b> Construire des polygones de Voronoi</a></li>
-<li class="chapter" data-level="1.3.12" data-path="chapitre1.html"><a href="chapitre1.html#construction-dobjets-sf"><i class="fa fa-check"></i><b>1.3.12</b> Construction d’objets sf</a></li>
-</ul></li>
-<li class="chapter" data-level="1.4" data-path="chapitre1.html"><a href="chapitre1.html#géocodage-dadresses"><i class="fa fa-check"></i><b>1.4</b> Géocodage d’adresses</a>
-<ul>
-<li class="chapter" data-level="1.4.1" data-path="chapitre1.html"><a href="chapitre1.html#exercice-2"><i class="fa fa-check"></i><b>1.4.1</b> Exercice</a></li>
-</ul></li>
-<li class="chapter" data-level="1.5" data-path="chapitre1.html"><a href="chapitre1.html#importer-des-données-osm"><i class="fa fa-check"></i><b>1.5</b> Importer des données OSM</a>
-<ul>
-<li class="chapter" data-level="1.5.1" data-path="chapitre1.html"><a href="chapitre1.html#exercice-3"><i class="fa fa-check"></i><b>1.5.1</b> Exercice</a></li>
-</ul></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="chapitre2.html"><a href="chapitre2.html"><i class="fa fa-check"></i><b>2</b> Cartographie thématique</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="chapitre2.html"><a href="chapitre2.html#le-package-cartography"><i class="fa fa-check"></i><b>2.1</b> Le package <code>cartography</code></a></li>
-<li class="chapter" data-level="2.2" data-path="chapitre2.html"><a href="chapitre2.html#représentations-usuelles"><i class="fa fa-check"></i><b>2.2</b> Représentations usuelles</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-symboles-proportionnels"><i class="fa fa-check"></i><b>2.2.1</b> Carte de symboles proportionnels</a></li>
-<li class="chapter" data-level="2.2.2" data-path="chapitre2.html"><a href="chapitre2.html#carte-choroplèthe"><i class="fa fa-check"></i><b>2.2.2</b> Carte choroplèthe</a></li>
-<li class="chapter" data-level="2.2.3" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-typologie"><i class="fa fa-check"></i><b>2.2.3</b> Carte de typologie</a></li>
-</ul></li>
-<li class="chapter" data-level="2.3" data-path="chapitre2.html"><a href="chapitre2.html#combinaisons-de-représentations"><i class="fa fa-check"></i><b>2.3</b> Combinaisons de représentations</a>
-<ul>
-<li class="chapter" data-level="2.3.1" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-stocks-et-de-ratios"><i class="fa fa-check"></i><b>2.3.1</b> Carte de stocks et de ratios</a></li>
-<li class="chapter" data-level="2.3.2" data-path="chapitre2.html"><a href="chapitre2.html#carte-de-stocks-et-de-qualitative"><i class="fa fa-check"></i><b>2.3.2</b> Carte de stocks et de qualitative</a></li>
-</ul></li>
-<li class="chapter" data-level="2.4" data-path="chapitre2.html"><a href="chapitre2.html#mise-en-page"><i class="fa fa-check"></i><b>2.4</b> Mise en page</a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="chapitre2.html"><a href="chapitre2.html#habillage-complet"><i class="fa fa-check"></i><b>2.4.1</b> Habillage complet</a></li>
-<li class="chapter" data-level="2.4.2" data-path="chapitre2.html"><a href="chapitre2.html#flèche-dorientation"><i class="fa fa-check"></i><b>2.4.2</b> Flèche d’orientation</a></li>
-<li class="chapter" data-level="2.4.3" data-path="chapitre2.html"><a href="chapitre2.html#échelle"><i class="fa fa-check"></i><b>2.4.3</b> Échelle</a></li>
-<li class="chapter" data-level="2.4.4" data-path="chapitre2.html"><a href="chapitre2.html#étiquettes"><i class="fa fa-check"></i><b>2.4.4</b> Étiquettes</a></li>
-<li class="chapter" data-level="2.4.5" data-path="chapitre2.html"><a href="chapitre2.html#ajuster-les-marges-dune-figure"><i class="fa fa-check"></i><b>2.4.5</b> Ajuster les marges d’une figure</a></li>
-<li class="chapter" data-level="2.4.6" data-path="chapitre2.html"><a href="chapitre2.html#centrer-la-carte-sur-une-région"><i class="fa fa-check"></i><b>2.4.6</b> Centrer la carte sur une région</a></li>
-<li class="chapter" data-level="2.4.7" data-path="chapitre2.html"><a href="chapitre2.html#afficher-plusieurs-cartes-sur-la-même-figure"><i class="fa fa-check"></i><b>2.4.7</b> Afficher plusieurs cartes sur la même figure</a></li>
-<li class="chapter" data-level="2.4.8" data-path="chapitre2.html"><a href="chapitre2.html#obtenir-un-ratio-de-figure-adapté"><i class="fa fa-check"></i><b>2.4.8</b> Obtenir un ratio de figure adapté</a></li>
-<li class="chapter" data-level="2.4.9" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-une-image-sur-une-carte"><i class="fa fa-check"></i><b>2.4.9</b> Ajouter une image sur une carte</a></li>
-<li class="chapter" data-level="2.4.10" data-path="chapitre2.html"><a href="chapitre2.html#placer-précisément-un-élément-sur-la-carte"><i class="fa fa-check"></i><b>2.4.10</b> Placer précisément un élément sur la carte</a></li>
-<li class="chapter" data-level="2.4.11" data-path="chapitre2.html"><a href="chapitre2.html#utiliser-un-fond-de-carte-osm"><i class="fa fa-check"></i><b>2.4.11</b> Utiliser un fond de carte OSM</a></li>
-<li class="chapter" data-level="2.4.12" data-path="chapitre2.html"><a href="chapitre2.html#créer-un-effet-crayonné"><i class="fa fa-check"></i><b>2.4.12</b> Créer un effet crayonné</a></li>
-<li class="chapter" data-level="2.4.13" data-path="chapitre2.html"><a href="chapitre2.html#ajouter-un-ombrage-à-une-couche"><i class="fa fa-check"></i><b>2.4.13</b> Ajouter un ombrage à une couche</a></li>
-<li class="chapter" data-level="2.4.14" data-path="chapitre2.html"><a href="chapitre2.html#création-de-cartons"><i class="fa fa-check"></i><b>2.4.14</b> Création de cartons</a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="chapitre2.html"><a href="chapitre2.html#exercices"><i class="fa fa-check"></i><b>2.5</b> Exercices</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="chapitre3.html"><a href="chapitre3.html"><i class="fa fa-check"></i><b>3</b> Cartographie thématique avancée</a>
-<ul>
-<li class="chapter" data-level="3.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartes-de-discontinuités"><i class="fa fa-check"></i><b>3.1</b> Les cartes de discontinuités</a></li>
-<li class="chapter" data-level="3.2" data-path="chapitre3.html"><a href="chapitre3.html#les-grilles-régulières"><i class="fa fa-check"></i><b>3.2</b> Les grilles régulières</a></li>
-<li class="chapter" data-level="3.3" data-path="chapitre3.html"><a href="chapitre3.html#le-lissage-spatial"><i class="fa fa-check"></i><b>3.3</b> Le lissage spatial</a></li>
-<li class="chapter" data-level="3.4" data-path="chapitre3.html"><a href="chapitre3.html#cartes-en-3d"><i class="fa fa-check"></i><b>3.4</b> Cartes en 3D</a>
-<ul>
-<li class="chapter" data-level="3.4.1" data-path="chapitre3.html"><a href="chapitre3.html#linemap"><i class="fa fa-check"></i><b>3.4.1</b> linemap</a></li>
-<li class="chapter" data-level="3.4.2" data-path="chapitre3.html"><a href="chapitre3.html#relief-tanaka"><i class="fa fa-check"></i><b>3.4.2</b> Relief Tanaka</a></li>
-<li class="chapter" data-level="3.4.3" data-path="chapitre3.html"><a href="chapitre3.html#rayshader"><i class="fa fa-check"></i><b>3.4.3</b> Rayshader</a></li>
-</ul></li>
-<li class="chapter" data-level="3.5" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes"><i class="fa fa-check"></i><b>3.5</b> Les cartogrammes</a>
-<ul>
-<li class="chapter" data-level="3.5.1" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-de-dorling"><i class="fa fa-check"></i><b>3.5.1</b> Les cartogrammes de Dorling</a></li>
-<li class="chapter" data-level="3.5.2" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-non-continus"><i class="fa fa-check"></i><b>3.5.2</b> Les cartogrammes non continus</a></li>
-<li class="chapter" data-level="3.5.3" data-path="chapitre3.html"><a href="chapitre3.html#les-cartogrammes-continus"><i class="fa fa-check"></i><b>3.5.3</b> Les cartogrammes continus</a></li>
-<li class="chapter" data-level="3.5.4" data-path="chapitre3.html"><a href="chapitre3.html#forces-et-faiblesses-des-cartogrammes"><i class="fa fa-check"></i><b>3.5.4</b> Forces et faiblesses des cartogrammes</a></li>
-</ul></li>
-<li class="chapter" data-level="3.6" data-path="chapitre3.html"><a href="chapitre3.html#cartographie-interactive"><i class="fa fa-check"></i><b>3.6</b> Cartographie interactive</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="sessioninfo.html"><a href="sessioninfo.html"><i class="fa fa-check"></i><b>4</b> <code>sessionInfo()</code></a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
-<li class="divider"></li>
-<li><a href="https://github.com/rCarto/carto_avec_r" target="blank">Contribuer</a></li>
-
-</ul>
-
-      </nav>
-    </div>
-
-    <div class="book-body">
-      <div class="body-inner">
-        <div class="book-header" role="navigation">
-          <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cartographie avec R</a>
-          </h1>
-        </div>
-
-        <div class="page-wrapper" tabindex="-1" role="main">
-          <div class="page-inner">
-
-            <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Cartographie avec R</h1>
-<p class="author"><em>Timothée Giraud<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> &amp; Hugues Pecout<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></em></p>
-<p class="date"><em>10 janvier 2021</em></p>
-</div>
-<div id="introduction" class="section level1 unnumbered">
-<h1>Introduction</h1>
-<p><img src="img/banner.png" width="700" /></p>
-<p><strong>Objectifs</strong></p>
-<ul>
-<li>Savoir créer et manipuler des données spatiales</li>
-<li>Savoir créer des cartes thématiques conformes aux règles de la sémiologie graphique et de la cartographie</li>
-<li>Connaitre des modes de représentation plus complexes</li>
-</ul>
-<p>Ce document se compose de trois parties permettant d’appréhender la création de cartes thématiques avec R.</p>
-<ul>
-<li><a href="chapitre1.html#chapitre1">Les données spatiales</a></li>
-<li><a href="chapitre2.html#chapitre2">Cartographie thématique</a><br />
-</li>
-<li><a href="chapitre3.html#chapitre3">Cartographie thématique avancée</a></li>
-</ul>
-<p><strong>Packages et données</strong><br />
-Voici les packages dédiés à l’import, la manipulation, la transformation et l’affichage de données spatiales utilisés dans ce document :</p>
-<ul>
-<li>Depuis le CRAN : <code>banR, cartogram, cartography, linemap, maptools, mapview,  osmdata, png, raster, rayshader, sf, spatstat, tanaka</code>.</li>
-<li>Depuis GitHub : <code>mapinsetr, nominatim, photon</code>. Il faut utiliser le package
-<code>remotes</code> pour les installer</li>
-</ul>
-<p>La plupart des exemples du document utilisent un jeu de données du package <code>cartography</code>.
-Il s’agit des communes du département de la Martinique. Pour l’importer :</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a>mtq <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="fu">system.file</span>(<span class="st">&quot;gpkg/mtq.gpkg&quot;</span>, <span class="at">package=</span><span class="st">&quot;cartography&quot;</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p></br>
-Vous pouvez nous envoyer vos remarques et suggestions en <a href="https://github.com/rCarto/carto_avec_r/issues">postant une <em>issue</em></a> sur le <a href="https://github.com/rCarto/carto_avec_r"><em>repo</em> GitHub</a> de ce document.</p>
-<p></br>
-<img src="img/by-nc-sa.png" alt="Creative Commons License" /><br />
-La version en ligne de ce document est sous licence <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0</a>.</p>
-
-</div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>Université de Paris, UMS RIATE, CNRS, F-75013 Paris, France<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>FR CIST, CNRS, F-75013 Paris, France<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-            </section>
-
-          </div>
-        </div>
-      </div>
-
-<a href="chapitre1.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
-    </div>
-  </div>
-<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
-<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
-<script>
-gitbook.require(["gitbook"], function(gitbook) {
-gitbook.start({
-"sharing": {
-"github": true,
-"facebook": false,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"all": {},
-"google": false
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"toc": {
-"collapse": "subsection"
-}
-});
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
 });
 </script>
+</div> <!-- /content -->
 
-</body>
 
-</html>
+
+</body></html>
